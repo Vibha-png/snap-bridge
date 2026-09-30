@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Snap Bridge | Photo Frames</title>
+
+    <link rel="stylesheet" href="frames.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        <span class="camera">📷</span>
+        <span>Snap Bridge</span>
+        <b>✦</b>
+    </div>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="booth.html">Booth</a>
+        <a href="templates.html" class="active">Frames</a>
+        <a href="filters.html">Filters</a>
+        <a href="stickers.html">Stickers</a>
+        <a href="customize.html">Customize</a>
+    </nav>
+
+    <button class="profile">♡</button>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+    <section class="hero">
+
+        <span class="small-title">
+            SNAP BRIDGE ✦ PHOTO STUDIO
+        </span>
+
+        <h1>
+            Create Your
+            <span>Photo Frame</span>
+        </h1>
+
+        <p>
+            Choose a layout, take photos or upload your memories,
+            and create your own printable frame.
+        </p>
+
+    </section>
+
+
+    <!-- ================= FRAME SELECTOR ================= -->
+
+    <section class="workspace">
+
+        <!-- LEFT PANEL -->
+
+        <aside class="controls">
+
+            <div class="panel-title">
+
+                <h2>Choose Layout</h2>
+
+                <p>
+                    Select how many photos you want.
+                </p>
+
+            </div>
+
+
+            <div class="layout-grid">
+
+                <button class="layout-card active"
+                        data-size="1"
+                        onclick="changeLayout(1)">
+
+                    <div class="mini-grid grid-1">
+                        <i></i>
+                    </div>
+
+                    <strong>1 × 1</strong>
+
+                    <small>1 Photo</small>
+
+                </button>
+
+
+                <button class="layout-card"
+                        data-size="2"
+                        onclick="changeLayout(2)">
+
+                    <div class="mini-grid grid-2">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                    </div>
+
+                    <strong>2 × 2</strong>
+
+                    <small>4 Photos</small>
+
+                </button>
+
+
+                <button class="layout-card"
+                        data-size="3"
+                        onclick="changeLayout(3)">
+
+                    <div class="mini-grid grid-3">
+
+                        <i></i><i></i><i></i>
+                        <i></i><i></i><i></i>
+                        <i></i><i></i><i></i>
+
+                    </div>
+
+                    <strong>3 × 3</strong>
+
+                    <small>9 Photos</small>
+
+                </button>
+
+
+                <button class="layout-card"
+                        data-size="4"
+                        onclick="changeLayout(4)">
+
+                    <div class="mini-grid grid-4">
+
+                        <i></i><i></i><i></i><i></i>
+                        <i></i><i></i><i></i><i></i>
+                        <i></i><i></i><i></i><i></i>
+                        <i></i><i></i><i></i><i></i>
+
+                    </div>
+
+                    <strong>4 × 4</strong>
+
+                    <small>16 Photos</small>
+
+                </button>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="actions">
+
+                <button class="camera-btn" onclick="openCamera()">
+                    📷 Take Photo
+                </button>
+
+                <button class="upload-btn" onclick="openUpload()">
+                    🖼️ Upload Image
+                </button>
+
+                <button class="clear-btn" onclick="clearFrame()">
+                    🗑️ Clear Frame
+                </button>
+
+            </div>
+
+
+            <!-- FRAME OPTIONS -->
+
+            <div class="options">
+
+                <h3>Frame Style</h3>
+
+                <div class="style-buttons">
+
+                    <button onclick="changeFrameStyle('classic')"
+                            class="style-option selected">
+                        Classic
+                    </button>
+
+                    <button onclick="changeFrameStyle('soft')"
+                            class="style-option">
+                        Soft
+                    </button>
+
+                    <button onclick="changeFrameStyle('lavender')"
+                            class="style-option">
+                        Lavender
+                    </button>
+
+                    <button onclick="changeFrameStyle('mint')"
+                            class="style-option">
+                        Mint
+                    </button>
+
+                </div>
+
+
+                <label>
+                    Frame Spacing
+
+                    <input
+                        type="range"
+                        id="spacing"
+                        min="2"
+                        max="20"
+                        value="8"
+                        oninput="changeSpacing()"
+                    >
+
+                </label>
+
+
+                <label>
+                    Corner Roundness
+
+                    <input
+                        type="range"
+                        id="roundness"
+                        min="0"
+                        max="30"
+                        value="10"
+                        oninput="changeRoundness()"
+                    >
+
+                </label>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= PREVIEW ================= -->
+
+        <section class="preview-panel">
+
+            <div class="preview-top">
+
+                <div>
+                    <h2>Your Frame</h2>
+
+                    <p id="photoStatus">
+                        0 / 1 photos added
+                    </p>
+                </div>
+
+                <span class="print-badge">
+                    PRINT READY
+                </span>
+
+            </div>
+
+
+            <!-- FRAME -->
+
+            <div id="photoFrame"
+                 class="photo-frame classic">
+
+                <div id="photoGrid"
+                     class="photo-grid grid-layout-1">
+
+                    <!-- JS creates photo slots -->
+
+                </div>
+
+
+                <div class="frame-decoration decoration-one">
+                    ✦
+                </div>
+
+                <div class="frame-decoration decoration-two">
+                    ♡
+                </div>
+
+                <div class="frame-decoration decoration-three">
+                    ✿
+                </div>
+
+            </div>
+
+
+            <!-- BOTTOM -->
+
+            <div class="preview-actions">
+
+                <button onclick="printFrame()">
+                    🖨 Print
+                </button>
+
+                <button onclick="downloadFrame()">
+                    ↓ Save
+                </button>
+
+            </div>
+
+        </section>
+
+    </section>
+
+</main>
+
+
+<!-- ================= HIDDEN UPLOAD ================= -->
+
+<input
+    type="file"
+    id="imageUpload"
+    accept="image/*"
+    hidden
+>
+
+
+<!-- ================= CAMERA MODAL ================= -->
+
+<div id="cameraModal" class="camera-modal">
+
+    <div class="camera-box">
+
+        <button class="close-camera"
+                onclick="closeCamera()">
+            ×
+        </button>
+
+
+        <h2>Take Your Photo 📸</h2>
+
+        <p>
+            Position yourself inside the camera.
+        </p>
+
+
+        <div class="camera-preview">
+
+            <video
+                id="cameraVideo"
+                autoplay
+                playsinline>
+            </video>
+
+        </div>
+
+
+        <div class="camera-controls">
+
+            <button
+                class="capture-button"
+                onclick="capturePhoto()">
+
+                <span></span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="frames.js"></script>
+
+</body>
+</html>

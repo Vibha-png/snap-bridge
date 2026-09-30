@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Snap Bridge | Choose Booth</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:"DM Sans",sans-serif;
+
+    min-height:100vh;
+
+    color:#18245c;
+
+    background:
+
+    radial-gradient(
+        circle at 5% 10%,
+        #d6e7ff 0,
+        transparent 25%
+    ),
+
+    radial-gradient(
+        circle at 95% 20%,
+        #eadcff 0,
+        transparent 27%
+    ),
+
+    radial-gradient(
+        circle at 50% 100%,
+        #dff6ed 0,
+        transparent 30%
+    ),
+
+    #f8fbff;
+
+    overflow-x:hidden;
+
+}
+
+
+/* =========================
+   DECORATIVE BLOBS
+========================= */
+
+.blob{
+
+    position:fixed;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    z-index:-1;
+
+}
+
+.blob1{
+
+    width:260px;
+    height:260px;
+
+    background:#cfe0ff;
+
+    top:-120px;
+    left:-100px;
+
+}
+
+.blob2{
+
+    width:260px;
+    height:260px;
+
+    background:#ead8ff;
+
+    right:-120px;
+    top:35%;
+
+}
+
+.blob3{
+
+    width:240px;
+    height:240px;
+
+    background:#d5f2e6;
+
+    bottom:-130px;
+    left:12%;
+
+}
+
+
+/* =========================
+   FLOATING DECORATIONS
+========================= */
+
+.decor{
+
+    position:fixed;
+
+    font-size:35px;
+
+    pointer-events:none;
+
+    z-index:0;
+
+}
+
+.flower{
+
+    left:4%;
+    top:20%;
+
+    transform:rotate(-15deg);
+
+}
+
+.camera{
+
+    right:5%;
+    top:17%;
+
+    transform:rotate(12deg);
+
+}
+
+.sparkle{
+
+    left:7%;
+    bottom:14%;
+
+}
+
+.heart{
+
+    right:7%;
+    bottom:18%;
+
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+
+    height:76px;
+
+    padding:0 5%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    background:rgba(255,255,255,.78);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:
+    1px solid rgba(40,50,100,.12);
+
+}
+
+
+/* LOGO */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.logo-camera{
+
+    width:43px;
+    height:33px;
+
+    border-radius:11px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #6576e8,
+        #aa7aee
+    );
+
+    border:3px solid #18245c;
+
+    position:relative;
+
+}
+
+.logo-camera::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:14px;
+    height:7px;
+
+    border:
+    3px solid #18245c;
+
+    border-bottom:0;
+
+    border-radius:
+    6px 6px 0 0;
+
+    top:-10px;
+    left:10px;
+
+}
+
+.logo-camera::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:12px;
+    height:12px;
+
+    border:3px solid white;
+
+    border-radius:50%;
+
+    top:6px;
+    left:11px;
+
+}
+
+.logo-name{
+
+    font-family:Pacifico,cursive;
+
+    font-size:23px;
+
+}
+
+.logo-name span{
+
+    color:#6570dc;
+
+}
+
+
+/* BACK BUTTON */
+
+.back-btn{
+
+    border:
+    1px solid #cbd4e9;
+
+    background:white;
+
+    color:#18245c;
+
+    padding:
+    10px 20px;
+
+    border-radius:25px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.back-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main{
+
+    width:min(1100px,92%);
+
+    margin:45px auto 60px;
+
+    text-align:center;
+
+}
+
+.badge{
+
+    display:inline-block;
+
+    background:white;
+
+    border:
+    1px solid #d9deed;
+
+    padding:
+    8px 17px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:800;
+
+    margin-bottom:15px;
+
+    box-shadow:
+    0 5px 18px rgba(50,60,110,.06);
+
+}
+
+h1{
+
+    font-size:48px;
+
+    line-height:1.1;
+
+    letter-spacing:-1.5px;
+
+}
+
+h1 span{
+
+    color:#6670dc;
+
+}
+
+.subtitle{
+
+    color:#6d7692;
+
+    margin:
+    13px auto 38px;
+
+    font-size:17px;
+
+    max-width:650px;
+
+    line-height:1.6;
+
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:22px;
+
+    text-align:left;
+
+}
+
+
+.card{
+
+    min-height:375px;
+
+    background:
+    rgba(255,255,255,.9);
+
+    border:
+    2px solid #d8deee;
+
+    border-radius:28px;
+
+    padding:28px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+
+    0 22px 55px
+    rgba(48,60,120,.12),
+
+    inset 0 1px 0 white;
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+    0 30px 65px
+    rgba(48,60,120,.18);
+
+}
+
+.card::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    border-radius:50%;
+
+    right:-65px;
+    top:-65px;
+
+    opacity:.6;
+
+}
+
+.solo::after{
+
+    background:#fff0a5;
+
+}
+
+.shared::after{
+
+    background:#f5c5ec;
+
+}
+
+.code::after{
+
+    background:#c4e0ff;
+
+}
+
+
+/* ICON */
+
+.icon{
+
+    width:70px;
+    height:70px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:
+    2px solid #18245c;
+
+    border-radius:21px;
+
+    font-size:33px;
+
+    margin-bottom:24px;
+
+    position:relative;
+
+    z-index:1;
+
+}
+
+.solo .icon{
+
+    background:#ffe32f;
+
+}
+
+.shared .icon{
+
+    background:#f17bd9;
+
+}
+
+.code .icon{
+
+    background:#66aef3;
+
+}
+
+
+/* TEXT */
+
+.card h2{
+
+    font-size:27px;
+
+    margin-bottom:10px;
+
+}
+
+.card p{
+
+    color:#68718d;
+
+    line-height:1.6;
+
+    font-size:15px;
+
+    min-height:75px;
+
+}
+
+
+/* FEATURES */
+
+.features{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:7px;
+
+    margin:
+    18px 0;
+
+}
+
+.feature{
+
+    background:#f3f5fc;
+
+    border:
+    1px solid #dfe3ef;
+
+    border-radius:20px;
+
+    padding:
+    6px 10px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+}
+
+
+/* BUTTON */
+
+.card-btn{
+
+    width:100%;
+
+    border:0;
+
+    background:
+    linear-gradient(
+        135deg,
+        #5962cc,
+        #7475df
+    );
+
+    color:white;
+
+    padding:14px;
+
+    border-radius:17px;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.card-btn:hover{
+
+    transform:scale(1.02);
+
+}
+
+
+/* CODE INPUT */
+
+.code-box{
+
+    display:flex;
+
+    margin:
+    18px 0;
+
+}
+
+.code-box input{
+
+    width:100%;
+
+    padding:14px;
+
+    border:
+    2px solid #dde2ed;
+
+    border-radius:15px;
+
+    outline:none;
+
+    font-size:14px;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+.code-box input:focus{
+
+    border-color:#6872dc;
+
+}
+
+
+/* BOTTOM */
+
+.bottom-note{
+
+    margin-top:30px;
+
+    color:#747c94;
+
+    font-size:13px;
+
+}
+
+.bottom-note strong{
+
+    color:#5963ce;
+
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:850px){
+
+    h1{
+        font-size:39px;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        min-height:auto;
+    }
+
+}
+
+
+@media(max-width:500px){
+
+    header{
+        padding:0 4%;
+    }
+
+    .logo-name{
+        font-size:18px;
+    }
+
+    .back-btn{
+        padding:8px 13px;
+        font-size:12px;
+    }
+
+    main{
+        margin-top:30px;
+    }
+
+    h1{
+        font-size:31px;
+    }
+
+    .subtitle{
+        font-size:14px;
+    }
+
+    .card{
+        padding:22px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+
+<div class="decor flower">🌸</div>
+<div class="decor camera">📸</div>
+<div class="decor sparkle">✨</div>
+<div class="decor heart">💜</div>
+
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-camera"></div>
+
+        <div class="logo-name">
+            Snap <span>Bridge</span> ✨
+        </div>
+
+    </div>
+
+
+    <button
+        class="back-btn"
+        onclick="goHome()">
+
+        ← Back
+
+    </button>
+
+</header>
+
+
+
+<main>
+
+    <div class="badge">
+        📸 SNAP BRIDGE PHOTO BOOTH
+    </div>
+
+
+    <h1>
+        Choose Your <span>Photo Booth</span>
+    </h1>
+
+
+    <p class="subtitle">
+
+        Capture beautiful memories alone or
+        bring your friends into the same frame.
+
+    </p>
+
+
+
+    <div class="cards">
+
+
+        <!-- ======================
+             SOLO
+        ======================= -->
+
+        <div class="card solo">
+
+            <div class="icon">
+                👤
+            </div>
+
+
+            <h2>
+                Solo Booth
+            </h2>
+
+
+            <p>
+
+                Just you and your camera.
+                Create beautiful photos with
+                filters, stickers and templates.
+
+            </p>
+
+
+            <div class="features">
+
+                <span class="feature">
+                    📸 Camera
+                </span>
+
+                <span class="feature">
+                    ✨ Filters
+                </span>
+
+                <span class="feature">
+                    🎀 Stickers
+                </span>
+
+            </div>
+
+
+            <button
+                class="card-btn"
+                onclick="startSolo()">
+
+                Enter Solo Booth →
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ======================
+             SHARED
+        ======================= -->
+
+        <div class="card shared">
+
+            <div class="icon">
+                👯
+            </div>
+
+
+            <h2>
+                Shared Booth
+            </h2>
+
+
+            <p>
+
+                Create a room and invite
+                up to 2 friends. Everyone
+                appears in the same photo.
+
+            </p>
+
+
+            <div class="features">
+
+                <span class="feature">
+                    👥 Up to 3
+                </span>
+
+                <span class="feature">
+                    🔗 Share Link
+                </span>
+
+                <span class="feature">
+                    💕 Together
+                </span>
+
+            </div>
+
+
+            <button
+                class="card-btn"
+                onclick="createSharedRoom()">
+
+                Create Shared Booth →
+
+            </button>
+
+        </div>
+
+
+
+        <!-- ======================
+             JOIN CODE
+        ======================= -->
+
+        <div class="card code">
+
+            <div class="icon">
+                🎟️
+            </div>
+
+
+            <h2>
+                Got a Code?
+            </h2>
+
+
+            <p>
+
+                Your friend already created
+                a Snap Bridge booth?
+                Enter their room code to join.
+
+            </p>
+
+
+            <div class="code-box">
+
+                <input
+                    id="joinCode"
+                    type="text"
+                    maxlength="9"
+                    placeholder="SB-ABC123">
+
+            </div>
+
+
+            <button
+                class="card-btn"
+                onclick="joinRoom()">
+
+                Join Booth →
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="bottom-note">
+
+        🔒 Camera access starts only after
+        you enter the booth.
+        <strong>Your privacy matters.</strong>
+
+    </div>
+
+</main>
+
+
+
+<script>
+
+
+/* =========================
+   SOLO BOOTH
+========================= */
+
+function startSolo(){
+
+    window.location.href =
+        "booth.html?mode=solo";
+
+}
+
+
+
+/* =========================
+   CREATE SHARED ROOM
+========================= */
+
+function createSharedRoom(){
+
+    const characters =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let code = "SB-";
+
+
+    for(let i=0;i<6;i++){
+
+        code +=
+        characters[
+            Math.floor(
+                Math.random() *
+                characters.length
+            )
+        ];
+
+    }
+
+
+    window.location.href =
+        "booth.html?mode=shared&room=" +
+        encodeURIComponent(code);
+
+}
+
+
+
+/* =========================
+   JOIN ROOM
+========================= */
+
+function joinRoom(){
+
+    let input =
+        document.getElementById("joinCode");
+
+
+    let code =
+        input.value
+        .trim()
+        .toUpperCase();
+
+
+    if(!code){
+
+        alert(
+            "Please enter a Snap Bridge room code."
+        );
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    if(!code.startsWith("SB-")){
+
+        alert(
+            "Please enter a valid Snap Bridge code such as SB-ABC123."
+        );
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "booth.html?mode=shared&room=" +
+        encodeURIComponent(code);
+
+}
+
+
+
+/* =========================
+   ENTER KEY
+========================= */
+
+document
+.getElementById("joinCode")
+.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            joinRoom();
+
+        }
+
+    }
+);
+
+
+
+/* =========================
+   HOME
+========================= */
+
+function goHome(){
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+
+</body>
+</html>

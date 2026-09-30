@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Snap Bridge 📸 | Login</title>
+
+
+<!-- GOOGLE FONTS -->
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Pacifico&display=swap"
+rel="stylesheet">
+
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body{
+
+    font-family:"DM Sans",sans-serif;
+
+    min-height:100vh;
+
+    overflow:hidden;
+
+}
+
+
+/* =====================================================
+   MAIN BACKGROUND
+===================================================== */
+
+.page{
+
+    width:100%;
+
+    height:100vh;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+
+    radial-gradient(
+        circle at 15% 15%,
+        #c9dcff 0,
+        transparent 25%
+    ),
+
+    radial-gradient(
+        circle at 88% 18%,
+        #d9cef8 0,
+        transparent 25%
+    ),
+
+    radial-gradient(
+        circle at 80% 90%,
+        #cceee4 0,
+        transparent 25%
+    ),
+
+    linear-gradient(
+        135deg,
+        #a9c2ed,
+        #c0cce9,
+        #d5d1ef
+    );
+
+}
+
+
+/* =====================================================
+   GLOW ORBS
+===================================================== */
+
+.orb{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    filter:blur(2px);
+
+    opacity:.65;
+
+    animation:floatOrb 6s ease-in-out infinite;
+
+}
+
+.orb1{
+
+    width:230px;
+    height:230px;
+
+    background:#dce9ff;
+
+    left:-80px;
+    top:100px;
+
+}
+
+.orb2{
+
+    width:190px;
+    height:190px;
+
+    background:#e7d9f8;
+
+    right:-50px;
+    bottom:80px;
+
+    animation-delay:2s;
+
+}
+
+.orb3{
+
+    width:100px;
+    height:100px;
+
+    background:#d5f1e9;
+
+    left:18%;
+    bottom:5%;
+
+    animation-delay:1s;
+
+}
+
+@keyframes floatOrb{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-20px);
+    }
+
+}
+
+
+/* =====================================================
+   TOP BRAND
+===================================================== */
+
+.top-brand{
+
+    position:absolute;
+
+    top:24px;
+
+    left:35px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    font-family:"Pacifico",cursive;
+
+    color:#183c64;
+
+    font-size:21px;
+
+    z-index:20;
+
+}
+
+.top-camera{
+
+    font-size:28px;
+
+}
+
+
+/* =====================================================
+   DECORATIVE STARS
+===================================================== */
+
+.star{
+
+    position:absolute;
+
+    color:#fffdf4;
+
+    font-size:25px;
+
+    text-shadow:
+        0 0 12px rgba(255,255,255,.8);
+
+    animation:twinkle 2.5s infinite;
+
+    z-index:4;
+
+}
+
+.star1{
+    left:7%;
+    top:12%;
+}
+
+.star2{
+    left:18%;
+    top:68%;
+    animation-delay:.5s;
+}
+
+.star3{
+    right:8%;
+    top:11%;
+    animation-delay:1s;
+}
+
+.star4{
+    right:15%;
+    bottom:17%;
+    animation-delay:1.5s;
+}
+
+.star5{
+    left:35%;
+    top:8%;
+    font-size:17px;
+    animation-delay:.8s;
+}
+
+@keyframes twinkle{
+
+    0%,100%{
+        opacity:.45;
+        transform:scale(.8) rotate(0);
+    }
+
+    50%{
+        opacity:1;
+        transform:scale(1.25) rotate(15deg);
+    }
+
+}
+
+
+/* =====================================================
+   HEARTS
+===================================================== */
+
+.heart{
+
+    position:absolute;
+
+    color:#637fa7;
+
+    font-size:26px;
+
+    animation:heartFloat 4s ease-in-out infinite;
+
+    z-index:5;
+
+}
+
+.heart1{
+    left:7%;
+    top:35%;
+}
+
+.heart2{
+    right:7%;
+    top:38%;
+    animation-delay:1.2s;
+}
+
+.heart3{
+    right:24%;
+    bottom:8%;
+    animation-delay:2s;
+}
+
+@keyframes heartFloat{
+
+    0%,100%{
+        transform:translateY(0) rotate(-8deg);
+    }
+
+    50%{
+        transform:translateY(-12px) rotate(8deg);
+    }
+
+}
+
+
+/* =====================================================
+   FLOWERS
+===================================================== */
+
+.flower{
+
+    position:absolute;
+
+    z-index:6;
+
+    animation:flowerMove 5s ease-in-out infinite;
+
+}
+
+.flower1{
+
+    left:20px;
+
+    bottom:20px;
+
+    font-size:54px;
+
+}
+
+.flower2{
+
+    right:20px;
+
+    bottom:25px;
+
+    font-size:48px;
+
+    animation-delay:1s;
+
+}
+
+.flower3{
+
+    left:18%;
+
+    top:16%;
+
+    font-size:30px;
+
+    animation-delay:2s;
+
+}
+
+.flower4{
+
+    right:17%;
+
+    top:15%;
+
+    font-size:30px;
+
+    animation-delay:.5s;
+
+}
+
+@keyframes flowerMove{
+
+    0%,100%{
+        transform:rotate(-5deg) translateY(0);
+    }
+
+    50%{
+        transform:rotate(6deg) translateY(-8px);
+    }
+
+}
+
+
+/* =====================================================
+   BUTTERFLIES
+===================================================== */
+
+.butterfly{
+
+    position:absolute;
+
+    font-size:40px;
+
+    z-index:7;
+
+    animation:fly 7s ease-in-out infinite;
+
+}
+
+.butterfly1{
+
+    left:8%;
+
+    top:20%;
+
+}
+
+.butterfly2{
+
+    right:10%;
+
+    bottom:30%;
+
+    font-size:32px;
+
+    animation-delay:2s;
+
+}
+
+@keyframes fly{
+
+    0%,100%{
+        transform:translate(0,0) rotate(-5deg);
+    }
+
+    25%{
+        transform:translate(15px,-20px) rotate(5deg);
+    }
+
+    50%{
+        transform:translate(0,-35px) rotate(-5deg);
+    }
+
+    75%{
+        transform:translate(-15px,-15px) rotate(5deg);
+    }
+
+}
+
+
+/* =====================================================
+   POLAROID PHOTOS
+===================================================== */
+
+.polaroid{
+
+    position:absolute;
+
+    background:#fffdf5;
+
+    padding:9px 9px 32px;
+
+    box-shadow:
+
+        0 18px 35px
+        rgba(30,52,82,.22);
+
+    z-index:5;
+
+    transition:.3s;
+
+}
+
+.polaroid:hover{
+
+    transform:
+        rotate(0deg)
+        scale(1.05);
+
+}
+
+.polaroid img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.polaroid span{
+
+    position:absolute;
+
+    bottom:7px;
+
+    left:0;
+
+    right:0;
+
+    text-align:center;
+
+    font-family:"Pacifico",cursive;
+
+    color:#315475;
+
+    font-size:11px;
+
+}
+
+
+/* LEFT PHOTO */
+
+.photo1{
+
+    width:145px;
+
+    height:170px;
+
+    left:4%;
+
+    top:30%;
+
+    transform:rotate(-9deg);
+
+}
+
+
+/* RIGHT PHOTO */
+
+.photo2{
+
+    width:140px;
+
+    height:165px;
+
+    right:4%;
+
+    bottom:25%;
+
+    transform:rotate(9deg);
+
+}
+
+
+/* SMALL PHOTO */
+
+.photo3{
+
+    width:100px;
+
+    height:125px;
+
+    left:20%;
+
+    bottom:10%;
+
+    transform:rotate(7deg);
+
+}
+
+
+/* =====================================================
+   TAPE
+===================================================== */
+
+.tape{
+
+    position:absolute;
+
+    width:70px;
+
+    height:20px;
+
+    top:-10px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        rotate(-4deg);
+
+    background:#dedbc0;
+
+    opacity:.85;
+
+}
+
+
+/* =====================================================
+   FILM STRIP
+===================================================== */
+
+.film-strip{
+
+    position:absolute;
+
+    right:1%;
+
+    top:32%;
+
+    width:85px;
+
+    height:250px;
+
+    background:#263e5d;
+
+    padding:10px 8px;
+
+    transform:rotate(7deg);
+
+    opacity:.9;
+
+    z-index:3;
+
+}
+
+.film-hole{
+
+    height:30px;
+
+    margin-bottom:7px;
+
+    background:
+
+    repeating-linear-gradient(
+        90deg,
+        #f7f2df 0,
+        #f7f2df 10px,
+        transparent 10px,
+        transparent 17px
+    );
+
+}
+
+.film-photo{
+
+    width:69px;
+
+    height:45px;
+
+    margin-bottom:8px;
+
+    background-size:cover;
+
+    background-position:center;
+
+}
+
+.fp1{
+
+    background-image:url(
+        "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=300&q=80"
+    );
+
+}
+
+.fp2{
+
+    background-image:url(
+        "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=300&q=80"
+    );
+
+}
+
+.fp3{
+
+    background-image:url(
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=300&q=80"
+    );
+
+}
+
+
+/* =====================================================
+   CAMERA ILLUSTRATION
+===================================================== */
+
+.camera{
+
+    position:absolute;
+
+    left:8%;
+
+    bottom:13%;
+
+    width:115px;
+
+    height:78px;
+
+    background:#93afe2;
+
+    border:7px solid #274b70;
+
+    border-radius:20px;
+
+    transform:rotate(-8deg);
+
+    z-index:10;
+
+    box-shadow:
+        0 12px 20px rgba(40,60,90,.2);
+
+}
+
+
+/* CAMERA LENS */
+
+.camera:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:39px;
+
+    height:39px;
+
+    border-radius:50%;
+
+    border:7px solid #274b70;
+
+    background:#dce8f9;
+
+    left:29px;
+
+    top:12px;
+
+}
+
+
+/* CAMERA FLASH */
+
+.camera:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:35px;
+
+    height:13px;
+
+    background:#274b70;
+
+    border-radius:5px;
+
+    top:-16px;
+
+    left:10px;
+
+}
+
+
+/* CAMERA BUTTON */
+
+.camera-button{
+
+    position:absolute;
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#e7b56c;
+
+    right:14px;
+
+    top:13px;
+
+    z-index:2;
+
+}
+
+
+/* CAMERA FLASH ANIMATION */
+
+.flash{
+
+    position:absolute;
+
+    left:7%;
+
+    bottom:20%;
+
+    font-size:34px;
+
+    color:white;
+
+    opacity:0;
+
+    z-index:20;
+
+    animation:flash 3s infinite;
+
+}
+
+@keyframes flash{
+
+    0%,80%,100%{
+        opacity:0;
+    }
+
+    83%{
+        opacity:1;
+        transform:scale(1.4);
+    }
+
+}
+
+
+/* =====================================================
+   PEOPLE TAKING PHOTO
+===================================================== */
+
+.people{
+
+    position:absolute;
+
+    left:3%;
+
+    bottom:3%;
+
+    font-size:52px;
+
+    z-index:8;
+
+    transform:rotate(-4deg);
+
+}
+
+
+/* =====================================================
+   NOTE CARD
+===================================================== */
+
+.note{
+
+    position:absolute;
+
+    right:8%;
+
+    top:16%;
+
+    width:125px;
+
+    padding:18px 12px;
+
+    background:#e7f2e9;
+
+    color:#345b5c;
+
+    font-family:"Pacifico",cursive;
+
+    font-size:13px;
+
+    line-height:1.5;
+
+    text-align:center;
+
+    transform:rotate(6deg);
+
+    box-shadow:
+        0 10px 20px rgba(50,70,90,.15);
+
+    z-index:4;
+
+}
+
+.note:before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-9px;
+
+    left:25px;
+
+    width:65px;
+
+    height:20px;
+
+    background:#d9d1b8;
+
+    transform:rotate(-4deg);
+
+}
+
+
+/* =====================================================
+   STICKER
+===================================================== */
+
+.sticker{
+
+    position:absolute;
+
+    z-index:7;
+
+    padding:9px 13px;
+
+    border-radius:18px;
+
+    font-size:12px;
+
+    font-weight:800;
+
+    box-shadow:
+        0 8px 15px rgba(50,70,90,.15);
+
+}
+
+.sticker1{
+
+    left:17%;
+
+    top:43%;
+
+    background:#f5dfad;
+
+    color:#71572a;
+
+    transform:rotate(-10deg);
+
+}
+
+.sticker2{
+
+    right:17%;
+
+    bottom:14%;
+
+    background:#d8e9f5;
+
+    color:#315574;
+
+    transform:rotate(8deg);
+
+}
+
+.sticker3{
+
+    right:15%;
+
+    top:49%;
+
+    background:#e9dcf4;
+
+    color:#604b78;
+
+    transform:rotate(-5deg);
+
+}
+
+
+/* =====================================================
+   LOGIN CARD
+===================================================== */
+
+.login-card{
+
+    position:absolute;
+
+    width:430px;
+
+    min-height:530px;
+
+    left:50%;
+
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    background:
+        rgba(255,253,247,.96);
+
+    padding:
+        38px
+        45px
+        30px;
+
+    border-radius:15px;
+
+    border:1px solid
+        rgba(255,255,255,.8);
+
+    box-shadow:
+
+        0 30px 70px
+        rgba(35,57,90,.28),
+
+        0 0 0 8px
+        rgba(255,255,255,.10);
+
+    z-index:30;
+
+    animation:cardAppear .8s ease;
+
+}
+
+@keyframes cardAppear{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translate(-50%,-46%)
+            scale(.95);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+
+    }
+
+}
+
+
+/* CARD TOP TAPE */
+
+.card-tape{
+
+    position:absolute;
+
+    width:105px;
+
+    height:29px;
+
+    top:-14px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        rotate(2deg);
+
+    background:#ded8bb;
+
+    opacity:.85;
+
+}
+
+
+/* =====================================================
+   HOME LINK
+===================================================== */
+
+.home-link{
+
+    position:absolute;
+
+    left:18px;
+
+    top:18px;
+
+    text-decoration:none;
+
+    color:#385674;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    transition:.2s;
+
+}
+
+.home-link:hover{
+
+    color:#6179b3;
+
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
+
+    font-family:"Pacifico",cursive;
+
+    color:#183d64;
+
+    font-size:27px;
+
+    margin-bottom:15px;
+
+    text-shadow:
+        0 3px 10px rgba(70,100,140,.12);
+
+}
+
+.logo-camera{
+
+    font-size:32px;
+
+}
+
+.logo-star{
+
+    color:#e0a932;
+
+    animation:spinStar 3s linear infinite;
+
+}
+
+@keyframes spinStar{
+
+    0%{
+        transform:rotate(0);
+    }
+
+    100%{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.title{
+
+    text-align:center;
+
+    font-family:"Pacifico",cursive;
+
+    font-size:31px;
+
+    color:#183e67;
+
+    margin-bottom:5px;
+
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:#6b7d8d;
+
+    font-size:11px;
+
+    margin-bottom:23px;
+
+}
+
+
+/* =====================================================
+   PHOTO BOOTH TICKET
+===================================================== */
+
+.ticket{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
+
+    margin:0 auto 20px;
+
+    width:185px;
+
+    padding:7px 10px;
+
+    background:#e4edf9;
+
+    color:#405e7c;
+
+    font-size:9px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    border:1px dashed #7991ae;
+
+}
+
+
+/* =====================================================
+   INPUT BOX
+===================================================== */
+
+.input-box{
+
+    position:relative;
+
+    margin-bottom:13px;
+
+}
+
+.input-box input{
+
+    width:100%;
+
+    height:45px;
+
+    padding:
+        0
+        42px;
+
+    border:
+
+        1px solid
+        #ced9e4;
+
+    border-radius:10px;
+
+    outline:none;
+
+    background:#fbfdff;
+
+    font-family:"DM Sans",sans-serif;
+
+    font-size:11px;
+
+    color:#234666;
+
+    transition:.25s;
+
+}
+
+.input-box input:focus{
+
+    border-color:#7188bd;
+
+    background:white;
+
+    box-shadow:
+
+        0 0 0 4px
+        rgba(101,126,180,.10);
+
+}
+
+.input-icon{
+
+    position:absolute;
+
+    left:14px;
+
+    top:13px;
+
+    font-size:16px;
+
+    color:#4b6682;
+
+}
+
+.eye{
+
+    position:absolute;
+
+    right:13px;
+
+    top:13px;
+
+    cursor:pointer;
+
+    color:#49647e;
+
+    font-size:14px;
+
+}
+
+
+/* =====================================================
+   OPTIONS
+===================================================== */
+
+.options{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin:15px 2px;
+
+    color:#60758a;
+
+    font-size:10px;
+
+}
+
+.remember{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:5px;
+
+}
+
+.remember input{
+
+    accent-color:#526aa5;
+
+}
+
+.forgot{
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    color:#50699a;
+
+}
+
+
+/* =====================================================
+   LOGIN BUTTON
+===================================================== */
+
+.login-button{
+
+    width:100%;
+
+    height:47px;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #526aa5,
+            #687bb5
+        );
+
+    color:white;
+
+    font-family:"DM Sans",sans-serif;
+
+    font-size:14px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    box-shadow:
+
+        0 10px 20px
+        rgba(67,85,145,.25);
+
+    transition:.25s;
+
+}
+
+.login-button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+
+        0 15px 25px
+        rgba(67,85,145,.32);
+
+}
+
+.login-button:active{
+
+    transform:translateY(0);
+
+}
+
+
+/* =====================================================
+   SIGNUP
+===================================================== */
+
+.signup{
+
+    text-align:center;
+
+    margin-top:19px;
+
+    font-size:10px;
+
+    color:#6b7c8c;
+
+}
+
+.signup a{
+
+    color:#36557d;
+
+    font-weight:800;
+
+    text-decoration:none;
+
+}
+
+.signup a:hover{
+
+    text-decoration:underline;
+
+}
+
+
+/* =====================================================
+   BOTTOM DECORATION
+===================================================== */
+
+.bottom-line{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:14px;
+
+    transform:translateX(-50%);
+
+    color:#59728d;
+
+    font-family:"Pacifico",cursive;
+
+    font-size:10px;
+
+    z-index:35;
+
+    opacity:.8;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:900px){
+
+    .photo1,
+    .photo2,
+    .photo3,
+    .film-strip,
+    .note,
+    .people{
+
+        opacity:.35;
+
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    body{
+        overflow:auto;
+    }
+
+    .page{
+        min-height:100vh;
+        height:auto;
+        padding:80px 0 50px;
+    }
+
+    .login-card{
+
+        position:relative;
+
+        left:auto;
+        top:auto;
+
+        transform:none;
+
+        width:90%;
+
+        margin:30px auto;
+
+        min-height:auto;
+
+        padding:
+            40px 25px 30px;
+
+    }
+
+    .login-card{
+
+        animation:none;
+
+    }
+
+    .photo1,
+    .photo2,
+    .photo3,
+    .film-strip,
+    .note,
+    .camera,
+    .people{
+
+        display:none;
+
+    }
+
+    .top-brand{
+
+        left:20px;
+
+        top:18px;
+
+    }
+
+    .flower1,
+    .flower2{
+
+        font-size:35px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- =========================================
+         BACKGROUND ORBS
+    ========================================== -->
+
+    <div class="orb orb1"></div>
+
+    <div class="orb orb2"></div>
+
+    <div class="orb orb3"></div>
+
+
+
+    <!-- =========================================
+         TOP BRAND
+    ========================================== -->
+
+    <div class="top-brand">
+
+        <span class="top-camera">
+            📷
+        </span>
+
+        Snap Bridge
+
+    </div>
+
+
+
+    <!-- =========================================
+         STARS
+    ========================================== -->
+
+    <div class="star star1">
+        ✦
+    </div>
+
+    <div class="star star2">
+        ✧
+    </div>
+
+    <div class="star star3">
+        ✦
+    </div>
+
+    <div class="star star4">
+        ✧
+    </div>
+
+    <div class="star star5">
+        ✦
+    </div>
+
+
+
+    <!-- =========================================
+         HEARTS
+    ========================================== -->
+
+    <div class="heart heart1">
+        ♡
+    </div>
+
+    <div class="heart heart2">
+        ♥
+    </div>
+
+    <div class="heart heart3">
+        ♡
+    </div>
+
+
+
+    <!-- =========================================
+         FLOWERS
+    ========================================== -->
+
+    <div class="flower flower1">
+        🌼
+    </div>
+
+    <div class="flower flower2">
+        🌸
+    </div>
+
+    <div class="flower flower3">
+        🌷
+    </div>
+
+    <div class="flower flower4">
+        🌻
+    </div>
+
+
+
+    <!-- =========================================
+         BUTTERFLIES
+    ========================================== -->
+
+    <div class="butterfly butterfly1">
+        🦋
+    </div>
+
+    <div class="butterfly butterfly2">
+        🦋
+    </div>
+
+
+
+    <!-- =========================================
+         LEFT POLAROID
+    ========================================== -->
+
+    <div class="polaroid photo1">
+
+        <div class="tape"></div>
+
+        <img
+        src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=85"
+        alt="Friends">
+
+        <span>
+            Besties ♡
+        </span>
+
+    </div>
+
+
+
+    <!-- =========================================
+         RIGHT POLAROID
+    ========================================== -->
+
+    <div class="polaroid photo2">
+
+        <div class="tape"></div>
+
+        <img
+        src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=400&q=85"
+        alt="Friends">
+
+        <span>
+            Good Vibes ✨
+        </span>
+
+    </div>
+
+
+
+    <!-- =========================================
+         SMALL POLAROID
+    ========================================== -->
+
+    <div class="polaroid photo3">
+
+        <div class="tape"></div>
+
+        <img
+        src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=300&q=85"
+        alt="Memories">
+
+        <span>
+            Memories
+        </span>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FILM STRIP
+    ========================================== -->
+
+    <div class="film-strip">
+
+        <div class="film-hole"></div>
+
+        <div class="film-photo fp1"></div>
+
+        <div class="film-photo fp2"></div>
+
+        <div class="film-photo fp3"></div>
+
+        <div class="film-hole"></div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         CAMERA
+    ========================================== -->
+
+    <div class="camera">
+
+        <div class="camera-button"></div>
+
+    </div>
+
+    <div class="flash">
+        ✨
+    </div>
+
+
+
+    <!-- =========================================
+         PEOPLE
+    ========================================== -->
+
+    <div class="people">
+        👩🏻‍🤝‍👩🏽📸
+    </div>
+
+
+
+    <!-- =========================================
+         NOTE
+    ========================================== -->
+
+    <div class="note">
+
+        Make today<br>
+        a memory<br>
+        worth keeping ♡
+
+    </div>
+
+
+
+    <!-- =========================================
+         STICKERS
+    ========================================== -->
+
+    <div class="sticker sticker1">
+
+        ✨ Good Vibes
+
+    </div>
+
+
+    <div class="sticker sticker2">
+
+        📸 Smile!
+
+    </div>
+
+
+    <div class="sticker sticker3">
+
+        ♡ Memories
+
+    </div>
+
+
+
+    <!-- =========================================
+         LOGIN CARD
+    ========================================== -->
+
+    <div class="login-card">
+
+
+        <div class="card-tape"></div>
+
+
+
+        <!-- HOME -->
+
+        <a
+        href="home.html"
+        class="home-link">
+
+            ← Home
+
+        </a>
+
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+
+            <span class="logo-camera">
+                📷
+            </span>
+
+            <span>
+                Snap Bridge
+            </span>
+
+            <span class="logo-star">
+                ✦
+            </span>
+
+        </div>
+
+
+
+        <!-- TITLE -->
+
+        <h1 class="title">
+
+            Welcome Back! ♡
+
+        </h1>
+
+
+        <p class="subtitle">
+
+            Your memories are waiting for you ✨
+
+        </p>
+
+
+
+        <!-- TICKET -->
+
+        <div class="ticket">
+
+            ✦ PHOTO BOOTH ✦
+            &nbsp;
+            #SNAPBRIDGE
+
+        </div>
+
+
+
+        <!-- =====================================
+             LOGIN FORM
+        ====================================== -->
+
+        <form id="loginForm">
+
+
+            <!-- EMAIL -->
+
+            <div class="input-box">
+
+                <span class="input-icon">
+                    ✉
+                </span>
+
+                <input
+                type="text"
+                id="email"
+                placeholder="Email or Username"
+                required>
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-box">
+
+                <span class="input-icon">
+                    🔒
+                </span>
+
+                <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required>
+
+                <span
+                class="eye"
+                onclick="togglePassword()">
+
+                    ◉
+
+                </span>
+
+            </div>
+
+
+
+            <!-- OPTIONS -->
+
+            <div class="options">
+
+
+                <label class="remember">
+
+                    <input
+                    type="checkbox">
+
+                    Remember me
+
+                </label>
+
+
+                <span
+                class="forgot"
+                onclick="forgotPassword()">
+
+                    Forgot password?
+
+                </span>
+
+
+            </div>
+
+
+
+            <!-- LOGIN -->
+
+            <button
+            type="submit"
+            class="login-button">
+
+                📸 &nbsp; Enter Snap Bridge
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- SIGN UP -->
+
+        <p class="signup">
+
+            New to Snap Bridge?
+
+            <a href="signup.html">
+                Create Account ✨
+            </a>
+
+        </p>
+
+
+    </div>
+
+
+
+    <!-- BOTTOM TEXT -->
+
+    <div class="bottom-line">
+
+        Capture • Create • Connect • Remember
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   SHOW / HIDE PASSWORD
+===================================================== */
+
+function togglePassword(){
+
+    const password =
+        document.getElementById("password");
+
+
+    if(password.type === "password"){
+
+        password.type = "text";
+
+    }
+
+    else{
+
+        password.type = "password";
+
+    }
+
+}
+
+
+/* =====================================================
+   FORGOT PASSWORD
+===================================================== */
+
+function forgotPassword(){
+
+    alert(
+        "Password reset feature coming soon! 📸✨"
+    );
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document
+.getElementById("loginForm")
+.addEventListener(
+"submit",
+function(event){
+
+    event.preventDefault();
+
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
+
+    const password =
+        document
+        .getElementById("password")
+        .value;
+
+
+    if(email === ""){
+
+        alert(
+            "Please enter your email or username."
+        );
+
+        return;
+
+    }
+
+
+    if(password === ""){
+
+        alert(
+            "Please enter your password."
+        );
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        alert(
+            "Password must contain at least 6 characters."
+        );
+
+        return;
+
+    }
+
+
+    /* LOGIN SUCCESS */
+
+    alert(
+        "Welcome to Snap Bridge! 📸💙✨"
+    );
+    window.location.href =
+        "home.html";
+});
+</script>
+</body>
+</html>

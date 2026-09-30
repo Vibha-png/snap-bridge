@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Snap Bridge | Room</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e9efff,
+                    #f0e8ff,
+                    #e1f6f2
+                );
+
+            color: #29386f;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+
+            background: rgba(255,255,255,0.82);
+
+            padding: 40px;
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 20px 60px rgba(70,80,140,0.18);
+
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .logo span {
+            color: #8067c9;
+        }
+
+        .subtitle {
+            color: #7180a5;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 25px;
+        }
+
+        .card {
+            padding: 30px 20px;
+
+            border-radius: 22px;
+
+            background: white;
+
+            border: 2px solid #e0e4f5;
+
+            box-shadow:
+                0 10px 25px rgba(70,80,140,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 2px solid #d7dcef;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            font-size: 16px;
+
+            margin: 12px 0;
+        }
+
+        input:focus {
+            border-color: #7a70c8;
+        }
+
+        button {
+            border: none;
+
+            padding: 13px 24px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #5e73c9,
+                    #8568c9
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #room-screen {
+            margin-top: 20px;
+        }
+
+        .room-code {
+            font-size: 45px;
+
+            font-weight: bold;
+
+            letter-spacing: 8px;
+
+            color: #5c6dc1;
+
+            margin: 20px 0;
+        }
+
+        .status {
+            padding: 15px;
+
+            border-radius: 15px;
+
+            background: #f1f3ff;
+
+            color: #59678e;
+
+            margin: 20px 0;
+        }
+
+        .players {
+            font-size: 18px;
+
+            font-weight: bold;
+
+            margin: 20px 0;
+        }
+
+        .back {
+            background: #8c95ad;
+        }
+
+        @media(max-width:650px) {
+
+            .container {
+                padding: 25px 18px;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .room-code {
+                font-size: 34px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        📸 Snap <span>Bridge</span> ✦
+    </div>
+
+    <p class="subtitle">
+        Create or join a shared photo booth
+    </p>
+
+
+    <!-- HOME SCREEN -->
+
+    <div id="home-screen">
+
+        <div class="options">
+
+            <!-- CREATE -->
+
+            <div class="card">
+
+                <h2>✨ Create Room</h2>
+
+                <p>
+                    Create a room and share the code
+                    with your friends.
+                </p>
+
+                <button onclick="createRoom()">
+                    Create Room
+                </button>
+
+            </div>
+
+
+            <!-- JOIN -->
+
+            <div class="card">
+
+                <h2>💜 Join Room</h2>
+
+                <p>
+                    Enter your friend's room code.
+                </p>
+
+                <input
+                    type="text"
+                    id="room-input"
+                    placeholder="Enter 4-digit code"
+                    maxlength="4"
+                >
+
+                <button onclick="joinRoom()">
+                    Join Room
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ROOM SCREEN -->
+
+    <div id="room-screen" class="hidden">
+
+        <h2>
+            📸 Snap Bridge Room
+        </h2>
+
+        <p>
+            Your room code is:
+        </p>
+
+        <div
+            class="room-code"
+            id="room-display">
+        </div>
+
+
+        <div
+            class="players"
+            id="players-display">
+
+            👥 Players: 1 / 3
+
+        </div>
+
+
+        <div
+            class="status"
+            id="status-message">
+
+            Waiting for your friends to join...
+
+        </div>
+
+
+        <button onclick="copyRoomCode()">
+            📋 Copy Room Code
+        </button>
+
+        <button
+            onclick="shareRoom()">
+
+            🔗 Share Room
+
+        </button>
+
+        <br><br>
+
+        <button
+            class="back"
+            onclick="leaveRoom()">
+
+            ← Leave Room
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- SOCKET.IO -->
+
+<script src="/socket.io/socket.io.js"></script>
+
+
+<script>
+
+const socket = io();
+
+let currentRoom = null;
+
+
+/* =========================
+   CREATE ROOM
+========================= */
+
+function createRoom() {
+
+    const roomCode =
+        Math.floor(
+            1000 +
+            Math.random() * 9000
+        ).toString();
+
+    socket.emit(
+        "create-room",
+        roomCode
+    );
+
+}
+
+
+/* =========================
+   ROOM CREATED
+========================= */
+
+socket.on(
+    "room-created",
+    (data) => {
+
+        currentRoom =
+            data.roomCode;
+
+        showRoom(
+            data.roomCode,
+            data.players
+        );
+
+        document.getElementById(
+            "status-message"
+        ).textContent =
+            "✨ Room created! Share the code with your friends.";
+
+    }
+);
+
+
+/* =========================
+   JOIN ROOM
+========================= */
+
+function joinRoom() {
+
+    const input =
+        document.getElementById(
+            "room-input"
+        );
+
+    const roomCode =
+        input.value.trim();
+
+
+    if (
+        roomCode.length !== 4 ||
+        !/^\d{4}$/.test(roomCode)
+    ) {
+
+        alert(
+            "Please enter a valid 4-digit room code."
+        );
+
+        return;
+    }
+
+
+    socket.emit(
+        "join-room",
+        roomCode
+    );
+
+}
+
+
+/* =========================
+   ROOM JOINED
+========================= */
+
+socket.on(
+    "room-joined",
+    (data) => {
+
+        currentRoom =
+            data.roomCode;
+
+        showRoom(
+            data.roomCode,
+            data.players
+        );
+
+        document.getElementById(
+            "status-message"
+        ).textContent =
+            "💜 You joined the Snap Bridge room!";
+
+    }
+);
+
+
+/* =========================
+   SHOW ROOM
+========================= */
+
+function showRoom(
+    roomCode,
+    players
+) {
+
+    document
+        .getElementById(
+            "home-screen"
+        )
+        .classList.add("hidden");
+
+
+    document
+        .getElementById(
+            "room-screen"
+        )
+        .classList.remove("hidden");
+
+
+    document.getElementById(
+        "room-display"
+    ).textContent =
+        roomCode;
+
+
+    updatePlayers(players);
+
+}
+
+
+/* =========================
+   PLAYER UPDATE
+========================= */
+
+socket.on(
+    "players-updated",
+    (data) => {
+
+        updatePlayers(
+            data.players
+        );
+
+
+        if (
+            data.players >= 3
+        ) {
+
+            document.getElementById(
+                "status-message"
+            ).textContent =
+                "🎉 All players have joined! You can enter the photo booth.";
+
+        } else {
+
+            document.getElementById(
+                "status-message"
+            ).textContent =
+                "⏳ Waiting for more friends to join...";
+
+        }
+
+    }
+);
+
+
+function updatePlayers(
+    count
+) {
+
+    document.getElementById(
+        "players-display"
+    ).textContent =
+        "👥 Players: " +
+        count +
+        " / 3";
+
+}
+
+
+/* =========================
+   ROOM ERROR
+========================= */
+
+socket.on(
+    "room-error",
+    (message) => {
+
+        alert(
+            "❌ " + message
+        );
+
+    }
+);
+
+
+/* =========================
+   COPY CODE
+========================= */
+
+function copyRoomCode() {
+
+    if (!currentRoom) return;
+
+    navigator.clipboard.writeText(
+        currentRoom
+    );
+
+    document.getElementById(
+        "status-message"
+    ).textContent =
+        "📋 Room code copied!";
+
+}
+
+
+/* =========================
+   SHARE ROOM
+========================= */
+
+function shareRoom() {
+
+    if (!currentRoom) return;
+
+
+    const shareUrl =
+        window.location.origin +
+        "/room.html?room=" +
+        currentRoom;
+
+
+    if (
+        navigator.share
+    ) {
+
+        navigator.share({
+
+            title:
+                "Join my Snap Bridge room",
+
+            text:
+                "Join my Snap Bridge photo booth! Room code: " +
+                currentRoom,
+
+            url:
+                shareUrl
+
+        });
+
+    } else {
+
+        navigator.clipboard.writeText(
+            shareUrl
+        );
+
+        alert(
+            "🔗 Share link copied!"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   LEAVE ROOM
+========================= */
+
+function leaveRoom() {
+
+    window.location.reload();
+
+}
+
+</script>
+
+</body>
+</html>

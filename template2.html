@@ -1,0 +1,5109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Snap Bridge | Templates & Photo Booth</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"DM Sans",sans-serif;
+    color:#26345f;
+    min-height:100vh;
+
+    background:
+        radial-gradient(circle at 5% 5%,#c9d2ff 0,transparent 25%),
+        radial-gradient(circle at 96% 8%,#c9f1e8 0,transparent 25%),
+        radial-gradient(circle at 50% 100%,#ead7ff 0,transparent 30%),
+        linear-gradient(135deg,#f4f6ff,#faf6ff,#f0fcfa);
+
+    overflow-x:hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND DECORATION
+========================================================= */
+
+.background-decoration{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    overflow:hidden;
+}
+
+.bg-cloud{
+    position:absolute;
+    font-size:70px;
+    opacity:.18;
+    animation:cloudFloat 7s ease-in-out infinite;
+}
+
+.cloud1{
+    left:2%;
+    top:110px;
+}
+
+.cloud2{
+    right:3%;
+    top:410px;
+    animation-delay:2s;
+}
+
+.cloud3{
+    left:20%;
+    bottom:20px;
+    animation-delay:4s;
+}
+
+.bg-star{
+    position:absolute;
+    color:#8a78ca;
+    font-size:24px;
+    animation:starFloat 2.5s ease-in-out infinite;
+}
+
+.star1{
+    left:15%;
+    top:25%;
+}
+
+.star2{
+    right:13%;
+    top:30%;
+    animation-delay:.6s;
+}
+
+.star3{
+    left:8%;
+    bottom:25%;
+    animation-delay:1.2s;
+}
+
+.star4{
+    right:18%;
+    bottom:10%;
+    animation-delay:1.8s;
+}
+
+@keyframes cloudFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+}
+
+@keyframes starFloat{
+    0%,100%{
+        opacity:.35;
+        transform:scale(.8) rotate(0);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.2) rotate(15deg);
+    }
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+    position:relative;
+    z-index:20;
+
+    width:94%;
+    max-width:1500px;
+
+    margin:18px auto 0;
+
+    min-height:72px;
+
+    padding:12px 22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+
+    background:#ffffffc9;
+    backdrop-filter:blur(18px);
+
+    border:1px solid #d8def1;
+
+    border-radius:24px;
+
+    box-shadow:
+        0 12px 30px #64719d1b;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    white-space:nowrap;
+
+    font-family:"Pacifico",cursive;
+    font-size:25px;
+    color:#34467e;
+}
+
+.logo b{
+    color:#8d70cf;
+}
+
+.camera-logo{
+    font-family:Arial,sans-serif;
+    font-size:25px;
+}
+
+.navbar nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:5px;
+}
+
+.navbar nav button{
+    border:none;
+    background:transparent;
+
+    padding:9px 13px;
+
+    border-radius:20px;
+
+    color:#68769e;
+
+    font-family:"DM Sans",sans-serif;
+    font-size:12px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.navbar nav button:hover{
+    background:#eef0ff;
+    color:#596bb0;
+}
+
+.navbar nav button.active{
+    background:#6877ca;
+    color:white;
+    box-shadow:0 5px 14px #6877ca44;
+}
+
+.profile{
+    width:40px;
+    height:40px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#ede9ff;
+
+    color:#6b5eb1;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main{
+    position:relative;
+    z-index:2;
+
+    width:min(1500px,94%);
+
+    margin:auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    text-align:center;
+
+    padding:
+        55px 15px
+        30px;
+}
+
+.small-title{
+    display:inline-block;
+
+    color:#7867bb;
+
+    font-size:11px;
+    font-weight:700;
+
+    letter-spacing:3px;
+
+    margin-bottom:12px;
+}
+
+.hero h1{
+    font-family:"Pacifico",cursive;
+
+    font-size:
+        clamp(34px,5vw,58px);
+
+    line-height:1.15;
+
+    color:#34467d;
+}
+
+.hero h1 span{
+    color:#8065c5;
+}
+
+.hero p{
+    max-width:650px;
+
+    margin:13px auto 0;
+
+    color:#7885a7;
+
+    font-size:14px;
+    line-height:1.7;
+}
+
+.hero-line{
+    width:210px;
+    height:5px;
+
+    margin:17px auto 0;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7385d4,
+            #bb91df,
+            #70cdbf,
+            #e9aeca
+        );
+}
+
+
+/* =========================================================
+   STEP NAV
+========================================================= */
+
+.steps{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin:0 auto 30px;
+}
+
+.step{
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    padding:8px 13px;
+
+    border-radius:25px;
+
+    background:#ffffffaa;
+
+    border:1px solid #d8def1;
+
+    color:#7b86a7;
+
+    font-size:11px;
+    font-weight:700;
+}
+
+.step-number{
+    width:22px;
+    height:22px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:#e8eaff;
+
+    color:#5969ad;
+}
+
+.step.active{
+    background:#6877ca;
+    color:white;
+
+    border-color:#6877ca;
+
+    box-shadow:0 7px 18px #6877ca33;
+}
+
+.step.active .step-number{
+    background:white;
+    color:#6877ca;
+}
+
+
+/* =========================================================
+   WORKSPACE
+========================================================= */
+
+.workspace{
+    display:grid;
+
+    grid-template-columns:
+        300px
+        minmax(400px,1fr)
+        300px;
+
+    gap:20px;
+
+    align-items:start;
+}
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.panel{
+    background:#ffffffd6;
+
+    backdrop-filter:blur(16px);
+
+    border:1px solid #d9def0;
+
+    border-radius:24px;
+
+    padding:20px;
+
+    box-shadow:
+        0 14px 35px #59678d18;
+}
+
+.panel h2{
+    color:#34467d;
+    font-size:19px;
+}
+
+.panel-subtitle{
+    margin-top:5px;
+
+    color:#8791ae;
+
+    font-size:11px;
+    line-height:1.5;
+}
+
+
+/* =========================================================
+   TEMPLATE PANEL
+========================================================= */
+
+.template-search{
+    width:100%;
+
+    margin-top:16px;
+
+    padding:11px 13px;
+
+    border:1px solid #d8dff1;
+
+    border-radius:14px;
+
+    outline:none;
+
+    background:white;
+
+    color:#42527f;
+
+    font-family:inherit;
+    font-size:12px;
+}
+
+.template-search:focus{
+    border-color:#8a7bd0;
+}
+
+.template-categories{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:5px;
+
+    margin:12px 0;
+}
+
+.template-category{
+    border:none;
+
+    padding:6px 9px;
+
+    border-radius:15px;
+
+    background:#f0effb;
+
+    color:#6e75a0;
+
+    font-size:9px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.template-category.active{
+    background:#6c78c8;
+    color:white;
+}
+
+
+/* =========================================================
+   TEMPLATE LIST
+========================================================= */
+
+.template-list{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+
+    max-height:570px;
+
+    overflow-y:auto;
+
+    padding-right:3px;
+}
+
+.template-list::-webkit-scrollbar{
+    width:4px;
+}
+
+.template-list::-webkit-scrollbar-thumb{
+    background:#c7cce4;
+    border-radius:10px;
+}
+
+.template-option{
+    position:relative;
+
+    border:2px solid transparent;
+
+    border-radius:15px;
+
+    padding:5px;
+
+    background:#f5f6fc;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.template-option:hover{
+    transform:translateY(-3px);
+}
+
+.template-option.selected{
+    border-color:#6e7bd0;
+
+    box-shadow:
+        0 5px 15px #6877ca35;
+}
+
+.template-option img{
+    width:100%;
+}
+
+.template-mini{
+    position:relative;
+
+    width:100%;
+    aspect-ratio:.58;
+
+    border-radius:10px;
+
+    padding:7px;
+
+    overflow:hidden;
+}
+
+.template-mini .mini-photo{
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #dfe4f1
+        );
+
+    border:2px solid white;
+
+    height:17%;
+
+    margin-bottom:3px;
+}
+
+.template-option-name{
+    text-align:center;
+
+    margin-top:5px;
+
+    color:#52618c;
+
+    font-size:9px;
+    font-weight:700;
+}
+
+.selected-check{
+    position:absolute;
+
+    top:-6px;
+    right:-6px;
+
+    display:none;
+
+    width:22px;
+    height:22px;
+
+    border-radius:50%;
+
+    background:#6977cb;
+
+    color:white;
+
+    border:2px solid white;
+
+    font-size:11px;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.template-option.selected .selected-check{
+    display:flex;
+}
+
+
+/* =========================================================
+   MINI TEMPLATE COLORS
+========================================================= */
+
+.mini-lavender{
+    background:linear-gradient(160deg,#edf1ff,#c7d2ff,#ded2f7);
+}
+
+.mini-purple{
+    background:linear-gradient(180deg,#d8d1ff,#aaa1dd,#8e83bd);
+}
+
+.mini-floral{
+    background:linear-gradient(145deg,#fffdf6,#f5e9cc);
+}
+
+.mini-pink{
+    background:repeating-linear-gradient(
+        45deg,
+        #fff1f8 0 8px,
+        #f5deed 8px 16px
+    );
+}
+
+.mini-mint{
+    background:linear-gradient(145deg,#effdfa,#cceee6,#dae7ff);
+}
+
+.mini-rainbow{
+    background:linear-gradient(
+        145deg,
+        #dcecff,
+        #eadcff,
+        #ffe2ed,
+        #d8f5ec
+    );
+}
+
+.mini-film{
+    background:linear-gradient(180deg,#f7f8fc,#dfe3ee);
+}
+
+.mini-butterfly{
+    background:linear-gradient(145deg,#edf3ff,#ddd5f7,#d8f1eb);
+}
+
+.mini-scrapbook{
+    background:#f5ecd5;
+}
+
+.mini-bow{
+    background:linear-gradient(150deg,#fff2fa,#f3d8ef,#e7ddff);
+}
+
+.mini-ocean{
+    background:linear-gradient(160deg,#d9f4ff,#a0d4e9,#b7c7ef);
+}
+
+.mini-candy{
+    background:repeating-linear-gradient(
+        135deg,
+        #ffe4ef 0 10px,
+        #e5dcff 10px 20px,
+        #d9f4ef 20px 30px
+    );
+}
+
+.mini-royal{
+    background:linear-gradient(145deg,#aeb9eb,#727fbe,#59639f);
+}
+
+.mini-kitty{
+    background:#e9deff;
+}
+
+.mini-polaroid{
+    background:linear-gradient(145deg,#e6efff,#fff4fb);
+}
+
+.mini-night{
+    background:linear-gradient(160deg,#707fc1,#8172b5,#a48bc7);
+}
+
+
+/* =========================================================
+   FRAME CONTROLS
+========================================================= */
+
+.layout-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:8px;
+
+    margin-top:16px;
+}
+
+.layout-card{
+    border:1px solid #d9deef;
+
+    background:#f9faff;
+
+    border-radius:15px;
+
+    padding:10px 6px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    color:#5d6a92;
+}
+
+.layout-card:hover{
+    transform:translateY(-2px);
+}
+
+.layout-card.active{
+    background:#6877ca;
+
+    color:white;
+
+    border-color:#6877ca;
+
+    box-shadow:
+        0 7px 17px #6877ca38;
+}
+
+.layout-card strong{
+    display:block;
+
+    margin-top:6px;
+
+    font-size:12px;
+}
+
+.layout-card small{
+    display:block;
+
+    margin-top:2px;
+
+    font-size:8px;
+
+    opacity:.8;
+}
+
+
+/* MINI GRID */
+
+.mini-grid{
+    width:45px;
+    height:45px;
+
+    margin:auto;
+
+    display:grid;
+
+    gap:3px;
+
+    padding:3px;
+
+    border-radius:7px;
+
+    background:#dfe4f2;
+}
+
+.layout-card.active .mini-grid{
+    background:#ffffff66;
+}
+
+.mini-grid i{
+    display:block;
+
+    background:#8795ba;
+
+    border-radius:2px;
+}
+
+.layout-card.active .mini-grid i{
+    background:white;
+}
+
+.grid-1{
+    grid-template-columns:1fr;
+}
+
+.grid-2{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.grid-3{
+    grid-template-columns:repeat(3,1fr);
+}
+
+.grid-4{
+    grid-template-columns:repeat(4,1fr);
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.actions{
+    display:grid;
+
+    gap:8px;
+
+    margin-top:16px;
+}
+
+.action-button{
+    border:none;
+
+    border-radius:14px;
+
+    padding:12px;
+
+    font-family:inherit;
+
+    font-size:11px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.action-button:hover{
+    transform:translateY(-2px);
+}
+
+.camera-btn{
+    background:#6877ca;
+    color:white;
+}
+
+.upload-btn{
+    background:#e9e7ff;
+    color:#5f63a0;
+}
+
+.clear-btn{
+    background:#ffe8ee;
+    color:#a75d76;
+}
+
+
+/* =========================================================
+   STYLE BUTTONS
+========================================================= */
+
+.option-section{
+    margin-top:22px;
+
+    padding-top:18px;
+
+    border-top:1px solid #e2e5f1;
+}
+
+.option-section h3{
+    font-size:13px;
+    color:#45537e;
+    margin-bottom:10px;
+}
+
+.style-buttons{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:6px;
+}
+
+.style-option{
+    border:1px solid #d8deef;
+
+    background:white;
+
+    color:#66739a;
+
+    padding:8px 5px;
+
+    border-radius:11px;
+
+    font-size:9px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.style-option.selected{
+    background:#6877ca;
+    color:white;
+    border-color:#6877ca;
+}
+
+.range-label{
+    display:block;
+
+    margin-top:13px;
+
+    color:#687598;
+
+    font-size:10px;
+    font-weight:600;
+}
+
+.range-label input{
+    width:100%;
+    margin-top:7px;
+    accent-color:#6877ca;
+}
+
+
+/* =========================================================
+   STICKERS
+========================================================= */
+
+.sticker-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    gap:6px;
+
+    margin-top:10px;
+}
+
+.sticker-button{
+    border:1px solid #e0e3ef;
+
+    background:white;
+
+    border-radius:10px;
+
+    padding:7px 3px;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.sticker-button:hover{
+    transform:scale(1.08);
+
+    background:#f0efff;
+}
+
+
+/* =========================================================
+   CUSTOM TEXT
+========================================================= */
+
+.text-input{
+    width:100%;
+
+    margin-top:9px;
+
+    padding:10px;
+
+    border:1px solid #d8deef;
+
+    border-radius:11px;
+
+    outline:none;
+
+    font-family:inherit;
+
+    font-size:11px;
+
+    color:#47547e;
+}
+
+.text-input:focus{
+    border-color:#7885d0;
+}
+
+
+/* =========================================================
+   BACKGROUND COLORS
+========================================================= */
+
+.background-colors{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-top:10px;
+}
+
+.bg-color{
+    width:27px;
+    height:27px;
+
+    border-radius:50%;
+
+    border:3px solid white;
+
+    box-shadow:
+        0 0 0 1px #d6dbea;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   PREVIEW PANEL
+========================================================= */
+
+.preview-panel{
+    min-width:0;
+
+    background:#ffffffc9;
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid #d9def0;
+
+    border-radius:25px;
+
+    padding:20px;
+
+    box-shadow:
+        0 15px 40px #59678d18;
+}
+
+.preview-top{
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:16px;
+}
+
+.preview-top h2{
+    color:#34467d;
+
+    font-size:20px;
+}
+
+.preview-top p{
+    margin-top:3px;
+
+    color:#8791ae;
+
+    font-size:11px;
+}
+
+.print-badge{
+    padding:7px 11px;
+
+    border-radius:20px;
+
+    background:#e4f5ee;
+
+    color:#4d927c;
+
+    font-size:8px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+}
+
+
+/* =========================================================
+   PHOTO FRAME
+========================================================= */
+
+.frame-stage{
+    min-height:700px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            #ffffff,
+            transparent 35%
+        ),
+        linear-gradient(
+            145deg,
+            #eef0ff,
+            #f9f4ff
+        );
+
+    overflow:auto;
+}
+
+.photo-frame{
+    position:relative;
+
+    width:min(390px,100%);
+
+    aspect-ratio:3 / 4;
+
+    padding:20px;
+
+    border-radius:10px;
+
+    background:white;
+
+    box-shadow:
+        0 20px 45px #48557d30;
+
+    transition:.3s;
+
+    overflow:hidden;
+}
+
+.photo-frame.classic{
+    background:#ffffff;
+}
+
+.photo-frame.soft{
+    background:#fffafc;
+}
+
+.photo-frame.lavender{
+    background:#eeeaff;
+}
+
+.photo-frame.mint{
+    background:#eafff9;
+}
+
+
+/* =========================================================
+   PHOTO GRID
+========================================================= */
+
+.photo-grid{
+    width:100%;
+    height:100%;
+
+    display:grid;
+
+    position:relative;
+
+    z-index:2;
+
+    transition:.2s;
+}
+
+.grid-layout-1{
+    grid-template-columns:1fr;
+    grid-template-rows:1fr;
+}
+
+.grid-layout-2{
+    grid-template-columns:repeat(2,1fr);
+    grid-template-rows:repeat(2,1fr);
+}
+
+.grid-layout-3{
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(3,1fr);
+}
+
+.grid-layout-4{
+    grid-template-columns:repeat(4,1fr);
+    grid-template-rows:repeat(4,1fr);
+}
+
+
+/* =========================================================
+   PHOTO SLOT
+========================================================= */
+
+.photo-slot{
+    position:relative;
+
+    min-width:0;
+    min-height:0;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f1f3f8,
+            #dce2ef
+        );
+
+    border:3px solid white;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#8995b1;
+
+    font-size:11px;
+
+    transition:.2s;
+
+    cursor:pointer;
+}
+
+.photo-slot:hover{
+    filter:brightness(.97);
+}
+
+.photo-slot.has-photo{
+    background:#ddd;
+}
+
+.photo-slot img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+}
+
+.slot-number{
+    position:absolute;
+
+    z-index:5;
+
+    width:25px;
+    height:25px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:50%;
+
+    background:#ffffffd9;
+
+    color:#66749c;
+
+    font-size:9px;
+    font-weight:800;
+}
+
+.photo-slot.has-photo .slot-number{
+    display:none;
+}
+
+
+/* =========================================================
+   FRAME DECORATIONS
+========================================================= */
+
+.frame-decoration{
+    position:absolute;
+
+    z-index:10;
+
+    pointer-events:none;
+
+    font-size:28px;
+
+    filter:
+        drop-shadow(
+            0 3px 3px #303d6728
+        );
+
+    animation:decoFloat 3s ease-in-out infinite;
+}
+
+.decoration-one{
+    top:7px;
+    left:7px;
+}
+
+.decoration-two{
+    top:7px;
+    right:8px;
+
+    animation-delay:.5s;
+}
+
+.decoration-three{
+    bottom:7px;
+    left:8px;
+
+    animation-delay:1s;
+}
+
+.decoration-four{
+    bottom:7px;
+    right:8px;
+
+    animation-delay:1.5s;
+}
+
+@keyframes decoFloat{
+    0%,100%{
+        transform:translateY(0) rotate(-4deg);
+    }
+    50%{
+        transform:translateY(-4px) rotate(4deg);
+    }
+}
+
+
+/* =========================================================
+   CUSTOM STICKERS
+========================================================= */
+
+.canvas-sticker{
+    position:absolute;
+
+    z-index:20;
+
+    font-size:30px;
+
+    user-select:none;
+
+    cursor:pointer;
+
+    animation:stickerFloat 3s ease-in-out infinite;
+
+    filter:
+        drop-shadow(
+            0 3px 4px #26345f25
+        );
+}
+
+@keyframes stickerFloat{
+    0%,100%{
+        transform:translateY(0) rotate(-3deg);
+    }
+    50%{
+        transform:translateY(-5px) rotate(4deg);
+    }
+}
+
+
+/* =========================================================
+   FRAME TEXT
+========================================================= */
+
+.frame-text{
+    position:absolute;
+
+    z-index:30;
+
+    left:15%;
+    right:15%;
+
+    bottom:12px;
+
+    padding:8px;
+
+    text-align:center;
+
+    border-radius:18px;
+
+    background:#ffffffdf;
+
+    color:#52608c;
+
+    font-family:"Caveat",cursive;
+
+    font-size:23px;
+
+    font-weight:700;
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   PREVIEW ACTIONS
+========================================================= */
+
+.preview-actions{
+    display:flex;
+
+    justify-content:center;
+
+    gap:9px;
+
+    margin-top:15px;
+}
+
+.preview-action{
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:25px;
+
+    font-family:inherit;
+
+    font-size:11px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.preview-action:hover{
+    transform:translateY(-2px);
+}
+
+.save-btn{
+    background:#6877ca;
+    color:white;
+}
+
+.print-btn{
+    background:#e8e6ff;
+    color:#5e64a2;
+}
+
+.reset-btn{
+    background:#ffe7ed;
+    color:#a35c75;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+    min-height:22px;
+
+    text-align:center;
+
+    margin-top:10px;
+
+    color:#6978a8;
+
+    font-size:11px;
+    font-weight:600;
+}
+
+
+/* =========================================================
+   CAMERA MODAL
+========================================================= */
+
+.camera-modal{
+    position:fixed;
+
+    inset:0;
+
+    z-index:100;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:#20284f88;
+
+    backdrop-filter:blur(8px);
+}
+
+.camera-modal.show{
+    display:flex;
+}
+
+.camera-box{
+    position:relative;
+
+    width:min(620px,100%);
+
+    padding:24px;
+
+    border-radius:25px;
+
+    background:#ffffff;
+
+    box-shadow:
+        0 25px 70px #18204466;
+
+    text-align:center;
+}
+
+.camera-box h2{
+    color:#34467d;
+
+    font-size:22px;
+}
+
+.camera-box p{
+    margin-top:4px;
+
+    color:#8791ae;
+
+    font-size:11px;
+}
+
+.close-camera{
+    position:absolute;
+
+    top:12px;
+    right:14px;
+
+    width:35px;
+    height:35px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#f0effb;
+
+    color:#5c6590;
+
+    font-size:23px;
+
+    cursor:pointer;
+}
+
+.camera-preview{
+    width:100%;
+
+    margin-top:18px;
+
+    aspect-ratio:4 / 3;
+
+    overflow:hidden;
+
+    border-radius:18px;
+
+    background:#161b35;
+}
+
+.camera-preview video{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.camera-controls{
+    display:flex;
+
+    justify-content:center;
+
+    margin-top:18px;
+}
+
+.capture-button{
+    width:70px;
+    height:70px;
+
+    border-radius:50%;
+
+    border:7px solid #e5e7f5;
+
+    background:#6877ca;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 7px 20px #6877ca55;
+}
+
+.capture-button span{
+    display:block;
+
+    width:38px;
+    height:38px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:white;
+}
+
+
+/* =========================================================
+   HIDDEN CANVAS
+========================================================= */
+
+#outputCanvas{
+    display:none;
+}
+
+
+/* =========================================================
+   NO RESULTS
+========================================================= */
+
+.no-results{
+    display:none;
+
+    grid-column:1/-1;
+
+    padding:25px;
+
+    text-align:center;
+
+    color:#818cab;
+
+    font-size:11px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1200px){
+
+    .workspace{
+        grid-template-columns:
+            260px
+            minmax(380px,1fr)
+            260px;
+    }
+
+}
+
+@media(max-width:1000px){
+
+    .workspace{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .template-panel{
+        grid-column:1 / -1;
+    }
+
+    .template-list{
+        grid-template-columns:
+            repeat(4,1fr);
+
+        max-height:none;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .navbar{
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        padding:14px;
+    }
+
+    .logo{
+        width:100%;
+        justify-content:center;
+    }
+
+    .navbar nav{
+        width:100%;
+    }
+
+    .profile{
+        display:none;
+    }
+
+    .workspace{
+        grid-template-columns:1fr;
+    }
+
+    .template-panel{
+        grid-column:auto;
+    }
+
+    .template-list{
+        grid-template-columns:
+            repeat(4,1fr);
+    }
+
+    .frame-stage{
+        min-height:500px;
+        padding:15px;
+    }
+
+    .photo-frame{
+        width:min(340px,100%);
+    }
+
+}
+
+@media(max-width:480px){
+
+    main{
+        width:94%;
+    }
+
+    .hero{
+        padding-top:35px;
+    }
+
+    .hero p{
+        font-size:12px;
+    }
+
+    .template-list{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .layout-grid{
+        grid-template-columns:
+            repeat(4,1fr);
+    }
+
+    .layout-card{
+        padding:7px 2px;
+    }
+
+    .mini-grid{
+        width:35px;
+        height:35px;
+    }
+
+    .photo-frame{
+        padding:13px;
+    }
+
+    .preview-actions{
+        flex-wrap:wrap;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     BACKGROUND
+========================================================= -->
+
+<div class="background-decoration">
+
+    <div class="bg-cloud cloud1">☁️</div>
+    <div class="bg-cloud cloud2">☁️</div>
+    <div class="bg-cloud cloud3">☁️</div>
+
+    <div class="bg-star star1">✦</div>
+    <div class="bg-star star2">✧</div>
+    <div class="bg-star star3">✦</div>
+    <div class="bg-star star4">✧</div>
+
+</div>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+
+        <span class="camera-logo">
+            📷
+        </span>
+
+        <span>
+            Snap Bridge
+        </span>
+
+        <b>✦</b>
+
+    </div>
+
+
+    <nav>
+
+        <button>
+            Home
+        </button>
+
+        <button class="active"
+                onclick="goToSection('templates')">
+            Templates
+        </button>
+
+        <button onclick="goToSection('filters')">
+            Filters
+        </button>
+
+        <button onclick="goToSection('stickers')">
+            Stickers
+        </button>
+
+        <button onclick="goToSection('customize')">
+            Customize
+        </button>
+
+    </nav>
+
+
+    <button class="profile">
+        ♡
+    </button>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <span class="small-title">
+        SNAP BRIDGE ✦ PHOTO STUDIO
+    </span>
+
+    <h1>
+        Create Your
+        <span>Photo Memories</span>
+    </h1>
+
+    <p>
+        Choose a beautiful template, select your photo layout,
+        capture or upload your photos, decorate your frame,
+        and create a printable memory.
+    </p>
+
+    <div class="hero-line"></div>
+
+</section>
+
+
+<!-- =========================================================
+     STEPS
+========================================================= -->
+
+<div class="steps">
+
+    <div class="step active" id="step1">
+        <span class="step-number">1</span>
+        Template
+    </div>
+
+    <div class="step" id="step2">
+        <span class="step-number">2</span>
+        Layout
+    </div>
+
+    <div class="step" id="step3">
+        <span class="step-number">3</span>
+        Photos
+    </div>
+
+    <div class="step" id="step4">
+        <span class="step-number">4</span>
+        Customize
+    </div>
+
+    <div class="step" id="step5">
+        <span class="step-number">5</span>
+        Save
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     WORKSPACE
+========================================================= -->
+
+<section class="workspace">
+
+
+<!-- =========================================================
+     LEFT TEMPLATE PANEL
+========================================================= -->
+
+<aside class="panel template-panel"
+       id="templates">
+
+    <h2>
+        Choose Template
+    </h2>
+
+    <p class="panel-subtitle">
+        Pick your favourite style for your memories.
+    </p>
+
+
+    <input
+        type="text"
+        class="template-search"
+        id="templateSearch"
+        placeholder="🔎 Search templates..."
+        oninput="searchTemplates()"
+    >
+
+
+    <div class="template-categories">
+
+        <button class="template-category active"
+                onclick="filterTemplates('all',this)">
+            All
+        </button>
+
+        <button class="template-category"
+                onclick="filterTemplates('cute',this)">
+            Cute
+        </button>
+
+        <button class="template-category"
+                onclick="filterTemplates('floral',this)">
+            Floral
+        </button>
+
+        <button class="template-category"
+                onclick="filterTemplates('lavender',this)">
+            Lavender
+        </button>
+
+        <button class="template-category"
+                onclick="filterTemplates('classic',this)">
+            Classic
+        </button>
+
+        <button class="template-category"
+                onclick="filterTemplates('fun',this)">
+            Fun
+        </button>
+
+    </div>
+
+
+    <div class="template-list"
+         id="templateList">
+
+
+        <!-- 1 -->
+
+        <div class="template-option selected"
+             data-name="Lavender Cloud"
+             data-category="lavender"
+             onclick="selectTemplate('Lavender Cloud','lavender',this)">
+
+            <span class="selected-check">
+                ✓
+            </span>
+
+            <div class="template-mini mini-lavender">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>☁️ 💜</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Lavender Cloud
+            </div>
+
+        </div>
+
+
+        <!-- 2 -->
+
+        <div class="template-option"
+             data-name="Dreamy Purple"
+             data-category="lavender"
+             onclick="selectTemplate('Dreamy Purple','mini-purple',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-purple">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🌙 ⭐</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Dreamy Purple
+            </div>
+
+        </div>
+
+
+        <!-- 3 -->
+
+        <div class="template-option"
+             data-name="Floral Garden"
+             data-category="floral"
+             onclick="selectTemplate('Floral Garden','mini-floral',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-floral">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🌸 🌼</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Floral Garden
+            </div>
+
+        </div>
+
+
+        <!-- 4 -->
+
+        <div class="template-option"
+             data-name="Cute Pink"
+             data-category="cute"
+             onclick="selectTemplate('Cute Pink','mini-pink',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-pink">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🎀 💗</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Cute Pink
+            </div>
+
+        </div>
+
+
+        <!-- 5 -->
+
+        <div class="template-option"
+             data-name="Mint Garden"
+             data-category="floral"
+             onclick="selectTemplate('Mint Garden','mini-mint',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-mint">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🌿 🦋</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Mint Garden
+            </div>
+
+        </div>
+
+
+        <!-- 6 -->
+
+        <div class="template-option"
+             data-name="Rainbow Party"
+             data-category="fun"
+             onclick="selectTemplate('Rainbow Party','mini-rainbow',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-rainbow">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🌈 ⭐</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Rainbow Party
+            </div>
+
+        </div>
+
+
+        <!-- 7 -->
+
+        <div class="template-option"
+             data-name="Classic Film"
+             data-category="classic"
+             onclick="selectTemplate('Classic Film','mini-film',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-film">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🎞️ 📸</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Classic Film
+            </div>
+
+        </div>
+
+
+        <!-- 8 -->
+
+        <div class="template-option"
+             data-name="Butterfly Garden"
+             data-category="cute"
+             onclick="selectTemplate('Butterfly Garden','mini-butterfly',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-butterfly">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🦋 🌸</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Butterfly Garden
+            </div>
+
+        </div>
+
+
+        <!-- 9 -->
+
+        <div class="template-option"
+             data-name="Cute Scrapbook"
+             data-category="classic"
+             onclick="selectTemplate('Cute Scrapbook','mini-scrapbook',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-scrapbook">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>📒 📌</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Cute Scrapbook
+            </div>
+
+        </div>
+
+
+        <!-- 10 -->
+
+        <div class="template-option"
+             data-name="Bow Hearts"
+             data-category="cute"
+             onclick="selectTemplate('Bow Hearts','mini-bow',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-bow">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🎀 💕</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Bow Hearts
+            </div>
+
+        </div>
+
+
+        <!-- 11 -->
+
+        <div class="template-option"
+             data-name="Ocean Breeze"
+             data-category="fun"
+             onclick="selectTemplate('Ocean Breeze','mini-ocean',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-ocean">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🌊 🐚</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Ocean Breeze
+            </div>
+
+        </div>
+
+
+        <!-- 12 -->
+
+        <div class="template-option"
+             data-name="Candy Pop"
+             data-category="cute"
+             onclick="selectTemplate('Candy Pop','mini-candy',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-candy">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🍭 🍓</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Candy Pop
+            </div>
+
+        </div>
+
+
+        <!-- 13 -->
+
+        <div class="template-option"
+             data-name="Royal Memories"
+             data-category="classic"
+             onclick="selectTemplate('Royal Memories','mini-royal',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-royal">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>👑 ⭐</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Royal Memories
+            </div>
+
+        </div>
+
+
+        <!-- 14 -->
+
+        <div class="template-option"
+             data-name="Kitty Friends"
+             data-category="cute"
+             onclick="selectTemplate('Kitty Friends','mini-kitty',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-kitty">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🐱 🎀</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Kitty Friends
+            </div>
+
+        </div>
+
+
+        <!-- 15 -->
+
+        <div class="template-option"
+             data-name="Pastel Polaroid"
+             data-category="classic"
+             onclick="selectTemplate('Pastel Polaroid','mini-polaroid',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-polaroid">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>📷 🌸</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Pastel Polaroid
+            </div>
+
+        </div>
+
+
+        <!-- 16 -->
+
+        <div class="template-option"
+             data-name="Pastel Night"
+             data-category="lavender"
+             onclick="selectTemplate('Pastel Night','mini-night',this)">
+
+            <span class="selected-check">✓</span>
+
+            <div class="template-mini mini-night">
+
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+                <div class="mini-photo"></div>
+
+                <span>🌙 ✨</span>
+
+            </div>
+
+            <div class="template-option-name">
+                Pastel Night
+            </div>
+
+        </div>
+
+
+        <div class="no-results"
+             id="noResults">
+
+            No templates found ✨
+
+        </div>
+
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     CENTER PREVIEW
+========================================================= -->
+
+<section class="preview-panel"
+         id="customize">
+
+    <div class="preview-top">
+
+        <div>
+
+            <h2>
+                Your Frame
+            </h2>
+
+            <p id="photoStatus">
+                0 / 1 photos added
+            </p>
+
+        </div>
+
+        <span class="print-badge">
+            PRINT READY
+        </span>
+
+    </div>
+
+
+    <div class="frame-stage">
+
+
+        <div id="photoFrame"
+             class="photo-frame classic">
+
+
+            <div id="photoGrid"
+                 class="photo-grid grid-layout-1">
+
+            </div>
+
+
+            <div class="frame-decoration decoration-one">
+                ✦
+            </div>
+
+            <div class="frame-decoration decoration-two">
+                ♡
+            </div>
+
+            <div class="frame-decoration decoration-three">
+                ✿
+            </div>
+
+            <div class="frame-decoration decoration-four">
+                ✨
+            </div>
+
+
+            <div id="frameText"
+                 class="frame-text">
+
+                Capture Memories ♡
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="preview-actions">
+
+        <button class="preview-action save-btn"
+                onclick="downloadFrame()">
+
+            ↓ Save Photo
+
+        </button>
+
+        <button class="preview-action print-btn"
+                onclick="printFrame()">
+
+            🖨 Print
+
+        </button>
+
+        <button class="preview-action reset-btn"
+                onclick="clearFrame()">
+
+            🗑 Clear
+
+        </button>
+
+    </div>
+
+
+    <div class="status"
+         id="status">
+
+        ✨ Select a layout and add your photos
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     RIGHT CONTROLS
+========================================================= -->
+
+<aside class="panel">
+
+    <h2>
+        Photo Booth
+    </h2>
+
+    <p class="panel-subtitle">
+        Choose your layout and add photos.
+    </p>
+
+
+    <!-- LAYOUT -->
+
+    <div class="option-section"
+         style="margin-top:15px;padding-top:0;border-top:none">
+
+        <h3>
+            Choose Layout
+        </h3>
+
+
+        <div class="layout-grid">
+
+
+            <button class="layout-card active"
+                    data-size="1"
+                    onclick="changeLayout(1)">
+
+                <div class="mini-grid grid-1">
+                    <i></i>
+                </div>
+
+                <strong>
+                    1 × 1
+                </strong>
+
+                <small>
+                    1 Photo
+                </small>
+
+            </button>
+
+
+            <button class="layout-card"
+                    data-size="2"
+                    onclick="changeLayout(2)">
+
+                <div class="mini-grid grid-2">
+
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+
+                </div>
+
+                <strong>
+                    2 × 2
+                </strong>
+
+                <small>
+                    4 Photos
+                </small>
+
+            </button>
+
+
+            <button class="layout-card"
+                    data-size="3"
+                    onclick="changeLayout(3)">
+
+                <div class="mini-grid grid-3">
+
+                    <i></i><i></i><i></i>
+                    <i></i><i></i><i></i>
+                    <i></i><i></i><i></i>
+
+                </div>
+
+                <strong>
+                    3 × 3
+                </strong>
+
+                <small>
+                    9 Photos
+                </small>
+
+            </button>
+
+
+            <button class="layout-card"
+                    data-size="4"
+                    onclick="changeLayout(4)">
+
+                <div class="mini-grid grid-4">
+
+                    <i></i><i></i><i></i><i></i>
+                    <i></i><i></i><i></i><i></i>
+                    <i></i><i></i><i></i><i></i>
+                    <i></i><i></i><i></i><i></i>
+
+                </div>
+
+                <strong>
+                    4 × 4
+                </strong>
+
+                <small>
+                    16 Photos
+                </small>
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="actions">
+
+        <button class="action-button camera-btn"
+                onclick="openCamera()">
+
+            📷 Take Photo
+
+        </button>
+
+        <button class="action-button upload-btn"
+                onclick="openUpload()">
+
+            🖼️ Upload Images
+
+        </button>
+
+        <button class="action-button clear-btn"
+                onclick="clearFrame()">
+
+            🗑 Clear Frame
+
+        </button>
+
+    </div>
+
+
+    <!-- FRAME STYLE -->
+
+    <div class="option-section">
+
+        <h3>
+            Frame Style
+        </h3>
+
+
+        <div class="style-buttons">
+
+            <button class="style-option selected"
+                    onclick="changeFrameStyle('classic',this)">
+                Classic
+            </button>
+
+            <button class="style-option"
+                    onclick="changeFrameStyle('soft',this)">
+                Soft
+            </button>
+
+            <button class="style-option"
+                    onclick="changeFrameStyle('lavender',this)">
+                Lavender
+            </button>
+
+            <button class="style-option"
+                    onclick="changeFrameStyle('mint',this)">
+                Mint
+            </button>
+
+        </div>
+
+
+        <label class="range-label">
+
+            Frame Spacing
+
+            <input
+                type="range"
+                id="spacing"
+                min="0"
+                max="20"
+                value="6"
+                oninput="changeSpacing()"
+            >
+
+        </label>
+
+
+        <label class="range-label">
+
+            Corner Roundness
+
+            <input
+                type="range"
+                id="roundness"
+                min="0"
+                max="30"
+                value="10"
+                oninput="changeRoundness()"
+            >
+
+        </label>
+
+    </div>
+
+
+    <!-- STICKERS -->
+
+    <div class="option-section"
+         id="stickers">
+
+        <h3>
+            Cute Stickers
+        </h3>
+
+        <div class="sticker-grid">
+
+            <button class="sticker-button"
+                    onclick="addSticker('💖')">
+                💖
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('💕')">
+                💕
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('🌸')">
+                🌸
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('🌷')">
+                🌷
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('🦋')">
+                🦋
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('🎀')">
+                🎀
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('⭐')">
+                ⭐
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('✨')">
+                ✨
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('👑')">
+                👑
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('🐱')">
+                🐱
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('🐰')">
+                🐰
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('🌈')">
+                🌈
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('☁️')">
+                ☁️
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('📸')">
+                📸
+            </button>
+
+            <button class="sticker-button"
+                    onclick="addSticker('✦')">
+                ✦
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- TEXT -->
+
+    <div class="option-section">
+
+        <h3>
+            Add Text
+        </h3>
+
+        <input
+            class="text-input"
+            id="customText"
+            value="Capture Memories ♡"
+            maxlength="35"
+            oninput="updateText()"
+            placeholder="Write something..."
+        >
+
+    </div>
+
+
+    <!-- BACKGROUND -->
+
+    <div class="option-section">
+
+        <h3>
+            Background
+        </h3>
+
+        <div class="background-colors">
+
+            <button
+                class="bg-color"
+                style="background:#ffffff"
+                onclick="changeBackground('#ffffff')">
+            </button>
+
+            <button
+                class="bg-color"
+                style="background:#eeeaff"
+                onclick="changeBackground('#eeeaff')">
+            </button>
+
+            <button
+                class="bg-color"
+                style="background:#ffeaf4"
+                onclick="changeBackground('#ffeaf4')">
+            </button>
+
+            <button
+                class="bg-color"
+                style="background:#e9f8ff"
+                onclick="changeBackground('#e9f8ff')">
+            </button>
+
+            <button
+                class="bg-color"
+                style="background:#e9fff8"
+                onclick="changeBackground('#e9fff8')">
+            </button>
+
+            <button
+                class="bg-color"
+                style="background:#fff5dc"
+                onclick="changeBackground('#fff5dc')">
+            </button>
+
+            <button
+                class="bg-color"
+                style="background:#dcd9ff"
+                onclick="changeBackground('#dcd9ff')">
+            </button>
+
+        </div>
+
+    </div>
+
+
+</aside>
+
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     HIDDEN UPLOAD
+========================================================= -->
+
+<input
+    type="file"
+    id="imageUpload"
+    accept="image/*"
+    multiple
+    hidden
+>
+
+
+<!-- =========================================================
+     CAMERA MODAL
+========================================================= -->
+
+<div class="camera-modal"
+     id="cameraModal">
+
+
+    <div class="camera-box">
+
+
+        <button class="close-camera"
+                onclick="closeCamera()">
+
+            ×
+
+        </button>
+
+
+        <h2>
+            Take Your Photo 📸
+        </h2>
+
+        <p>
+            Position yourself inside the camera.
+        </p>
+
+
+        <div class="camera-preview">
+
+            <video
+                id="cameraVideo"
+                autoplay
+                playsinline>
+            </video>
+
+        </div>
+
+
+        <div class="camera-controls">
+
+            <button
+                class="capture-button"
+                onclick="capturePhoto()">
+
+                <span></span>
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CANVAS
+========================================================= -->
+
+<canvas id="outputCanvas"></canvas>
+
+
+<script>
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let currentLayout = 1;
+
+let currentTemplate = "Lavender Cloud";
+
+let currentTemplateClass = "lavender";
+
+let currentFrameStyle = "classic";
+
+let photos = [];
+
+let cameraStream = null;
+
+let spacing = 6;
+
+let roundness = 10;
+
+let stickerCount = 0;
+
+
+/* =========================================================
+   TEMPLATE DATA
+========================================================= */
+
+const templateDecorations = {
+
+    "Lavender Cloud":{
+        bg:"linear-gradient(160deg,#e9efff,#c6d2ff,#ded2f8)",
+        stickers:["☁️","💜","⭐","🦋"]
+    },
+
+    "Dreamy Purple":{
+        bg:"linear-gradient(180deg,#d9d2ff,#b7afe8,#9e91ca)",
+        stickers:["🌙","⭐","💫","💜"]
+    },
+
+    "Floral Garden":{
+        bg:"linear-gradient(145deg,#fffdf7,#f8f0db)",
+        stickers:["🌼","🌸","🌷","🦋"]
+    },
+
+    "Cute Pink":{
+        bg:"repeating-linear-gradient(45deg,#fff5fb 0 10px,#f9e5f1 10px 20px)",
+        stickers:["🎀","💗","💕","🐰"]
+    },
+
+    "Mint Garden":{
+        bg:"linear-gradient(145deg,#effdfa,#cdeee7,#dbe8ff)",
+        stickers:["🌿","🌈","🌼","🦋"]
+    },
+
+    "Rainbow Party":{
+        bg:"linear-gradient(145deg,#dcecff,#eadcff,#ffe2ed,#d8f5ec)",
+        stickers:["🌈","☀️","⭐","🦋"]
+    },
+
+    "Classic Film":{
+        bg:"linear-gradient(180deg,#f7f8fc,#dfe3ee)",
+        stickers:["📷","🎞️","⭐","📸"]
+    },
+
+    "Butterfly Garden":{
+        bg:"linear-gradient(145deg,#edf3ff,#ddd5f7,#d8f1eb)",
+        stickers:["🦋","🌸","💜","🌷"]
+    },
+
+    "Cute Scrapbook":{
+        bg:"#f7efd9",
+        stickers:["🌼","📌","💕","✂️"]
+    },
+
+    "Bow Hearts":{
+        bg:"linear-gradient(150deg,#fff3fa,#f5d9f0,#e8dcff)",
+        stickers:["🎀","💖","💕","✨"]
+    },
+
+    "Ocean Breeze":{
+        bg:"linear-gradient(160deg,#d8f3ff,#9fd3e9,#b8c7ee)",
+        stickers:["🌊","🐚","🐬","💙"]
+    },
+
+    "Candy Pop":{
+        bg:"repeating-linear-gradient(135deg,#ffe5ef 0 15px,#e7dcff 15px 30px,#d9f4ef 30px 45px)",
+        stickers:["🍭","🍬","🧁","🍓"]
+    },
+
+    "Royal Memories":{
+        bg:"linear-gradient(145deg,#aeb9eb,#737fbf,#59639f)",
+        stickers:["👑","⭐","✨","💛"]
+    },
+
+    "Kitty Friends":{
+        bg:"#eadfff",
+        stickers:["🐱","🎀","💜","🐰"]
+    },
+
+    "Pastel Polaroid":{
+        bg:"linear-gradient(145deg,#e7efff,#fff5fb)",
+        stickers:["📸","✨","🌸","💕"]
+    },
+
+    "Pastel Night":{
+        bg:"linear-gradient(160deg,#707fc1,#8172b5,#a48bc7)",
+        stickers:["🌙","⭐","💜","✨"]
+    }
+
+};
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadSavedTemplate();
+
+        createPhotoSlots();
+
+        updatePhotoStatus();
+
+    }
+);
+
+
+/* =========================================================
+   SELECT TEMPLATE
+========================================================= */
+
+function selectTemplate(name,miniClass,element){
+
+    document
+        .querySelectorAll(".template-option")
+        .forEach(option => {
+
+            option.classList.remove("selected");
+
+        });
+
+
+    element.classList.add("selected");
+
+
+    currentTemplate = name;
+
+    currentTemplateClass = miniClass;
+
+
+    localStorage.setItem(
+        "snapBridgeTemplate",
+        name
+    );
+
+
+    applyTemplateDesign();
+
+
+    setStep(1);
+
+    showStatus(
+        "💜 " +
+        name +
+        " selected!"
+    );
+
+}
+
+
+/* =========================================================
+   APPLY TEMPLATE
+========================================================= */
+
+function applyTemplateDesign(){
+
+    const frame =
+        document.getElementById(
+            "photoFrame"
+        );
+
+
+    const data =
+        templateDecorations[
+            currentTemplate
+        ];
+
+
+    if(data){
+
+        frame.style.background =
+            data.bg;
+
+    }
+
+
+    /*
+       Template-specific decorations
+       are added around the frame.
+    */
+
+    const old =
+        frame.querySelectorAll(
+            ".template-sticker"
+        );
+
+
+    old.forEach(
+        item => item.remove()
+    );
+
+
+    if(data){
+
+        data.stickers.forEach(
+            (sticker,index) => {
+
+                const el =
+                    document.createElement(
+                        "div"
+                    );
+
+                el.className =
+                    "canvas-sticker template-sticker";
+
+                el.textContent =
+                    sticker;
+
+                const positions = [
+                    ["7%","4%"],
+                    ["88%","5%"],
+                    ["7%","78%"],
+                    ["87%","78%"]
+                ];
+
+                el.style.left =
+                    positions[index][0];
+
+                el.style.top =
+                    positions[index][1];
+
+                el.style.fontSize =
+                    "23px";
+
+                el.style.pointerEvents =
+                    "none";
+
+                frame.appendChild(el);
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD SAVED TEMPLATE
+========================================================= */
+
+function loadSavedTemplate(){
+
+    const saved =
+        localStorage.getItem(
+            "snapBridgeTemplate"
+        );
+
+
+    if(!saved){
+        return;
+    }
+
+
+    const options =
+        document.querySelectorAll(
+            ".template-option"
+        );
+
+
+    options.forEach(option => {
+
+        if(
+            option.dataset.name === saved
+        ){
+
+            const mini =
+                option.querySelector(
+                    ".template-mini"
+                );
+
+
+            const miniClass =
+                [...mini.classList]
+                    .find(
+                        c =>
+                        c.startsWith("mini-")
+                    );
+
+
+            selectTemplate(
+                saved,
+                miniClass || "lavender",
+                option
+            );
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   FILTER TEMPLATES
+========================================================= */
+
+function filterTemplates(category,button){
+
+    document
+        .querySelectorAll(
+            ".template-category"
+        )
+        .forEach(
+            btn =>
+            btn.classList.remove("active")
+        );
+
+
+    button.classList.add("active");
+
+
+    const options =
+        document.querySelectorAll(
+            ".template-option"
+        );
+
+
+    let visible = 0;
+
+
+    options.forEach(option => {
+
+        const match =
+            category === "all" ||
+            option.dataset.category === category;
+
+
+        if(match){
+
+            option.style.display = "";
+
+            visible++;
+
+        }else{
+
+            option.style.display = "none";
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "noResults"
+    ).style.display =
+        visible === 0
+        ? "block"
+        : "none";
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchTemplates(){
+
+    const value =
+        document
+            .getElementById(
+                "templateSearch"
+            )
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const options =
+        document.querySelectorAll(
+            ".template-option"
+        );
+
+
+    let visible = 0;
+
+
+    options.forEach(option => {
+
+        const name =
+            option.dataset.name
+                .toLowerCase();
+
+
+        if(
+            name.includes(value)
+        ){
+
+            option.style.display = "";
+
+            visible++;
+
+        }else{
+
+            option.style.display = "none";
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "noResults"
+    ).style.display =
+        visible === 0
+        ? "block"
+        : "none";
+
+}
+
+
+/* =========================================================
+   CHANGE LAYOUT
+========================================================= */
+
+function changeLayout(size){
+
+    currentLayout = size;
+
+
+    document
+        .querySelectorAll(
+            ".layout-card"
+        )
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                Number(
+                    button.dataset.size
+                ) === size
+            );
+
+        });
+
+
+    createPhotoSlots();
+
+    updatePhotoStatus();
+
+    setStep(2);
+
+    showStatus(
+        "📐 " +
+        size +
+        " × " +
+        size +
+        " layout selected"
+    );
+
+}
+
+
+/* =========================================================
+   CREATE PHOTO SLOTS
+========================================================= */
+
+function createPhotoSlots(){
+
+    const grid =
+        document.getElementById(
+            "photoGrid"
+        );
+
+
+    grid.className =
+        "photo-grid grid-layout-" +
+        currentLayout;
+
+
+    grid.innerHTML = "";
+
+
+    const total =
+        currentLayout *
+        currentLayout;
+
+
+    for(
+        let i = 0;
+        i < total;
+        i++
+    ){
+
+        const slot =
+            document.createElement(
+                "div"
+            );
+
+
+        slot.className =
+            "photo-slot";
+
+
+        slot.dataset.index = i;
+
+
+        const number =
+            document.createElement(
+                "span"
+            );
+
+
+        number.className =
+            "slot-number";
+
+        number.textContent =
+            i + 1;
+
+
+        slot.appendChild(number);
+
+
+        if(photos[i]){
+
+            addPhotoToSlot(
+                slot,
+                photos[i]
+            );
+
+        }
+
+
+        slot.addEventListener(
+            "click",
+            function(){
+
+                if(!photos[i]){
+
+                    openUploadForSlot(i);
+
+                }
+
+            }
+        );
+
+
+        grid.appendChild(slot);
+
+    }
+
+
+    updateSpacing();
+
+}
+
+
+/* =========================================================
+   OPEN UPLOAD
+========================================================= */
+
+function openUpload(){
+
+    document
+        .getElementById(
+            "imageUpload"
+        )
+        .click();
+
+}
+
+
+/* =========================================================
+   OPEN UPLOAD FOR SLOT
+========================================================= */
+
+let uploadTargetIndex = null;
+
+
+function openUploadForSlot(index){
+
+    uploadTargetIndex = index;
+
+    document
+        .getElementById(
+            "imageUpload"
+        )
+        .click();
+
+}
+
+
+/* =========================================================
+   UPLOAD HANDLER
+========================================================= */
+
+document
+    .getElementById("imageUpload")
+    .addEventListener(
+        "change",
+        function(event){
+
+            const files =
+                Array.from(
+                    event.target.files
+                );
+
+
+            if(!files.length){
+                return;
+            }
+
+
+            files.forEach(
+                file => {
+
+                    if(
+                        !file.type.startsWith(
+                            "image/"
+                        )
+                    ){
+                        return;
+                    }
+
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(e){
+
+                            if(
+                                uploadTargetIndex !== null
+                            ){
+
+                                photos[
+                                    uploadTargetIndex
+                                ] =
+                                    e.target.result;
+
+                                uploadTargetIndex =
+                                    null;
+
+                            }else{
+
+                                const max =
+                                    currentLayout *
+                                    currentLayout;
+
+
+                                if(
+                                    photos.length >= max
+                                ){
+
+                                    showStatus(
+                                        "All photo slots are full ✨"
+                                    );
+
+                                    return;
+
+                                }
+
+
+                                photos.push(
+                                    e.target.result
+                                );
+
+                            }
+
+
+                            createPhotoSlots();
+
+                            updatePhotoStatus();
+
+                            setStep(3);
+
+                            showStatus(
+                                "🖼️ Photo added!"
+                            );
+
+                        };
+
+
+                    reader.readAsDataURL(
+                        file
+                    );
+
+                }
+            );
+
+
+            event.target.value = "";
+
+        }
+    );
+
+
+/* =========================================================
+   ADD PHOTO TO SLOT
+========================================================= */
+
+function addPhotoToSlot(slot,src){
+
+    slot.classList.add(
+        "has-photo"
+    );
+
+
+    const img =
+        document.createElement(
+            "img"
+        );
+
+
+    img.src = src;
+
+    img.alt = "Uploaded photo";
+
+
+    slot.appendChild(img);
+
+}
+
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+async function openCamera(){
+
+    try{
+
+        cameraStream =
+            await navigator.mediaDevices
+                .getUserMedia({
+                    video:{
+                        facingMode:"user"
+                    },
+                    audio:false
+                });
+
+
+        const video =
+            document.getElementById(
+                "cameraVideo"
+            );
+
+
+        video.srcObject =
+            cameraStream;
+
+
+        document
+            .getElementById(
+                "cameraModal"
+            )
+            .classList.add("show");
+
+
+        setStep(3);
+
+    }catch(error){
+
+        showStatus(
+            "⚠️ Camera permission was not available. You can upload an image instead."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CAPTURE PHOTO
+========================================================= */
+
+function capturePhoto(){
+
+    const video =
+        document.getElementById(
+            "cameraVideo"
+        );
+
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    canvas.width =
+        video.videoWidth ||
+        640;
+
+
+    canvas.height =
+        video.videoHeight ||
+        480;
+
+
+    const context =
+        canvas.getContext("2d");
+
+
+    context.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    const image =
+        canvas.toDataURL(
+            "image/jpeg",
+            .92
+        );
+
+
+    const max =
+        currentLayout *
+        currentLayout;
+
+
+    if(
+        photos.length < max
+    ){
+
+        photos.push(image);
+
+    }else{
+
+        showStatus(
+            "All photo slots are full ✨"
+        );
+
+        closeCamera();
+
+        return;
+
+    }
+
+
+    createPhotoSlots();
+
+    updatePhotoStatus();
+
+    showStatus(
+        "📸 Photo captured!"
+    );
+
+
+    closeCamera();
+
+}
+
+
+/* =========================================================
+   CLOSE CAMERA
+========================================================= */
+
+function closeCamera(){
+
+    const video =
+        document.getElementById(
+            "cameraVideo"
+        );
+
+
+    if(cameraStream){
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track =>
+                track.stop()
+            );
+
+        cameraStream = null;
+
+    }
+
+
+    video.srcObject = null;
+
+
+    document
+        .getElementById(
+            "cameraModal"
+        )
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+/* =========================================================
+   PHOTO STATUS
+========================================================= */
+
+function updatePhotoStatus(){
+
+    const total =
+        currentLayout *
+        currentLayout;
+
+
+    const count =
+        Math.min(
+            photos.filter(Boolean).length,
+            total
+        );
+
+
+    document.getElementById(
+        "photoStatus"
+    ).textContent =
+        count +
+        " / " +
+        total +
+        " photos added";
+
+
+    if(count > 0){
+
+        setStep(3);
+
+    }
+
+
+    if(
+        count === total
+    ){
+
+        setStep(4);
+
+        showStatus(
+            "✨ All photos added! Customize your frame."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FRAME STYLE
+========================================================= */
+
+function changeFrameStyle(style,button){
+
+    currentFrameStyle = style;
+
+
+    const frame =
+        document.getElementById(
+            "photoFrame"
+        );
+
+
+    frame.classList.remove(
+        "classic",
+        "soft",
+        "lavender",
+        "mint"
+    );
+
+
+    frame.classList.add(
+        style
+    );
+
+
+    document
+        .querySelectorAll(
+            ".style-option"
+        )
+        .forEach(
+            item =>
+            item.classList.remove(
+                "selected"
+            )
+        );
+
+
+    if(button){
+
+        button.classList.add(
+            "selected"
+        );
+
+    }
+
+
+    setStep(4);
+
+}
+
+
+/* =========================================================
+   SPACING
+========================================================= */
+
+function changeSpacing(){
+
+    spacing =
+        Number(
+            document.getElementById(
+                "spacing"
+            ).value
+        );
+
+
+    updateSpacing();
+
+}
+
+
+/* =========================================================
+   UPDATE SPACING
+========================================================= */
+
+function updateSpacing(){
+
+    const grid =
+        document.getElementById(
+            "photoGrid"
+        );
+
+
+    grid.style.gap =
+        spacing + "px";
+
+}
+
+
+/* =========================================================
+   ROUNDNESS
+========================================================= */
+
+function changeRoundness(){
+
+    roundness =
+        Number(
+            document.getElementById(
+                "roundness"
+            ).value
+        );
+
+
+    document
+        .querySelectorAll(
+            ".photo-slot"
+        )
+        .forEach(
+            slot => {
+
+                slot.style.borderRadius =
+                    roundness + "px";
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   ADD STICKER
+========================================================= */
+
+function addSticker(sticker){
+
+    const frame =
+        document.getElementById(
+            "photoFrame"
+        );
+
+
+    const element =
+        document.createElement(
+            "div"
+        );
+
+
+    element.className =
+        "canvas-sticker";
+
+
+    element.textContent =
+        sticker;
+
+
+    stickerCount++;
+
+
+    const positions = [
+        [18,20],
+        [70,18],
+        [25,70],
+        [72,67],
+        [50,12],
+        [10,48],
+        [82,45],
+        [45,82]
+    ];
+
+
+    const position =
+        positions[
+            (stickerCount - 1) %
+            positions.length
+        ];
+
+
+    element.style.left =
+        position[0] + "%";
+
+
+    element.style.top =
+        position[1] + "%";
+
+
+    element.title =
+        "Click to remove";
+
+
+    element.onclick =
+        function(){
+
+            element.remove();
+
+        };
+
+
+    frame.appendChild(
+        element
+    );
+
+
+    setStep(4);
+
+    showStatus(
+        sticker +
+        " sticker added!"
+    );
+
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+function updateText(){
+
+    const input =
+        document.getElementById(
+            "customText"
+        );
+
+
+    const text =
+        document.getElementById(
+            "frameText"
+        );
+
+
+    text.textContent =
+        input.value;
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+function changeBackground(color){
+
+    const frame =
+        document.getElementById(
+            "photoFrame"
+        );
+
+
+    frame.style.background =
+        color;
+
+
+    showStatus(
+        "🎨 Background changed!"
+    );
+
+}
+
+
+/* =========================================================
+   CLEAR FRAME
+========================================================= */
+
+function clearFrame(){
+
+    photos = [];
+
+    stickerCount = 0;
+
+
+    createPhotoSlots();
+
+    updatePhotoStatus();
+
+
+    document
+        .querySelectorAll(
+            ".canvas-sticker:not(.template-sticker)"
+        )
+        .forEach(
+            sticker =>
+            sticker.remove()
+        );
+
+
+    showStatus(
+        "🗑 Frame cleared!"
+    );
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function showStatus(message){
+
+    document.getElementById(
+        "status"
+    ).textContent =
+        message;
+
+}
+
+
+/* =========================================================
+   STEP
+========================================================= */
+
+function setStep(number){
+
+    document
+        .querySelectorAll(
+            ".step"
+        )
+        .forEach(
+            step =>
+            step.classList.remove(
+                "active"
+            )
+        );
+
+
+    const current =
+        document.getElementById(
+            "step" + number
+        );
+
+
+    if(current){
+
+        current.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function goToSection(section){
+
+    if(section === "templates"){
+
+        document
+            .getElementById(
+                "templates"
+            )
+            .scrollIntoView({
+                behavior:"smooth"
+            });
+
+        return;
+
+    }
+
+
+    if(section === "stickers"){
+
+        document
+            .getElementById(
+                "stickers"
+            )
+            .scrollIntoView({
+                behavior:"smooth"
+            });
+
+        return;
+
+    }
+
+
+    if(section === "customize"){
+
+        document
+            .getElementById(
+                "customize"
+            )
+            .scrollIntoView({
+                behavior:"smooth"
+            });
+
+        return;
+
+    }
+
+
+    showStatus(
+        section +
+        " section can be connected to its own editor later."
+    );
+
+}
+
+
+/* =========================================================
+   GENERATE FINAL CANVAS
+========================================================= */
+
+async function renderFinalCanvas(){
+
+    const canvas =
+        document.getElementById(
+            "outputCanvas"
+        );
+
+
+    const size = 1400;
+
+
+    canvas.width = size;
+
+    canvas.height =
+        Math.round(
+            size * 4 / 3
+        );
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    /*
+       Background
+    */
+
+    ctx.fillStyle =
+        getComputedStyle(
+            document.getElementById(
+                "photoFrame"
+            )
+        ).backgroundColor ||
+        "#ffffff";
+
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /*
+       Draw frame background based
+       on the selected template.
+    */
+
+    const template =
+        templateDecorations[
+            currentTemplate
+        ];
+
+
+    if(template){
+
+        /*
+          Use a simple solid fallback
+          because CSS gradients cannot
+          be directly painted as canvas
+          backgrounds.
+        */
+
+        const colors = {
+            "Lavender Cloud":"#d7dcff",
+            "Dreamy Purple":"#b7afe8",
+            "Floral Garden":"#f8f0db",
+            "Cute Pink":"#f9e5f1",
+            "Mint Garden":"#cdeee7",
+            "Rainbow Party":"#eadcff",
+            "Classic Film":"#e4e7ef",
+            "Butterfly Garden":"#ddd5f7",
+            "Cute Scrapbook":"#f7efd9",
+            "Bow Hearts":"#f5d9f0",
+            "Ocean Breeze":"#a8d9ed",
+            "Candy Pop":"#eadfff",
+            "Royal Memories":"#737fbf",
+            "Kitty Friends":"#eadfff",
+            "Pastel Polaroid":"#e8efff",
+            "Pastel Night":"#8172b5"
+        };
+
+
+        ctx.fillStyle =
+            colors[currentTemplate] ||
+            "#ffffff";
+
+
+        ctx.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+    }
+
+
+    /*
+       Grid dimensions
+    */
+
+    const total =
+        currentLayout *
+        currentLayout;
+
+
+    const gap =
+        spacing *
+        3;
+
+
+    const padding = 65;
+
+
+    const availableWidth =
+        canvas.width -
+        padding * 2;
+
+
+    const availableHeight =
+        canvas.height -
+        padding * 2;
+
+
+    const cellWidth =
+        (
+            availableWidth -
+            gap * (currentLayout - 1)
+        ) /
+        currentLayout;
+
+
+    const cellHeight =
+        (
+            availableHeight -
+            gap * (currentLayout - 1)
+        ) /
+        currentLayout;
+
+
+    /*
+       Draw photos
+    */
+
+    for(
+        let i = 0;
+        i < total;
+        i++
+    ){
+
+        const src =
+            photos[i];
+
+
+        if(!src){
+
+            drawEmptySlot(
+                ctx,
+                i,
+                padding,
+                gap,
+                cellWidth,
+                cellHeight
+            );
+
+            continue;
+
+        }
+
+
+        await drawImageCover(
+            ctx,
+            src,
+            padding +
+                (
+                    i %
+                    currentLayout
+                ) *
+                (
+                    cellWidth +
+                    gap
+                ),
+            padding +
+                Math.floor(
+                    i /
+                    currentLayout
+                ) *
+                (
+                    cellHeight +
+                    gap
+                ),
+            cellWidth,
+            cellHeight,
+            roundness
+        );
+
+    }
+
+
+    /*
+       Decorative text
+    */
+
+    const text =
+        document.getElementById(
+            "customText"
+        ).value;
+
+
+    if(text){
+
+        ctx.fillStyle =
+            "#ffffffee";
+
+
+        ctx.roundRect(
+            canvas.width * .16,
+            canvas.height - 125,
+            canvas.width * .68,
+            65,
+            32
+        );
+
+
+        ctx.fill();
+
+
+        ctx.fillStyle =
+            "#52608c";
+
+
+        ctx.font =
+            "bold 46px Caveat";
+
+
+        ctx.textAlign =
+            "center";
+
+
+        ctx.fillText(
+            text,
+            canvas.width / 2,
+            canvas.height - 78
+        );
+
+    }
+
+
+    /*
+       Add basic template stickers.
+    */
+
+    if(template){
+
+        ctx.font =
+            "55px Arial";
+
+
+        const stickers =
+            template.stickers;
+
+
+        const stickerPositions = [
+            [90,95],
+            [canvas.width-130,100],
+            [90,canvas.height-150],
+            [canvas.width-130,canvas.height-150]
+        ];
+
+
+        stickers.forEach(
+            (sticker,index) => {
+
+                ctx.fillText(
+                    sticker,
+                    stickerPositions[index][0],
+                    stickerPositions[index][1]
+                );
+
+            }
+        );
+
+    }
+
+
+    return canvas;
+
+}
+
+
+/* =========================================================
+   DRAW IMAGE COVER
+========================================================= */
+
+function drawImageCover(
+    ctx,
+    src,
+    x,
+    y,
+    width,
+    height,
+    radius
+){
+
+    return new Promise(
+        resolve => {
+
+            const image =
+                new Image();
+
+
+            image.onload =
+                function(){
+
+                    ctx.save();
+
+
+                    roundedRectPath(
+                        ctx,
+                        x,
+                        y,
+                        width,
+                        height,
+                        radius
+                    );
+
+
+                    ctx.clip();
+
+
+                    const imageRatio =
+                        image.width /
+                        image.height;
+
+
+                    const boxRatio =
+                        width /
+                        height;
+
+
+                    let drawWidth;
+                    let drawHeight;
+                    let drawX;
+                    let drawY;
+
+
+                    if(
+                        imageRatio >
+                        boxRatio
+                    ){
+
+                        drawHeight =
+                            height;
+
+                        drawWidth =
+                            height *
+                            imageRatio;
+
+                        drawX =
+                            x +
+                            (
+                                width -
+                                drawWidth
+                            ) / 2;
+
+                        drawY =
+                            y;
+
+                    }else{
+
+                        drawWidth =
+                            width;
+
+                        drawHeight =
+                            width /
+                            imageRatio;
+
+                        drawX =
+                            x;
+
+                        drawY =
+                            y +
+                            (
+                                height -
+                                drawHeight
+                            ) / 2;
+
+                    }
+
+
+                    ctx.drawImage(
+                        image,
+                        drawX,
+                        drawY,
+                        drawWidth,
+                        drawHeight
+                    );
+
+
+                    ctx.restore();
+
+
+                    resolve();
+
+                };
+
+
+            image.onerror =
+                resolve;
+
+
+            image.src = src;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ROUNDED RECT PATH
+========================================================= */
+
+function roundedRectPath(
+    ctx,
+    x,
+    y,
+    width,
+    height,
+    radius
+){
+
+    radius =
+        Math.min(
+            radius,
+            width / 2,
+            height / 2
+        );
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x + radius,
+        y
+    );
+
+    ctx.arcTo(
+        x + width,
+        y,
+        x + width,
+        y + height,
+        radius
+    );
+
+    ctx.arcTo(
+        x + width,
+        y + height,
+        x,
+        y + height,
+        radius
+    );
+
+    ctx.arcTo(
+        x,
+        y + height,
+        x,
+        y,
+        radius
+    );
+
+    ctx.arcTo(
+        x,
+        y,
+        x + width,
+        y,
+        radius
+    );
+
+    ctx.closePath();
+
+}
+
+
+/* =========================================================
+   DRAW EMPTY SLOT
+========================================================= */
+
+function drawEmptySlot(
+    ctx,
+    index,
+    padding,
+    gap,
+    width,
+    height
+){
+
+    const x =
+        padding +
+        (
+            index %
+            currentLayout
+        ) *
+        (
+            width +
+            gap
+        );
+
+
+    const y =
+        padding +
+        Math.floor(
+            index /
+            currentLayout
+        ) *
+        (
+            height +
+            gap
+        );
+
+
+    ctx.fillStyle =
+        "#e4e7f0";
+
+
+    ctx.fillRect(
+        x,
+        y,
+        width,
+        height
+    );
+
+
+    ctx.fillStyle =
+        "#8c96b2";
+
+
+    ctx.font =
+        "32px DM Sans";
+
+
+    ctx.textAlign =
+        "center";
+
+
+    ctx.fillText(
+        "Photo " + (index + 1),
+        x + width / 2,
+        y + height / 2
+    );
+
+}
+
+
+/* =========================================================
+   DOWNLOAD
+========================================================= */
+
+async function downloadFrame(){
+
+    if(
+        photos.filter(Boolean).length === 0
+    ){
+
+        showStatus(
+            "📸 Add at least one photo first!"
+        );
+
+        return;
+
+    }
+
+
+    setStep(5);
+
+
+    showStatus(
+        "✨ Preparing your memory..."
+    );
+
+
+    const canvas =
+        await renderFinalCanvas();
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.download =
+        "Snap-Bridge-" +
+        currentTemplate
+            .replace(/\s+/g,"-") +
+        ".png";
+
+
+    link.href =
+        canvas.toDataURL(
+            "image/png"
+        );
+
+
+    link.click();
+
+
+    showStatus(
+        "💜 Your photo has been saved!"
+    );
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+async function printFrame(){
+
+    if(
+        photos.filter(Boolean).length === 0
+    ){
+
+        showStatus(
+            "📸 Add at least one photo first!"
+        );
+
+        return;
+
+    }
+
+
+    showStatus(
+        "🖨 Preparing print..."
+    );
+
+
+    const canvas =
+        await renderFinalCanvas();
+
+
+    const image =
+        canvas.toDataURL(
+            "image/png"
+        );
+
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank"
+        );
+
+
+    if(!printWindow){
+
+        showStatus(
+            "⚠️ Please allow pop-ups to print."
+        );
+
+        return;
+
+    }
+
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+
+        <html>
+
+        <head>
+
+            <title>
+                Snap Bridge Print
+            </title>
+
+            <style>
+
+                @page{
+                    margin:10mm;
+                }
+
+                html,body{
+                    margin:0;
+                    padding:0;
+                    text-align:center;
+                    background:white;
+                }
+
+                img{
+                    max-width:100%;
+                    max-height:95vh;
+                    object-fit:contain;
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            <img
+                src="${image}"
+                onload="window.print();"
+            >
+
+        </body>
+
+        </html>
+    `);
+
+
+    printWindow.document.close();
+
+
+    showStatus(
+        "🖨 Print window opened!"
+    );
+
+}
+
+</script>
+
+
+</body>
+</html>

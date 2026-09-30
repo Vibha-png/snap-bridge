@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Snap Bridge 📸 | Home</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+
+
+<style>
+
+/* =========================================
+   RESET
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"DM Sans",sans-serif;
+    background:#eaf2ff;
+    color:#17365d;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:70px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 6%;
+
+    background:rgba(245,249,255,.94);
+
+    backdrop-filter:blur(12px);
+
+    border-bottom:1px solid #d7e1f0;
+
+    z-index:1000;
+}
+
+
+/* LOGO */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    font-family:"Pacifico",cursive;
+
+    font-size:24px;
+
+    color:#183b66;
+
+    text-decoration:none;
+}
+
+.logo-camera{
+    font-family:Arial;
+    font-size:29px;
+}
+
+.logo-star{
+    color:#e7ad2d;
+}
+
+
+/* NAVIGATION */
+
+.nav-links{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:32px;
+}
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:#17365d;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    transition:.25s;
+}
+
+.nav-links a:hover{
+
+    color:#6279bd;
+
+}
+
+
+/* NAV BUTTONS */
+
+.nav-buttons{
+
+    display:flex;
+
+    gap:9px;
+}
+
+.login-btn{
+
+    text-decoration:none;
+
+    padding:9px 21px;
+
+    border:1px solid #5068a5;
+
+    border-radius:20px;
+
+    color:#405b94;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+.signup-btn{
+
+    text-decoration:none;
+
+    padding:10px 22px;
+
+    border-radius:20px;
+
+    background:#5065a2;
+
+    color:white;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero{
+
+    min-height:720px;
+
+    padding:
+        120px
+        6%
+        70px;
+
+    display:flex;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    position:relative;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 20%,
+            #c5d6fa 0 10%,
+            transparent 11%
+        ),
+
+        radial-gradient(
+            circle at 95% 80%,
+            #d4e0fa 0 12%,
+            transparent 13%
+        ),
+
+        linear-gradient(
+            135deg,
+            #eef5ff,
+            #d9e7ff,
+            #edf5ff
+        );
+}
+
+
+/* =========================================
+   HERO CONTENT
+========================================= */
+
+.hero-content{
+
+    width:47%;
+
+    position:relative;
+
+    z-index:10;
+}
+
+.small-title{
+
+    font-family:"Pacifico",cursive;
+
+    color:#687db8;
+
+    font-size:18px;
+
+    margin-bottom:12px;
+}
+
+.hero h1{
+
+    font-family:"Pacifico",cursive;
+
+    color:#173b76;
+
+    font-size:58px;
+
+    line-height:1.1;
+
+    margin-bottom:20px;
+}
+
+.hero h1 span{
+
+    color:#647bc0;
+
+}
+
+.hero p{
+
+    max-width:520px;
+
+    color:#566d82;
+
+    font-size:16px;
+
+    line-height:1.8;
+
+    margin-bottom:30px;
+}
+
+
+/* START BUTTON */
+
+.start-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 28px;
+
+    border-radius:30px;
+
+    background:#5066a5;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    box-shadow:
+        0 10px 22px rgba(60,80,140,.25);
+
+    transition:.25s;
+}
+
+.start-btn:hover{
+
+    transform:translateY(-3px);
+
+    background:#405692;
+}
+
+
+/* =========================================
+   HERO PHOTO AREA
+========================================= */
+
+.hero-photos{
+
+    width:53%;
+
+    height:530px;
+
+    position:relative;
+}
+
+
+/* POLAROID */
+
+.polaroid{
+
+    position:absolute;
+
+    background:#fffdf8;
+
+    padding:11px 11px 42px;
+
+    box-shadow:
+        0 15px 30px rgba(38,58,90,.22);
+}
+
+.polaroid img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+.polaroid span{
+
+    position:absolute;
+
+    bottom:10px;
+
+    left:0;
+
+    right:0;
+
+    text-align:center;
+
+    font-family:"Pacifico",cursive;
+
+    font-size:14px;
+
+    color:#244665;
+}
+
+
+/* PHOTO 1 */
+
+.p1{
+
+    width:205px;
+    height:260px;
+
+    right:220px;
+    top:70px;
+
+    transform:rotate(-9deg);
+
+    z-index:3;
+}
+
+
+/* PHOTO 2 */
+
+.p2{
+
+    width:220px;
+    height:280px;
+
+    right:40px;
+    top:10px;
+
+    transform:rotate(8deg);
+
+    z-index:2;
+}
+
+
+/* PHOTO 3 */
+
+.p3{
+
+    width:215px;
+    height:270px;
+
+    right:125px;
+    bottom:0;
+
+    transform:rotate(-3deg);
+
+    z-index:5;
+}
+
+
+/* TAPE */
+
+.tape{
+
+    position:absolute;
+
+    width:75px;
+
+    height:24px;
+
+    top:-12px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        rotate(-3deg);
+
+    background:rgba(225,220,191,.85);
+
+}
+
+
+/* =========================================
+   CAMERA
+========================================= */
+
+.camera{
+
+    position:absolute;
+
+    left:70px;
+
+    bottom:45px;
+
+    width:100px;
+
+    height:70px;
+
+    background:#91afe7;
+
+    border:7px solid #24496c;
+
+    border-radius:19px;
+
+    transform:rotate(-8deg);
+
+    z-index:10;
+}
+
+.camera:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:35px;
+
+    height:35px;
+
+    border:6px solid #24496c;
+
+    border-radius:50%;
+
+    left:25px;
+
+    top:10px;
+}
+
+.camera:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:33px;
+
+    height:11px;
+
+    border-radius:5px;
+
+    background:#24496c;
+
+    top:-14px;
+
+    left:10px;
+}
+
+
+/* =========================================
+   DECORATIONS
+========================================= */
+
+.decor{
+
+    position:absolute;
+
+    z-index:8;
+}
+
+.flower1{
+
+    left:10px;
+
+    top:100px;
+
+    font-size:42px;
+}
+
+.flower2{
+
+    right:20px;
+
+    bottom:30px;
+
+    font-size:42px;
+}
+
+.butterfly{
+
+    right:25px;
+
+    top:115px;
+
+    font-size:38px;
+}
+
+.heart{
+
+    left:50%;
+
+    top:50px;
+
+    font-size:30px;
+
+    color:#294b75;
+}
+
+.star1{
+
+    right:48%;
+
+    bottom:60px;
+
+    color:#e2a528;
+
+    font-size:24px;
+}
+
+.star2{
+
+    right:8%;
+
+    top:100px;
+
+    color:#e2a528;
+
+    font-size:25px;
+}
+
+
+/* =========================================
+   FEATURES
+========================================= */
+
+section{
+    padding:90px 6%;
+}
+
+.section-title{
+
+    text-align:center;
+
+    font-family:"Pacifico",cursive;
+
+    color:#183d6b;
+
+    font-size:38px;
+
+    margin-bottom:10px;
+}
+
+.section-subtitle{
+
+    text-align:center;
+
+    color:#63778b;
+
+    margin-bottom:45px;
+}
+
+
+/* FEATURE GRID */
+
+.features{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:22px;
+}
+
+.feature-card{
+
+    background:#f9fbff;
+
+    padding:30px 20px;
+
+    text-align:center;
+
+    border-radius:18px;
+
+    border:1px solid #d5e1f1;
+
+    box-shadow:
+        0 8px 22px rgba(45,70,110,.08);
+
+    transition:.3s;
+}
+
+.feature-card:hover{
+
+    transform:translateY(-7px);
+
+}
+
+.feature-icon{
+
+    width:65px;
+
+    height:65px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:0 auto 17px;
+
+    border-radius:50%;
+
+    background:#dbe8ff;
+
+    font-size:30px;
+}
+
+.feature-card:nth-child(2)
+.feature-icon{
+
+    background:#f7d8e9;
+}
+
+.feature-card:nth-child(3)
+.feature-icon{
+
+    background:#dce8ff;
+}
+
+.feature-card:nth-child(4)
+.feature-icon{
+
+    background:#d8efe8;
+}
+
+.feature-card h3{
+
+    color:#183d68;
+
+    margin-bottom:9px;
+
+}
+
+.feature-card p{
+
+    color:#687b8d;
+
+    font-size:12px;
+
+    line-height:1.6;
+}
+
+
+/* =========================================
+   HOW IT WORKS
+========================================= */
+
+.how{
+
+    background:#dce8fa;
+}
+
+.steps{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    max-width:1000px;
+
+    margin:auto;
+
+    gap:25px;
+}
+
+.step{
+
+    text-align:center;
+}
+
+.step-number{
+
+    width:62px;
+
+    height:62px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:auto;
+
+    background:#5067a5;
+
+    color:white;
+
+    border-radius:50%;
+
+    font-size:20px;
+
+    font-weight:700;
+}
+
+.step h3{
+
+    margin-top:17px;
+
+    margin-bottom:8px;
+
+    color:#183d68;
+}
+
+.step p{
+
+    color:#677b8e;
+
+    font-size:12px;
+
+    line-height:1.6;
+}
+
+
+/* =========================================
+   ABOUT
+========================================= */
+
+.about{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:70px;
+}
+
+.about-image{
+
+    width:48%;
+}
+
+.about-image img{
+
+    width:100%;
+
+    height:360px;
+
+    object-fit:cover;
+
+    border:12px solid white;
+
+    box-shadow:
+        0 15px 30px rgba(40,60,90,.18);
+
+    transform:rotate(-3deg);
+}
+
+.about-text{
+
+    width:52%;
+}
+
+.about-text h2{
+
+    font-family:"Pacifico",cursive;
+
+    color:#183d68;
+
+    font-size:40px;
+
+    margin-bottom:18px;
+}
+
+.about-text p{
+
+    color:#62768a;
+
+    line-height:1.8;
+
+    margin-bottom:15px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer{
+
+    padding:28px 6%;
+
+    background:#243d68;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.footer-logo{
+
+    font-family:"Pacifico",cursive;
+
+    font-size:20px;
+}
+
+footer p{
+
+    font-size:11px;
+
+    opacity:.8;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:900px){
+
+    .nav-links{
+
+        gap:12px;
+    }
+
+    .hero{
+
+        flex-direction:column;
+
+        text-align:center;
+    }
+
+    .hero-content{
+
+        width:100%;
+    }
+
+    .hero-content p{
+
+        margin-left:auto;
+
+        margin-right:auto;
+    }
+
+    .hero-photos{
+
+        width:100%;
+    }
+
+    .features{
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .steps{
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .about{
+
+        flex-direction:column;
+    }
+
+    .about-image,
+    .about-text{
+
+        width:100%;
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .navbar{
+
+        padding:0 18px;
+    }
+
+    .nav-links{
+
+        display:none;
+    }
+
+    .logo{
+
+        font-size:20px;
+    }
+
+    .hero h1{
+
+        font-size:42px;
+    }
+
+    .hero p{
+
+        font-size:14px;
+    }
+
+    .features,
+    .steps{
+
+        grid-template-columns:1fr;
+    }
+
+    .hero-photos{
+
+        transform:scale(.75);
+
+        margin-top:-50px;
+    }
+
+    footer{
+
+        flex-direction:column;
+
+        gap:10px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     NAVBAR
+=========================================== -->
+
+<header class="navbar">
+
+
+    <a href="home.html" class="logo">
+
+        <span class="logo-camera">
+            📷
+        </span>
+
+        <span>
+            Snap Bridge
+        </span>
+
+        <span class="logo-star">
+            ✦
+        </span>
+
+    </a>
+
+
+    <nav class="nav-links">
+
+        <a href="#home">
+            Home
+        </a>
+
+        <a href="#features">
+            Features
+        </a>
+
+        <a href="#how">
+            How It Works
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+    </nav>
+
+
+    <div class="nav-buttons">
+
+        <a
+            href="index.html"
+            class="login-btn">
+
+            Login
+
+        </a>
+
+
+        <a
+            href="signup.html"
+            class="signup-btn">
+
+            Sign Up
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- ==========================================
+     HOME
+=========================================== -->
+
+<section
+    class="hero"
+    id="home">
+
+
+    <div class="hero-content">
+
+
+        <div class="small-title">
+
+            ✨ Your memories, your way
+
+        </div>
+
+
+        <h1>
+
+            Capture moments,<br>
+
+            <span>
+                bridge the memories.
+            </span>
+
+        </h1>
+
+
+        <p>
+
+            Snap Bridge is your fun online photo booth
+            where friends can capture amazing moments,
+            add cute stickers, choose creative templates,
+            and save memories together. 📸
+
+        </p>
+        <a
+            href="booth.html"
+            class="start-btn">
+
+            Start Booth
+
+            <span>
+                →
+            </span>
+
+        </a>
+
+    </div>
+
+
+
+    <!-- PHOTOS -->
+
+    <div class="hero-photos">
+
+
+        <div class="polaroid p1">
+
+            <div class="tape"></div>
+
+            <img
+            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=500&q=85"
+            alt="Friends">
+
+            <span>
+                Besties ♡
+            </span>
+
+        </div>
+
+
+        <div class="polaroid p2">
+
+            <div class="tape"></div>
+
+            <img
+            src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=500&q=85"
+            alt="Friends together">
+
+            <span>
+                Good Vibes ✨
+            </span>
+
+        </div>
+
+
+        <div class="polaroid p3">
+
+            <div class="tape"></div>
+
+            <img
+            src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=500&q=85"
+            alt="Friends taking photos">
+
+            <span>
+                Memories 💙
+            </span>
+
+        </div>
+
+
+        <!-- CAMERA -->
+
+        <div class="camera"></div>
+
+
+        <!-- DECORATIONS -->
+
+        <div class="decor flower1">
+            🌼
+        </div>
+
+        <div class="decor flower2">
+            🌸
+        </div>
+
+        <div class="decor butterfly">
+            🦋
+        </div>
+
+        <div class="decor heart">
+            ♡
+        </div>
+
+        <div class="decor star1">
+            ✦
+        </div>
+
+        <div class="decor star2">
+            ✧
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     FEATURES
+=========================================== -->
+
+<section id="features">
+
+
+    <h2 class="section-title">
+        Everything You Need ✨
+    </h2>
+
+
+    <p class="section-subtitle">
+        Turn simple photos into beautiful memories.
+    </p>
+
+
+    <div class="features">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📸
+            </div>
+
+            <h3>
+                Photo Booth
+            </h3>
+
+            <p>
+                Take fun photos with your friends
+                using your camera.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                💖
+            </div>
+
+            <h3>
+                Cute Stickers
+            </h3>
+
+            <p>
+                Add hearts, flowers, butterflies,
+                emojis and more.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🖼️
+            </div>
+
+            <h3>
+                Creative Templates
+            </h3>
+
+            <p>
+                Choose Polaroid, collage,
+                film strip and more layouts.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ☁️
+            </div>
+
+            <h3>
+                Save & Share
+            </h3>
+
+            <p>
+                Download, print and share
+                your favourite memories.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     HOW IT WORKS
+=========================================== -->
+
+<section
+    class="how"
+    id="how">
+
+
+    <h2 class="section-title">
+        How It Works 📷
+    </h2>
+
+
+    <p class="section-subtitle">
+        Four simple steps to create your memory.
+    </p>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <h3>
+                Join
+            </h3>
+
+            <p>
+                Login or create your
+                Snap Bridge account.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <h3>
+                Capture
+            </h3>
+
+            <p>
+                Take photos with your
+                friends.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <h3>
+                Customize
+            </h3>
+
+            <p>
+                Add filters, frames,
+                stickers and text.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                4
+            </div>
+
+            <h3>
+                Save
+            </h3>
+
+            <p>
+                Download, print or
+                share your memories.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     ABOUT
+=========================================== -->
+
+<section id="about">
+
+
+    <div class="about">
+
+
+        <div class="about-image">
+
+            <img
+            src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=85"
+            alt="Friends">
+
+        </div>
+
+
+        <div class="about-text">
+
+            <h2>
+                About Snap Bridge ♡
+            </h2>
+
+
+            <p>
+
+                Snap Bridge is an online photo booth
+                designed to make capturing memories
+                more fun and creative.
+
+            </p>
+
+
+            <p>
+
+                Whether you're with your friends,
+                celebrating an event, or simply want
+                to create something cute, Snap Bridge
+                lets you turn ordinary pictures into
+                memorable keepsakes.
+
+            </p>
+
+
+            <p>
+
+                📸 Capture &nbsp;
+                ✨ Customize &nbsp;
+                💖 Create &nbsp;
+                🌸 Remember
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     FOOTER
+=========================================== -->
+
+<footer>
+
+
+    <div class="footer-logo">
+
+        📷 Snap Bridge ✦
+
+    </div>
+
+
+    <p>
+
+        Capture moments • Bridge the memories
+
+    </p>
+</footer>
+</body>
+</html>

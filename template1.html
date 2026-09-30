@@ -1,0 +1,3347 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Snap Bridge | Templates</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:"DM Sans",sans-serif;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 10% 10%,#c8d3ff,transparent 25%),
+        radial-gradient(circle at 90% 20%,#f2c9ed,transparent 25%),
+        linear-gradient(135deg,#f4f6ff,#eeeaff,#f7f2ff);
+    color:#202b61;
+}
+
+.navbar{
+    height:75px;
+    padding:0 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#ffffffc9;
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid #ffffff;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:Pacifico,cursive;
+    font-size:25px;
+    color:#35447e;
+}
+
+.logo b{
+    color:#8b6bd1;
+}
+
+nav{
+    display:flex;
+    gap:25px;
+}
+
+nav a{
+    text-decoration:none;
+    color:#68749b;
+    font-size:14px;
+    font-weight:600;
+}
+
+nav a:hover,
+nav a.active{
+    color:#6958ba;
+}
+
+.profile{
+    border:0;
+    background:#eeeaff;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.hero{
+    text-align:center;
+    padding:55px 20px 35px;
+}
+
+.small-title{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:2px;
+    color:#8071be;
+}
+
+.hero h1{
+    font-size:45px;
+    margin-top:12px;
+}
+
+.hero h1 span{
+    color:#8065c9;
+}
+
+.hero p{
+    max-width:650px;
+    margin:12px auto;
+    color:#7580a1;
+    line-height:1.7;
+}
+
+.categories{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:0 20px 35px;
+}
+
+.category{
+    border:1px solid #ccd2ed;
+    background:#ffffffb8;
+    color:#59668e;
+    padding:9px 17px;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.category.active{
+    background:linear-gradient(90deg,#6172c9,#8968cb);
+    color:white;
+    border-color:transparent;
+}
+
+.templates{
+    width:94%;
+    max-width:1450px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(8,1fr);
+    gap:18px;
+}
+
+.template-card{
+    cursor:pointer;
+    transition:.3s;
+    text-align:center;
+    position:relative;
+}
+
+.template-card:hover{
+    transform:translateY(-7px);
+}
+
+.template-card.selected .template{
+    box-shadow:
+        0 0 0 4px #6677cf,
+        0 15px 35px #6572a855;
+}
+
+.selected{
+    position:absolute;
+    right:-5px;
+    top:-8px;
+    z-index:5;
+    background:#6677cf;
+    color:white;
+    border:3px solid white;
+    border-radius:20px;
+    padding:4px 8px;
+    font-size:8px;
+    font-weight:bold;
+    display:none;
+}
+
+.template-card.selected .selected{
+    display:block;
+}
+
+.template{
+    position:relative;
+    aspect-ratio:.48/1;
+    min-height:390px;
+    padding:12px 9px;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 10px 25px #58668d25;
+}
+
+.photo{
+    height:18%;
+    margin-bottom:7px;
+    background:linear-gradient(135deg,#fff,#e5e9f3);
+    border:3px solid white;
+    position:relative;
+}
+
+.sticker{
+    position:absolute;
+    z-index:3;
+    font-size:21px;
+    animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0) rotate(-4deg)}
+    50%{transform:translateY(-5px) rotate(5deg)}
+}
+
+.template-name{
+    position:absolute;
+    left:10px;
+    right:10px;
+    bottom:12px;
+    padding:8px;
+    border-radius:20px;
+    background:#ffffffd9;
+    font-family:Pacifico,cursive;
+    font-size:11px;
+}
+
+.lavender{
+    background:linear-gradient(160deg,#e8edff,#c5d0ff,#ddd0f7);
+    border:2px solid #aebaea;
+}
+
+.purple{
+    background:linear-gradient(160deg,#ddd7ff,#aaa1db,#867ab8);
+}
+
+.floral{
+    background:linear-gradient(145deg,#fffdf4,#f5ebcf);
+    border:2px solid #d7c49a;
+}
+
+.pink{
+    background:repeating-linear-gradient(45deg,#fff1f8 0 12px,#f8e0ef 12px 24px);
+    border:2px solid #deb5d1;
+}
+
+.mint{
+    background:linear-gradient(145deg,#effdfa,#cbeee5,#dce8ff);
+}
+
+.rainbow{
+    background:linear-gradient(145deg,#dcecff,#eadcff,#ffe2ed,#d8f5ec);
+}
+
+.film{
+    background:linear-gradient(#f8f9fc,#dfe4ef);
+    border:2px solid #aab3ca;
+}
+
+.film .photo{
+    border:7px solid #313b60;
+}
+
+.butterfly{
+    background:linear-gradient(145deg,#edf3ff,#ddd5f7,#d8f1eb);
+}
+
+.scrapbook{
+    background:#f6eed9;
+    border:2px solid #cfb989;
+}
+
+.bow{
+    background:linear-gradient(145deg,#fff3fa,#f4d8ef,#e8dcff);
+}
+
+.ocean{
+    background:linear-gradient(160deg,#d8f3ff,#9fd3e9,#b8c7ee);
+}
+
+.candy{
+    background:repeating-linear-gradient(135deg,#ffe5ef 0 15px,#e7dcff 15px 30px,#d9f4ef 30px 45px);
+}
+
+.royal{
+    background:linear-gradient(145deg,#aeb9eb,#737fbf,#59639f);
+    border:2px solid #eee0a7;
+}
+
+.night{
+    background:linear-gradient(160deg,#707fc1,#8172b5,#a48bc7);
+}
+
+.template-title{
+    margin-top:8px;
+    font-size:11px;
+    font-weight:700;
+}
+
+.template-description{
+    margin-top:3px;
+    color:#7b86a4;
+    font-size:8px;
+}
+
+.bottom{
+    text-align:center;
+    margin:45px 0 70px;
+}
+
+.use-button{
+    border:0;
+    padding:15px 35px;
+    border-radius:30px;
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    background:linear-gradient(90deg,#5c70c7,#8867ca,#519c96);
+    box-shadow:0 10px 25px #596bb344;
+}
+
+.message{
+    margin-top:12px;
+    color:#6675a5;
+    font-size:13px;
+}
+
+@media(max-width:1200px){
+    .templates{
+        grid-template-columns:repeat(6,1fr);
+    }
+}
+
+@media(max-width:900px){
+    .templates{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    nav{
+        gap:12px;
+    }
+}
+
+@media(max-width:600px){
+
+    .navbar{
+        height:auto;
+        padding:15px;
+        flex-wrap:wrap;
+        gap:12px;
+    }
+
+    nav{
+        order:3;
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    .templates{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .template{
+        min-height:350px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        📷 Snap Bridge <b>✦</b>
+    </div>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="booth.html">Booth</a>
+        <a href="template.html" class="active">Templates</a>
+        <a href="frames.html">Frames</a>
+        <a href="filters.html">Filters</a>
+        <a href="stickers.html">Stickers</a>
+        <a href="customize.html">Customize</a>
+    </nav>
+
+    <button class="profile">♡</button>
+
+</header>
+
+
+<section class="hero">
+
+    <span class="small-title">
+        SNAP BRIDGE ✦ PHOTO STUDIO
+    </span>
+
+    <h1>
+        Choose Your <span>Style</span>
+    </h1>
+
+    <p>
+        Pick a beautiful template for your photo booth.
+        Your selected template will automatically be used in Frames.
+    </p>
+
+</section>
+
+
+<div class="categories">
+
+    <button class="category active"
+            onclick="filterTemplates('all',this)">
+        ✨ All
+    </button>
+
+    <button class="category"
+            onclick="filterTemplates('cute',this)">
+        🎀 Cute
+    </button>
+
+    <button class="category"
+            onclick="filterTemplates('floral',this)">
+        🌸 Floral
+    </button>
+
+    <button class="category"
+            onclick="filterTemplates('lavender',this)">
+        💜 Lavender
+    </button>
+
+    <button class="category"
+            onclick="filterTemplates('classic',this)">
+        📸 Classic
+    </button>
+
+    <button class="category"
+            onclick="filterTemplates('fun',this)">
+        🌈 Fun
+    </button>
+
+</div>
+
+
+<div class="templates">
+
+
+<!-- 1 -->
+
+<div class="template-card"
+     data-category="lavender"
+     data-template="Lavender Cloud"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template lavender">
+
+        <span class="sticker" style="top:5px;left:2px">☁️</span>
+        <span class="sticker" style="top:5px;right:2px">💜</span>
+        <span class="sticker" style="top:23%;right:2px">⭐</span>
+        <span class="sticker" style="top:45%;left:2px">🦋</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Lavender Cloud</div>
+
+    </div>
+
+    <div class="template-title">💜 Lavender Cloud</div>
+    <div class="template-description">Cloud • Butterfly • Hearts</div>
+
+</div>
+
+
+<!-- 2 -->
+
+<div class="template-card"
+     data-category="lavender"
+     data-template="Dreamy Purple"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template purple">
+
+        <span class="sticker" style="top:5px;left:2px">🌙</span>
+        <span class="sticker" style="top:5px;right:2px">⭐</span>
+        <span class="sticker" style="top:23%;right:2px">💫</span>
+        <span class="sticker" style="top:45%;left:2px">💜</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Dreamy Purple</div>
+
+    </div>
+
+    <div class="template-title">🌙 Dreamy Purple</div>
+    <div class="template-description">Moon • Stars • Dream</div>
+
+</div>
+
+
+<!-- 3 -->
+
+<div class="template-card"
+     data-category="floral"
+     data-template="Floral Garden"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template floral">
+
+        <span class="sticker" style="top:5px;left:2px">🌼</span>
+        <span class="sticker" style="top:5px;right:2px">🌿</span>
+        <span class="sticker" style="top:23%;left:2px">🌸</span>
+        <span class="sticker" style="top:45%;right:2px">🌷</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Floral Garden</div>
+
+    </div>
+
+    <div class="template-title">🌸 Floral Garden</div>
+    <div class="template-description">Flowers • Nature • Soft</div>
+
+</div>
+
+
+<!-- 4 -->
+
+<div class="template-card"
+     data-category="cute"
+     data-template="Cute Pink"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template pink">
+
+        <span class="sticker" style="top:5px;left:2px">🎀</span>
+        <span class="sticker" style="top:5px;right:2px">💗</span>
+        <span class="sticker" style="top:23%;right:2px">💕</span>
+        <span class="sticker" style="top:45%;left:2px">🐰</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Cute Pink</div>
+
+    </div>
+
+    <div class="template-title">🎀 Cute Pink</div>
+    <div class="template-description">Bow • Bunny • Hearts</div>
+
+</div>
+
+
+<!-- 5 -->
+
+<div class="template-card"
+     data-category="floral"
+     data-template="Mint Garden"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template mint">
+
+        <span class="sticker" style="top:5px;left:2px">🌿</span>
+        <span class="sticker" style="top:5px;right:2px">🌈</span>
+        <span class="sticker" style="top:23%;right:2px">🌼</span>
+        <span class="sticker" style="top:45%;left:2px">🦋</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Mint Garden</div>
+
+    </div>
+
+    <div class="template-title">🌿 Mint Garden</div>
+    <div class="template-description">Mint • Flowers • Rainbow</div>
+
+</div>
+
+
+<!-- 6 -->
+
+<div class="template-card"
+     data-category="fun"
+     data-template="Rainbow Party"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template rainbow">
+
+        <span class="sticker" style="top:5px;left:2px">🌈</span>
+        <span class="sticker" style="top:5px;right:2px">☀️</span>
+        <span class="sticker" style="top:23%;right:2px">⭐</span>
+        <span class="sticker" style="top:45%;left:2px">🦋</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Rainbow Party</div>
+
+    </div>
+
+    <div class="template-title">🌈 Rainbow Party</div>
+    <div class="template-description">Rainbow • Happy • Fun</div>
+
+</div>
+
+
+<!-- 7 -->
+
+<div class="template-card"
+     data-category="classic"
+     data-template="Classic Film"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template film">
+
+        <span class="sticker" style="top:5px;left:2px">📷</span>
+        <span class="sticker" style="top:5px;right:2px">✨</span>
+        <span class="sticker" style="top:23%;right:2px">🎞️</span>
+        <span class="sticker" style="top:45%;left:2px">⭐</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Classic Film</div>
+
+    </div>
+
+    <div class="template-title">🎞️ Classic Film</div>
+    <div class="template-description">Camera • Film • Retro</div>
+
+</div>
+
+
+<!-- 8 -->
+
+<div class="template-card"
+     data-category="cute"
+     data-template="Butterfly Garden"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template butterfly">
+
+        <span class="sticker" style="top:5px;left:2px">🦋</span>
+        <span class="sticker" style="top:5px;right:2px">🌸</span>
+        <span class="sticker" style="top:23%;right:2px">💜</span>
+        <span class="sticker" style="top:45%;left:2px">🌷</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Butterfly Garden</div>
+
+    </div>
+
+    <div class="template-title">🦋 Butterfly Garden</div>
+    <div class="template-description">Butterfly • Flowers</div>
+
+</div>
+
+
+<!-- 9 -->
+
+<div class="template-card"
+     data-category="classic"
+     data-template="Cute Scrapbook"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template scrapbook">
+
+        <span class="sticker" style="top:8px;right:2px">🌼</span>
+        <span class="sticker" style="top:45%;left:2px">📌</span>
+        <span class="sticker" style="top:68%;right:2px">💕</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Cute Scrapbook</div>
+
+    </div>
+
+    <div class="template-title">📒 Cute Scrapbook</div>
+    <div class="template-description">Tape • Notes • Memories</div>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="template-card"
+     data-category="cute"
+     data-template="Bow Hearts"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template bow">
+
+        <span class="sticker" style="top:5px;left:2px">🎀</span>
+        <span class="sticker" style="top:5px;right:2px">💖</span>
+        <span class="sticker" style="top:23%;right:2px">🎀</span>
+        <span class="sticker" style="top:45%;left:2px">💕</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Bow Hearts</div>
+
+    </div>
+
+    <div class="template-title">🎀 Bow & Hearts</div>
+    <div class="template-description">Bows • Hearts • Pink</div>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="template-card"
+     data-category="fun"
+     data-template="Ocean Breeze"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template ocean">
+
+        <span class="sticker" style="top:5px;left:2px">🌊</span>
+        <span class="sticker" style="top:5px;right:2px">🐚</span>
+        <span class="sticker" style="top:23%;right:2px">🐬</span>
+        <span class="sticker" style="top:45%;left:2px">⭐</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Ocean Breeze</div>
+
+    </div>
+
+    <div class="template-title">🌊 Ocean Breeze</div>
+    <div class="template-description">Sea • Shell • Dolphin</div>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="template-card"
+     data-category="cute"
+     data-template="Candy Pop"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template candy">
+
+        <span class="sticker" style="top:5px;left:2px">🍭</span>
+        <span class="sticker" style="top:5px;right:2px">🍬</span>
+        <span class="sticker" style="top:23%;right:2px">🧁</span>
+        <span class="sticker" style="top:45%;left:2px">🍓</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Candy Pop</div>
+
+    </div>
+
+    <div class="template-title">🍭 Candy Pop</div>
+    <div class="template-description">Candy • Cupcake • Sweet</div>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="template-card"
+     data-category="classic"
+     data-template="Royal Memories"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template royal">
+
+        <span class="sticker" style="top:5px;left:2px">👑</span>
+        <span class="sticker" style="top:5px;right:2px">⭐</span>
+        <span class="sticker" style="top:23%;right:2px">✨</span>
+        <span class="sticker" style="top:45%;left:2px">👑</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Royal Memories</div>
+
+    </div>
+
+    <div class="template-title">👑 Royal Memories</div>
+    <div class="template-description">Crown • Gold • Luxury</div>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="template-card"
+     data-category="cute"
+     data-template="Kitty Friends"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template pink">
+
+        <span class="sticker" style="top:5px;left:2px">🐱</span>
+        <span class="sticker" style="top:5px;right:2px">🎀</span>
+        <span class="sticker" style="top:23%;right:2px">💜</span>
+        <span class="sticker" style="top:45%;left:2px">🐰</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Kitty Friends</div>
+
+    </div>
+
+    <div class="template-title">🐱 Kitty Friends</div>
+    <div class="template-description">Cat • Bunny • Bow</div>
+
+</div>
+
+
+<!-- 15 -->
+
+<div class="template-card"
+     data-category="classic"
+     data-template="Pastel Polaroid"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template rainbow">
+
+        <span class="sticker" style="top:5px;left:2px">📸</span>
+        <span class="sticker" style="top:5px;right:2px">✨</span>
+        <span class="sticker" style="top:23%;right:2px">🌸</span>
+        <span class="sticker" style="top:45%;left:2px">💕</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Pastel Polaroid</div>
+
+    </div>
+
+    <div class="template-title">📷 Pastel Polaroid</div>
+    <div class="template-description">Polaroid • Flowers • Camera</div>
+
+</div>
+
+
+<!-- 16 -->
+
+<div class="template-card"
+     data-category="lavender"
+     data-template="Pastel Night"
+     onclick="selectTemplate(this)">
+
+    <span class="selected">✓ SELECTED</span>
+
+    <div class="template night">
+
+        <span class="sticker" style="top:5px;left:2px">🌙</span>
+        <span class="sticker" style="top:5px;right:2px">⭐</span>
+        <span class="sticker" style="top:23%;right:2px">💜</span>
+        <span class="sticker" style="top:45%;left:2px">✨</span>
+
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+        <div class="photo"></div>
+
+        <div class="template-name">Pastel Night</div>
+
+    </div>
+
+    <div class="template-title">🌙 Pastel Night</div>
+    <div class="template-description">Moon • Stars • Lavender</div>
+
+</div>
+
+</div>
+
+
+<div class="bottom">
+
+    <button class="use-button"
+            onclick="useSelectedTemplate()">
+
+        📸 Use Selected Template →
+    </button>
+
+    <div class="message" id="message">
+        ✨ Select your favourite template
+    </div>
+
+</div>
+
+
+<script>
+
+let selectedTemplate =
+    localStorage.getItem("snapBridgeTemplate") || "";
+
+
+/* SELECT */
+
+function selectTemplate(card){
+
+    document
+        .querySelectorAll(".template-card")
+        .forEach(item =>
+            item.classList.remove("selected")
+        );
+
+    card.classList.add("selected");
+
+    selectedTemplate =
+        card.dataset.template;
+
+    localStorage.setItem(
+        "snapBridgeTemplate",
+        selectedTemplate
+    );
+
+    document.getElementById("message")
+        .textContent =
+        "💜 " +
+        selectedTemplate +
+        " selected!";
+}
+
+
+/* USE */
+
+function useSelectedTemplate(){
+
+    if(!selectedTemplate){
+
+        document.getElementById("message")
+            .textContent =
+            "💜 Please select a template first.";
+
+        return;
+    }
+
+    localStorage.setItem(
+        "snapBridgeTemplate",
+        selectedTemplate
+    );
+
+    window.location.href =
+        "frames.html";
+}
+
+
+/* FILTER */
+
+function filterTemplates(category,button){
+
+    document
+        .querySelectorAll(".category")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+    document
+        .querySelectorAll(".template-card")
+        .forEach(card => {
+
+            if(
+                category === "all" ||
+                card.dataset.category === category
+            ){
+
+                card.style.display = "";
+
+            }else{
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+}
+
+
+/* LOAD SAVED TEMPLATE */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        if(!selectedTemplate){
+            return;
+        }
+
+        document
+            .querySelectorAll(".template-card")
+            .forEach(card => {
+
+                if(
+                    card.dataset.template ===
+                    selectedTemplate
+                ){
+
+                    card.classList.add(
+                        "selected"
+                    );
+
+                    document.getElementById(
+                        "message"
+                    ).textContent =
+                        "💜 " +
+                        selectedTemplate +
+                        " is selected.";
+
+                }
+
+            });
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+```
+
+### 2. `frames.html`
+
+This version reads the template selected in `template.html` and applies it automatically.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Snap Bridge | Photo Frames</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap"
+      rel="stylesheet">
+
+
+<style>
+
+/* ================= RESET ================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+
+    font-family:"DM Sans",sans-serif;
+
+    min-height:100vh;
+
+    color:#26356d;
+
+    background:
+
+        radial-gradient(
+            circle at 10% 10%,
+            #cbd5ff,
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 90% 15%,
+            #f0c8ea,
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #f4f6ff,
+            #eeeaff,
+            #f8f2ff
+        );
+}
+
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+
+    height:75px;
+
+    padding:0 5%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    background:#ffffffc9;
+
+    backdrop-filter:blur(15px);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:100;
+
+    border-bottom:1px solid white;
+}
+
+.logo{
+
+    font-family:Pacifico,cursive;
+
+    font-size:25px;
+
+    color:#35447e;
+}
+
+.logo b{
+    color:#8066ca;
+}
+
+nav{
+
+    display:flex;
+
+    gap:24px;
+}
+
+nav a{
+
+    text-decoration:none;
+
+    color:#6c789c;
+
+    font-size:14px;
+
+    font-weight:600;
+}
+
+nav a:hover,
+nav a.active{
+
+    color:#6658b8;
+}
+
+.profile{
+
+    border:0;
+
+    background:#eeeaff;
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+
+/* ================= HERO ================= */
+
+.hero{
+
+    text-align:center;
+
+    padding:48px 20px 25px;
+}
+
+.small-title{
+
+    font-size:11px;
+
+    letter-spacing:2px;
+
+    font-weight:700;
+
+    color:#806fbe;
+}
+
+.hero h1{
+
+    font-size:42px;
+
+    margin-top:10px;
+}
+
+.hero h1 span{
+
+    color:#8064ca;
+}
+
+.hero p{
+
+    max-width:650px;
+
+    margin:12px auto;
+
+    color:#7480a3;
+
+    line-height:1.7;
+}
+
+
+/* ================= WORKSPACE ================= */
+
+.workspace{
+
+    width:94%;
+
+    max-width:1350px;
+
+    margin:25px auto 70px;
+
+    display:grid;
+
+    grid-template-columns:330px 1fr;
+
+    gap:25px;
+}
+
+
+/* ================= CONTROLS ================= */
+
+.controls{
+
+    background:#ffffffd9;
+
+    border:1px solid white;
+
+    border-radius:25px;
+
+    padding:25px;
+
+    box-shadow:0 12px 35px #52618d20;
+
+    height:max-content;
+}
+
+.panel-title h2{
+
+    font-size:21px;
+}
+
+.panel-title p{
+
+    color:#7a85a5;
+
+    font-size:12px;
+
+    margin-top:5px;
+}
+
+
+/* ================= LAYOUT GRID ================= */
+
+.layout-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:10px;
+
+    margin-top:20px;
+}
+
+.layout-card{
+
+    background:#f5f6ff;
+
+    border:2px solid transparent;
+
+    border-radius:16px;
+
+    padding:14px 8px;
+
+    cursor:pointer;
+
+    color:#445486;
+
+    transition:.2s;
+}
+
+.layout-card:hover{
+
+    transform:translateY(-2px);
+}
+
+.layout-card.active{
+
+    border-color:#6d73c7;
+
+    background:#eeebff;
+}
+
+.layout-card strong{
+
+    display:block;
+
+    margin-top:8px;
+
+    font-size:13px;
+}
+
+.layout-card small{
+
+    color:#8791ae;
+
+    font-size:10px;
+}
+
+
+/* ================= MINI GRID ================= */
+
+.mini-grid{
+
+    width:50px;
+
+    height:50px;
+
+    margin:auto;
+
+    display:grid;
+
+    gap:3px;
+}
+
+.mini-grid i{
+
+    display:block;
+
+    background:#ccd3ee;
+
+    border-radius:3px;
+}
+
+.grid-1{
+    grid-template-columns:1fr;
+}
+
+.grid-2{
+    grid-template-columns:1fr 1fr;
+}
+
+.grid-3{
+    grid-template-columns:repeat(3,1fr);
+}
+
+.grid-4{
+    grid-template-columns:repeat(4,1fr);
+}
+
+
+/* ================= ACTIONS ================= */
+
+.actions{
+
+    display:grid;
+
+    gap:9px;
+
+    margin-top:22px;
+}
+
+.actions button{
+
+    border:0;
+
+    border-radius:13px;
+
+    padding:12px;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+    font-weight:600;
+}
+
+.camera-btn{
+
+    background:#6576ca;
+
+    color:white;
+}
+
+.upload-btn{
+
+    background:#eeeaff;
+
+    color:#5f62a8;
+}
+
+.clear-btn{
+
+    background:#fff0f3;
+
+    color:#bd6b7b;
+}
+
+
+/* ================= OPTIONS ================= */
+
+.options{
+
+    margin-top:25px;
+
+    border-top:1px solid #e1e4f1;
+
+    padding-top:20px;
+}
+
+.options h3{
+
+    font-size:15px;
+
+    margin-bottom:12px;
+}
+
+.style-buttons{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:7px;
+
+    margin-bottom:18px;
+}
+
+.style-option{
+
+    border:1px solid #d1d6eb;
+
+    background:#fafaff;
+
+    color:#606d96;
+
+    padding:7px 11px;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    font-size:11px;
+}
+
+.style-option.selected{
+
+    background:#6b73c5;
+
+    color:white;
+
+    border-color:#6b73c5;
+}
+
+.options label{
+
+    display:block;
+
+    font-size:11px;
+
+    color:#677393;
+
+    margin-top:15px;
+}
+
+.options input{
+
+    width:100%;
+
+    margin-top:7px;
+}
+
+
+/* ================= PREVIEW ================= */
+
+.preview-panel{
+
+    background:#ffffffd9;
+
+    border:1px solid white;
+
+    border-radius:25px;
+
+    padding:25px;
+
+    box-shadow:0 12px 35px #52618d20;
+
+    text-align:center;
+}
+
+.preview-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    text-align:left;
+
+    margin-bottom:20px;
+}
+
+.preview-top h2{
+
+    font-size:21px;
+}
+
+.preview-top p{
+
+    font-size:12px;
+
+    color:#7b86a6;
+
+    margin-top:4px;
+}
+
+.print-badge{
+
+    background:#e6f7f2;
+
+    color:#438f7d;
+
+    padding:7px 11px;
+
+    border-radius:20px;
+
+    font-size:9px;
+
+    font-weight:700;
+}
+
+
+/* ================= PHOTO FRAME ================= */
+
+.photo-frame{
+
+    width:min(430px,90%);
+
+    min-height:560px;
+
+    margin:auto;
+
+    padding:22px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:15px;
+
+    transition:.3s;
+}
+
+.photo-grid{
+
+    width:100%;
+
+    height:100%;
+
+    display:grid;
+
+    gap:8px;
+}
+
+
+/* ================= SLOTS ================= */
+
+.photo-slot{
+
+    position:relative;
+
+    min-height:90px;
+
+    overflow:hidden;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #f7f8fc,
+            #e1e5ef
+        );
+
+    border:4px solid white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#9ca6bf;
+
+    font-size:12px;
+}
+
+.photo-slot img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+}
+
+.slot-number{
+
+    position:absolute;
+
+    font-size:10px;
+
+    color:#8e98b1;
+}
+
+
+/* ================= TEMPLATE THEMES ================= */
+
+.photo-frame.lavender{
+
+    background:
+        linear-gradient(
+            160deg,
+            #e6ecff,
+            #c4d0ff,
+            #ded0f6
+        );
+
+    border:2px solid #a9b7ea;
+}
+
+.photo-frame.dreamy{
+
+    background:
+        linear-gradient(
+            160deg,
+            #ddd7ff,
+            #aaa0da,
+            #8277b5
+        );
+}
+
+.photo-frame.floral{
+
+    background:
+        linear-gradient(
+            145deg,
+            #fffdf3,
+            #f4e9c9
+        );
+
+    border:2px solid #d5c095;
+}
+
+.photo-frame.pink{
+
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #fff1f8 0 12px,
+            #f7deed 12px 24px
+        );
+
+    border:2px solid #dcaecc;
+}
+
+.photo-frame.mint{
+
+    background:
+        linear-gradient(
+            145deg,
+            #effdfa,
+            #c8eee5,
+            #dce7ff
+        );
+}
+
+.photo-frame.rainbow{
+
+    background:
+        linear-gradient(
+            145deg,
+            #dcecff,
+            #eadcff,
+            #ffe2ed,
+            #d8f5ec
+        );
+}
+
+.photo-frame.film{
+
+    background:
+        linear-gradient(
+            #f8f9fc,
+            #dfe4ef
+        );
+
+    border:10px solid #303a5f;
+}
+
+.photo-frame.film .photo-slot{
+
+    border:5px solid #202947;
+}
+
+.photo-frame.butterfly{
+
+    background:
+        linear-gradient(
+            145deg,
+            #edf3ff,
+            #ddd5f7,
+            #d8f1eb
+        );
+}
+
+.photo-frame.scrapbook{
+
+    background:#f6eed9;
+
+    border:9px solid #fff7e5;
+
+    box-shadow:
+        inset 0 0 0 2px #cfb989;
+}
+
+.photo-frame.bow{
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff3fa,
+            #f4d8ef,
+            #e8dcff
+        );
+}
+
+.photo-frame.ocean{
+
+    background:
+        linear-gradient(
+            160deg,
+            #d8f3ff,
+            #9fd3e9,
+            #b8c7ee
+        );
+}
+
+.photo-frame.candy{
+
+    background:
+        repeating-linear-gradient(
+            135deg,
+            #ffe5ef 0 15px,
+            #e7dcff 15px 30px,
+            #d9f4ef 30px 45px
+        );
+}
+
+.photo-frame.royal{
+
+    background:
+        linear-gradient(
+            145deg,
+            #aeb9eb,
+            #737fbf,
+            #59639f
+        );
+
+    border:3px solid #eee0a7;
+}
+
+.photo-frame.kitty{
+
+    background:
+        linear-gradient(
+            145deg,
+            #f2e8ff,
+            #eadcff,
+            #f8e7f4
+        );
+}
+
+.photo-frame.polaroid{
+
+    background:
+        linear-gradient(
+            145deg,
+            #e6efff,
+            #fff3fa
+        );
+}
+
+.photo-frame.night{
+
+    background:
+        linear-gradient(
+            160deg,
+            #707fc1,
+            #8172b5,
+            #a48bc7
+        );
+}
+
+
+/* ================= DECORATIONS ================= */
+
+.frame-decoration{
+
+    position:absolute;
+
+    z-index:10;
+
+    font-size:30px;
+
+    animation:float 3s ease-in-out infinite;
+}
+
+.decoration-one{
+
+    top:10px;
+
+    left:8px;
+}
+
+.decoration-two{
+
+    top:45%;
+
+    right:7px;
+}
+
+.decoration-three{
+
+    bottom:9px;
+
+    left:8px;
+}
+
+
+/* ================= PREVIEW BUTTONS ================= */
+
+.preview-actions{
+
+    margin-top:25px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+}
+
+.preview-actions button{
+
+    border:0;
+
+    padding:12px 22px;
+
+    border-radius:22px;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    color:#53618d;
+
+    background:#eef0ff;
+}
+
+.preview-actions button:first-child{
+
+    background:#6375c8;
+
+    color:white;
+}
+
+
+/* ================= CAMERA ================= */
+
+.camera-modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:1000;
+
+    background:#171a30cc;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.camera-box{
+
+    width:min(500px,100%);
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:25px;
+
+    text-align:center;
+
+    position:relative;
+}
+
+.close-camera{
+
+    position:absolute;
+
+    top:12px;
+
+    right:15px;
+
+    border:0;
+
+    background:#eee;
+
+    width:35px;
+
+    height:35px;
+
+    border-radius:50%;
+
+    font-size:22px;
+
+    cursor:pointer;
+}
+
+.camera-box p{
+
+    color:#7b86a5;
+
+    font-size:12px;
+
+    margin:5px 0 15px;
+}
+
+.camera-preview{
+
+    width:100%;
+
+    aspect-ratio:4/3;
+
+    background:#171a2d;
+
+    border-radius:18px;
+
+    overflow:hidden;
+}
+
+.camera-preview video{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+.camera-controls{
+
+    margin-top:18px;
+}
+
+.capture-button{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    border:6px solid #dfe2f1;
+
+    background:#6879cc;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:auto;
+}
+
+.capture-button span{
+
+    width:42px;
+
+    height:42px;
+
+    background:white;
+
+    border-radius:50%;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:950px){
+
+    .workspace{
+
+        grid-template-columns:1fr;
+    }
+
+    .controls{
+
+        order:2;
+    }
+
+    .preview-panel{
+
+        order:1;
+    }
+
+    nav{
+
+        gap:12px;
+    }
+}
+
+@media(max-width:600px){
+
+    .navbar{
+
+        height:auto;
+
+        padding:15px;
+
+        flex-wrap:wrap;
+
+        gap:10px;
+    }
+
+    nav{
+
+        order:3;
+
+        width:100%;
+
+        justify-content:center;
+
+        flex-wrap:wrap;
+    }
+
+    .hero h1{
+
+        font-size:30px;
+    }
+
+    .workspace{
+
+        width:95%;
+    }
+
+    .photo-frame{
+
+        min-height:500px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        📷 Snap Bridge <b>✦</b>
+    </div>
+
+    <nav>
+
+        <a href="home.html">
+            Home
+        </a>
+
+        <a href="booth.html">
+            Booth
+        </a>
+
+        <a href="template.html">
+            Templates
+        </a>
+
+        <a href="frames.html"
+           class="active">
+            Frames
+        </a>
+
+        <a href="filters.html">
+            Filters
+        </a>
+
+        <a href="stickers.html">
+            Stickers
+        </a>
+
+        <a href="customize.html">
+            Customize
+        </a>
+
+    </nav>
+
+    <button class="profile">
+        ♡
+    </button>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <span class="small-title">
+        SNAP BRIDGE ✦ PHOTO STUDIO
+    </span>
+
+    <h1>
+        Create Your
+        <span>Photo Frame</span>
+    </h1>
+
+    <p>
+        Choose a layout, take photos or upload images,
+        and create your printable memory frame.
+    </p>
+
+</section>
+
+
+<!-- ================= WORKSPACE ================= -->
+
+<section class="workspace">
+
+
+<!-- ================= LEFT CONTROLS ================= -->
+
+<aside class="controls">
+
+    <div class="panel-title">
+
+        <h2>
+            Choose Layout
+        </h2>
+
+        <p>
+            Select how many photos you want.
+        </p>
+
+    </div>
+
+
+    <div class="layout-grid">
+
+        <button
+            class="layout-card active"
+            onclick="changeLayout(1)">
+
+            <div class="mini-grid grid-1">
+                <i></i>
+            </div>
+
+            <strong>
+                1 × 1
+            </strong>
+
+            <small>
+                1 Photo
+            </small>
+
+        </button>
+
+
+        <button
+            class="layout-card"
+            onclick="changeLayout(2)">
+
+            <div class="mini-grid grid-2">
+
+                <i></i>
+                <i></i>
+                <i></i>
+                <i></i>
+
+            </div>
+
+            <strong>
+                2 × 2
+            </strong>
+
+            <small>
+                4 Photos
+            </small>
+
+        </button>
+
+
+        <button
+            class="layout-card"
+            onclick="changeLayout(3)">
+
+            <div class="mini-grid grid-3">
+
+                <i></i><i></i><i></i>
+                <i></i><i></i><i></i>
+                <i></i><i></i><i></i>
+
+            </div>
+
+            <strong>
+                3 × 3
+            </strong>
+
+            <small>
+                9 Photos
+            </small>
+
+        </button>
+
+
+        <button
+            class="layout-card"
+            onclick="changeLayout(4)">
+
+            <div class="mini-grid grid-4">
+
+                <i></i><i></i><i></i><i></i>
+                <i></i><i></i><i></i><i></i>
+                <i></i><i></i><i></i><i></i>
+                <i></i><i></i><i></i><i></i>
+
+            </div>
+
+            <strong>
+                4 × 4
+            </strong>
+
+            <small>
+                16 Photos
+            </small>
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= ACTIONS ================= -->
+
+    <div class="actions">
+
+        <button
+            class="camera-btn"
+            onclick="openCamera()">
+
+            📷 Take Photo
+
+        </button>
+
+
+        <button
+            class="upload-btn"
+            onclick="openUpload()">
+
+            🖼️ Upload Image
+
+        </button>
+
+
+        <button
+            class="clear-btn"
+            onclick="clearFrame()">
+
+            🗑️ Clear Frame
+
+        </button>
+
+    </div>
+
+
+    <!-- ================= FRAME STYLE ================= -->
+
+    <div class="options">
+
+        <h3>
+            Frame Style
+        </h3>
+
+
+        <div class="style-buttons">
+
+            <button
+                class="style-option selected"
+                onclick="changeFrameStyle('classic',this)">
+
+                Classic
+
+            </button>
+
+            <button
+                class="style-option"
+                onclick="changeFrameStyle('soft',this)">
+
+                Soft
+
+            </button>
+
+            <button
+                class="style-option"
+                onclick="changeFrameStyle('lavender',this)">
+
+                Lavender
+
+            </button>
+
+            <button
+                class="style-option"
+                onclick="changeFrameStyle('mint',this)">
+
+                Mint
+
+            </button>
+
+        </div>
+
+
+        <label>
+
+            Frame Spacing
+
+            <input
+                type="range"
+                id="spacing"
+                min="2"
+                max="20"
+                value="8"
+                oninput="changeSpacing()">
+
+        </label>
+
+
+        <label>
+
+            Corner Roundness
+
+            <input
+                type="range"
+                id="roundness"
+                min="0"
+                max="30"
+                value="10"
+                oninput="changeRoundness()">
+
+        </label>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= PREVIEW ================= -->
+
+<section class="preview-panel">
+
+    <div class="preview-top">
+
+        <div>
+
+            <h2>
+                Your Frame
+            </h2>
+
+            <p id="photoStatus">
+                0 / 1 photos added
+            </p>
+
+        </div>
+
+
+        <span class="print-badge">
+            PRINT READY
+        </span>
+
+    </div>
+
+
+    <div
+        id="photoFrame"
+        class="photo-frame">
+
+        <div
+            id="photoGrid"
+            class="photo-grid">
+
+        </div>
+
+
+        <div
+            class="frame-decoration decoration-one">
+
+            ✦
+
+        </div>
+
+
+        <div
+            class="frame-decoration decoration-two">
+
+            ♡
+
+        </div>
+
+
+        <div
+            class="frame-decoration decoration-three">
+
+            ✿
+
+        </div>
+
+    </div>
+
+
+    <div class="preview-actions">
+
+        <button onclick="printFrame()">
+
+            🖨 Print
+
+        </button>
+
+
+        <button onclick="downloadFrame()">
+
+            ↓ Save
+
+        </button>
+
+    </div>
+
+</section>
+
+</section>
+
+
+<!-- ================= UPLOAD ================= -->
+
+<input
+    type="file"
+    id="imageUpload"
+    accept="image/*"
+    hidden
+>
+
+
+<!-- ================= CAMERA ================= -->
+
+<div
+    id="cameraModal"
+    class="camera-modal">
+
+    <div class="camera-box">
+
+        <button
+            class="close-camera"
+            onclick="closeCamera()">
+
+            ×
+
+        </button>
+
+
+        <h2>
+            Take Your Photo 📸
+        </h2>
+
+        <p>
+            Position yourself inside the camera.
+        </p>
+
+
+        <div class="camera-preview">
+
+            <video
+                id="cameraVideo"
+                autoplay
+                playsinline>
+            </video>
+
+        </div>
+
+
+        <div class="camera-controls">
+
+            <button
+                class="capture-button"
+                onclick="capturePhoto()">
+
+                <span></span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentLayout = 1;
+
+let photos = [];
+
+let cameraStream = null;
+
+let currentStyle = "classic";
+
+let selectedTemplate =
+    localStorage.getItem(
+        "snapBridgeTemplate"
+    ) || "";
+
+
+/* =====================================================
+   TEMPLATE → FRAME STYLE
+===================================================== */
+
+const templateStyles = {
+
+    "Lavender Cloud":"lavender",
+
+    "Dreamy Purple":"dreamy",
+
+    "Floral Garden":"floral",
+
+    "Cute Pink":"pink",
+
+    "Mint Garden":"mint",
+
+    "Rainbow Party":"rainbow",
+
+    "Classic Film":"film",
+
+    "Butterfly Garden":"butterfly",
+
+    "Cute Scrapbook":"scrapbook",
+
+    "Bow Hearts":"bow",
+
+    "Ocean Breeze":"ocean",
+
+    "Candy Pop":"candy",
+
+    "Royal Memories":"royal",
+
+    "Kitty Friends":"kitty",
+
+    "Pastel Polaroid":"polaroid",
+
+    "Pastel Night":"night"
+
+};
+
+
+/* =====================================================
+   LAYOUT
+===================================================== */
+
+function changeLayout(size){
+
+    currentLayout = size;
+
+    photos = photos.slice(
+        0,
+        size * size
+    );
+
+    document
+        .querySelectorAll(".layout-card")
+        .forEach((card,index)=>{
+
+            card.classList.toggle(
+                "active",
+                index === size - 1
+            );
+
+        });
+
+    createPhotoSlots();
+
+}
+
+
+/* =====================================================
+   CREATE SLOTS
+===================================================== */
+
+function createPhotoSlots(){
+
+    const grid =
+        document.getElementById(
+            "photoGrid"
+        );
+
+    grid.innerHTML = "";
+
+    grid.style.gridTemplateColumns =
+        `repeat(${currentLayout},1fr)`;
+
+    grid.style.gridTemplateRows =
+        `repeat(${currentLayout},1fr)`;
+
+
+    const total =
+        currentLayout *
+        currentLayout;
+
+
+    for(let i=0;i<total;i++){
+
+        const slot =
+            document.createElement(
+                "div"
+            );
+
+        slot.className =
+            "photo-slot";
+
+
+        if(photos[i]){
+
+            const img =
+                document.createElement(
+                    "img"
+                );
+
+            img.src =
+                photos[i];
+
+            slot.appendChild(img);
+
+        }else{
+
+            const number =
+                document.createElement(
+                    "span"
+                );
+
+            number.className =
+                "slot-number";
+
+            number.textContent =
+                `Photo ${i+1}`;
+
+            slot.appendChild(number);
+
+        }
+
+
+        grid.appendChild(slot);
+
+    }
+
+
+    updateStatus();
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function updateStatus(){
+
+    const total =
+        currentLayout *
+        currentLayout;
+
+    document.getElementById(
+        "photoStatus"
+    ).textContent =
+        `${photos.length} / ${total} photos added`;
+
+}
+
+
+/* =====================================================
+   UPLOAD
+===================================================== */
+
+function openUpload(){
+
+    document
+        .getElementById(
+            "imageUpload"
+        )
+        .click();
+
+}
+
+
+document
+    .getElementById("imageUpload")
+    .addEventListener(
+        "change",
+        function(event){
+
+            const files =
+                Array.from(
+                    event.target.files
+                );
+
+            files.forEach(file => {
+
+                if(
+                    photos.length >=
+                    currentLayout *
+                    currentLayout
+                ){
+                    return;
+                }
+
+                const reader =
+                    new FileReader();
+
+                reader.onload =
+                    function(e){
+
+                        photos.push(
+                            e.target.result
+                        );
+
+                        createPhotoSlots();
+
+                    };
+
+                reader.readAsDataURL(file);
+
+            });
+
+            this.value = "";
+
+        }
+    );
+
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+async function openCamera(){
+
+    try{
+
+        cameraStream =
+            await navigator.mediaDevices
+                .getUserMedia({
+                    video:true,
+                    audio:false
+                });
+
+
+        document
+            .getElementById(
+                "cameraVideo"
+            ).srcObject =
+                cameraStream;
+
+
+        document
+            .getElementById(
+                "cameraModal"
+            ).style.display =
+                "flex";
+
+    }catch(error){
+
+        alert(
+            "Camera permission is required."
+        );
+
+    }
+
+}
+
+
+function closeCamera(){
+
+    document
+        .getElementById(
+            "cameraModal"
+        ).style.display =
+            "none";
+
+
+    if(cameraStream){
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track =>
+                track.stop()
+            );
+
+        cameraStream = null;
+
+    }
+
+}
+
+
+/* =====================================================
+   CAPTURE
+===================================================== */
+
+function capturePhoto(){
+
+    if(
+        photos.length >=
+        currentLayout *
+        currentLayout
+    ){
+
+        alert(
+            "All photo slots are filled."
+        );
+
+        closeCamera();
+
+        return;
+
+    }
+
+
+    const video =
+        document.getElementById(
+            "cameraVideo"
+        );
+
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    canvas.width =
+        video.videoWidth;
+
+    canvas.height =
+        video.videoHeight;
+
+
+    const context =
+        canvas.getContext("2d");
+
+
+    context.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    photos.push(
+        canvas.toDataURL(
+            "image/png"
+        )
+    );
+
+
+    createPhotoSlots();
+
+    closeCamera();
+
+}
+
+
+/* =====================================================
+   CLEAR
+===================================================== */
+
+function clearFrame(){
+
+    photos = [];
+
+    createPhotoSlots();
+
+}
+
+
+/* =====================================================
+   FRAME STYLE
+===================================================== */
+
+function changeFrameStyle(
+    style,
+    button
+){
+
+    currentStyle = style;
+
+    const frame =
+        document.getElementById(
+            "photoFrame"
+        );
+
+    frame.className =
+        "photo-frame";
+
+
+    if(style !== "classic"){
+
+        frame.classList.add(
+            style
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".style-option"
+        )
+        .forEach(
+            item =>
+            item.classList.remove(
+                "selected"
+            )
+        );
+
+
+    if(button){
+
+        button.classList.add(
+            "selected"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SPACING
+===================================================== */
+
+function changeSpacing(){
+
+    const value =
+        document.getElementById(
+            "spacing"
+        ).value;
+
+    document
+        .getElementById(
+            "photoGrid"
+        )
+        .style.gap =
+            value + "px";
+
+}
+
+
+/* =====================================================
+   ROUNDNESS
+===================================================== */
+
+function changeRoundness(){
+
+    const value =
+        document.getElementById(
+            "roundness"
+        ).value;
+
+    document
+        .querySelectorAll(
+            ".photo-slot"
+        )
+        .forEach(
+            slot =>
+            slot.style.borderRadius =
+                value + "px"
+        );
+
+}
+
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+function printFrame(){
+
+    window.print();
+
+}
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+function downloadFrame(){
+
+    const frame =
+        document.getElementById(
+            "photoFrame"
+        );
+
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    const width = 800;
+
+    const height =
+        Math.round(
+            frame.offsetHeight *
+            (width /
+            frame.offsetWidth)
+        );
+
+
+    canvas.width = width;
+
+    canvas.height = height;
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    ctx.fillStyle =
+        "#ffffff";
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    const background =
+        getComputedStyle(
+            frame
+        ).background;
+
+
+    ctx.fillStyle =
+        "#eeeaff";
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    /*
+       Draw the photos.
+       This creates a simple printable
+       saved version of the current frame.
+    */
+
+    const slots =
+        document.querySelectorAll(
+            ".photo-slot"
+        );
+
+
+    const frameRect =
+        frame.getBoundingClientRect();
+
+
+    slots.forEach(slot => {
+
+        const rect =
+            slot.getBoundingClientRect();
+
+        const x =
+            (
+                rect.left -
+                frameRect.left
+            )
+            *
+            width /
+            frameRect.width;
+
+        const y =
+            (
+                rect.top -
+                frameRect.top
+            )
+            *
+            height /
+            frameRect.height;
+
+        const w =
+            rect.width *
+            width /
+            frameRect.width;
+
+        const h =
+            rect.height *
+            height /
+            frameRect.height;
+
+
+        const img =
+            slot.querySelector(
+                "img"
+            );
+
+
+        if(img){
+
+            ctx.drawImage(
+                img,
+                x,
+                y,
+                w,
+                h
+            );
+
+        }
+
+    });
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+    link.download =
+        "snap-bridge-frame.png";
+
+    link.href =
+        canvas.toDataURL(
+            "image/png"
+        );
+
+    link.click();
+
+}
+
+
+/* =====================================================
+   LOAD TEMPLATE
+===================================================== */
+
+function loadSelectedTemplate(){
+
+    selectedTemplate =
+        localStorage.getItem(
+            "snapBridgeTemplate"
+        ) || "";
+
+
+    if(
+        !selectedTemplate
+    ){
+
+        createPhotoSlots();
+
+        return;
+
+    }
+
+
+    const style =
+        templateStyles[
+            selectedTemplate
+        ];
+
+
+    if(style){
+
+        currentStyle =
+            style;
+
+
+        const frame =
+            document.getElementById(
+                "photoFrame"
+            );
+
+        frame.className =
+            "photo-frame " +
+            style;
+
+    }
+
+
+    /*
+       Update the heading so the user knows
+       which template was selected.
+    */
+
+    document
+        .querySelector(
+            ".preview-top h2"
+        )
+        .textContent =
+        selectedTemplate;
+
+
+    createPhotoSlots();
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadSelectedTemplate();
+
+    }
+);
+
+</script>
+
+</body>
+</html>

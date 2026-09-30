@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Snap Bridge | Sign Up</title>
+
+
+<!-- GOOGLE FONTS -->
+
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap"
+      rel="stylesheet">
+
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body{
+
+    min-height:100vh;
+
+    font-family:"DM Sans",sans-serif;
+
+    overflow:hidden;
+
+    background:
+
+    radial-gradient(
+        circle at 5% 20%,
+        #bfe2d5 0 10%,
+        transparent 10.5%
+    ),
+
+    radial-gradient(
+        circle at 95% 75%,
+        #bfd8f2 0 13%,
+        transparent 13.5%
+    ),
+
+    linear-gradient(
+        135deg,
+        #cdece0,
+        #d7edf0,
+        #dce9fa
+    );
+
+    color:#173d5b;
+}
+
+
+/* =====================================================
+   PAGE
+===================================================== */
+
+.page{
+
+    width:100%;
+
+    height:100vh;
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+}
+
+
+/* =====================================================
+   SOFT BACKGROUND BLOBS
+===================================================== */
+
+.blob{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    opacity:.65;
+
+    z-index:0;
+}
+
+
+.blob1{
+
+    width:230px;
+    height:230px;
+
+    left:-100px;
+    top:100px;
+
+    background:#b6ded2;
+}
+
+
+.blob2{
+
+    width:200px;
+    height:200px;
+
+    right:-85px;
+    bottom:-40px;
+
+    background:#bdd3ef;
+}
+
+
+.blob3{
+
+    width:120px;
+    height:120px;
+
+    left:-50px;
+    bottom:10px;
+
+    background:#d7eee4;
+}
+
+
+/* =====================================================
+   DECORATIVE FLOWERS
+===================================================== */
+
+.flower{
+
+    position:absolute;
+
+    z-index:2;
+
+    font-size:32px;
+
+    user-select:none;
+}
+
+
+.flower1{
+
+    left:20px;
+    top:18px;
+
+    transform:rotate(-8deg);
+}
+
+
+.flower2{
+
+    left:35px;
+    bottom:45px;
+
+    font-size:27px;
+
+    transform:rotate(12deg);
+}
+
+
+.flower3{
+
+    right:28px;
+    bottom:75px;
+
+    font-size:25px;
+
+    transform:rotate(-15deg);
+}
+
+
+/* =====================================================
+   BUTTERFLIES
+===================================================== */
+
+.butterfly{
+
+    position:absolute;
+
+    z-index:2;
+
+    font-size:27px;
+
+    user-select:none;
+}
+
+
+.butterfly1{
+
+    left:85px;
+    top:65px;
+
+    transform:rotate(-15deg);
+}
+
+
+.butterfly2{
+
+    right:55px;
+    bottom:150px;
+
+    font-size:24px;
+
+    transform:rotate(15deg);
+}
+
+
+/* =====================================================
+   HEARTS
+===================================================== */
+
+.heart{
+
+    position:absolute;
+
+    color:#204b67;
+
+    font-size:29px;
+
+    z-index:2;
+}
+
+
+.heart1{
+
+    right:70px;
+    top:90px;
+}
+
+
+.heart2{
+
+    right:40px;
+    bottom:100px;
+
+    font-size:34px;
+}
+
+
+.heart3{
+
+    left:105px;
+    bottom:70px;
+
+    font-size:22px;
+}
+
+
+/* =====================================================
+   STARS
+===================================================== */
+
+.star{
+
+    position:absolute;
+
+    color:#315b75;
+
+    font-size:24px;
+
+    z-index:2;
+}
+
+
+.star1{
+
+    left:40px;
+    top:250px;
+}
+
+
+.star2{
+
+    right:65px;
+    top:280px;
+}
+
+
+.star3{
+
+    right:115px;
+    bottom:55px;
+
+    font-size:18px;
+}
+
+
+/* =====================================================
+   LEAVES
+===================================================== */
+
+.leaf{
+
+    position:absolute;
+
+    color:#579181;
+
+    font-size:38px;
+
+    z-index:2;
+}
+
+
+.leaf1{
+
+    left:25px;
+    bottom:105px;
+
+    transform:rotate(-25deg);
+}
+
+
+.leaf2{
+
+    right:35px;
+    top:330px;
+
+    transform:rotate(25deg);
+}
+
+
+/* =====================================================
+   PAPER PLANE
+===================================================== */
+
+.plane{
+
+    position:absolute;
+
+    left:60px;
+    top:125px;
+
+    color:#1e4c6b;
+
+    font-size:42px;
+
+    transform:rotate(-18deg);
+
+    z-index:3;
+}
+
+
+/* =====================================================
+   SMALL CAMERA DOODLE
+===================================================== */
+
+.camera-doodle{
+
+    position:absolute;
+
+    left:55px;
+    bottom:125px;
+
+    font-size:34px;
+
+    transform:rotate(-12deg);
+
+    z-index:2;
+}
+
+
+/* =====================================================
+   POLAROID 1
+===================================================== */
+
+.polaroid{
+
+    position:absolute;
+
+    background:white;
+
+    padding:8px 8px 30px;
+
+    box-shadow:
+        0 10px 25px rgba(35,65,80,.18);
+
+    z-index:3;
+}
+
+
+.polaroid img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+
+.polaroid1{
+
+    width:130px;
+    height:165px;
+
+    right:55px;
+    top:10px;
+
+    transform:rotate(8deg);
+}
+
+
+/* =====================================================
+   POLAROID 2
+===================================================== */
+
+.polaroid2{
+
+    width:105px;
+    height:135px;
+
+    left:35px;
+    top:330px;
+
+    transform:rotate(-9deg);
+
+    z-index:2;
+}
+
+
+.polaroid2 img{
+
+    height:105px;
+}
+
+
+/* =====================================================
+   POLAROID 3
+===================================================== */
+
+.polaroid3{
+
+    width:105px;
+    height:135px;
+
+    right:50px;
+    bottom:15px;
+
+    transform:rotate(-7deg);
+
+    z-index:2;
+}
+
+
+.polaroid3 img{
+
+    height:105px;
+}
+
+
+/* =====================================================
+   POLAROID TAPE
+===================================================== */
+
+.tape{
+
+    position:absolute;
+
+    width:70px;
+    height:23px;
+
+    background:rgba(89,136,128,.55);
+
+    z-index:5;
+}
+
+
+.tape1{
+
+    top:-11px;
+    left:32px;
+
+    transform:rotate(-4deg);
+}
+
+
+.tape2{
+
+    top:-10px;
+    left:18px;
+
+    transform:rotate(5deg);
+}
+
+
+/* =====================================================
+   MAIN SIGNUP PAPER
+===================================================== */
+
+.signup-card{
+
+    position:relative;
+
+    width:470px;
+
+    min-height:650px;
+
+    padding:38px 55px 32px;
+
+    background:#fffdf8;
+
+    border-radius:9px;
+
+    box-shadow:
+
+        0 20px 45px
+        rgba(38,70,82,.18);
+
+    z-index:10;
+
+    transform:rotate(-.3deg);
+}
+
+
+/* =====================================================
+   PAPER BORDER
+===================================================== */
+
+.signup-card:after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:7px;
+
+    border:1px solid
+        rgba(217,211,197,.45);
+
+    border-radius:7px;
+
+    pointer-events:none;
+}
+
+
+/* =====================================================
+   TOP TAPE
+===================================================== */
+
+.top-tape{
+
+    position:absolute;
+
+    width:100px;
+    height:30px;
+
+    background:rgba(87,136,128,.60);
+
+    top:-15px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        rotate(3deg);
+
+    z-index:15;
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:7px;
+
+    margin-bottom:17px;
+
+    font-family:"Pacifico",cursive;
+
+    font-size:25px;
+
+    color:#153b5b;
+
+    position:relative;
+
+    z-index:20;
+}
+
+
+.logo-camera{
+
+    font-family:Arial;
+
+    font-size:31px;
+}
+
+
+.logo-star{
+
+    color:#e5a72a;
+
+    font-family:Arial;
+
+    font-size:20px;
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.title{
+
+    text-align:center;
+
+    font-family:"Pacifico",cursive;
+
+    color:#173e5c;
+
+    font-size:32px;
+
+    line-height:1.3;
+
+    margin-bottom:6px;
+
+    position:relative;
+
+    z-index:20;
+}
+
+
+.title-heart{
+
+    font-family:Arial;
+
+    font-size:27px;
+}
+
+
+.subtitle{
+
+    text-align:center;
+
+    color:#617988;
+
+    font-size:12px;
+
+    margin-bottom:25px;
+
+    position:relative;
+
+    z-index:20;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form{
+
+    position:relative;
+
+    z-index:20;
+}
+
+
+/* =====================================================
+   INPUT CONTAINER
+===================================================== */
+
+.input-box{
+
+    position:relative;
+
+    width:100%;
+
+    margin-bottom:13px;
+}
+
+
+.input-box input{
+
+    width:100%;
+
+    height:47px;
+
+    padding:
+
+        0 42px 0 43px;
+
+    border:
+
+        1px solid #c5d0d2;
+
+    border-radius:8px;
+
+    background:#fff;
+
+    outline:none;
+
+    font-family:"DM Sans",sans-serif;
+
+    font-size:12px;
+
+    color:#294c63;
+
+    transition:.25s;
+}
+
+
+.input-box input::placeholder{
+
+    color:#718492;
+}
+
+
+.input-box input:focus{
+
+    border-color:#4a8b8e;
+
+    box-shadow:
+
+        0 0 0 3px
+        rgba(74,139,142,.10);
+}
+
+
+/* =====================================================
+   INPUT ICON
+===================================================== */
+
+.input-icon{
+
+    position:absolute;
+
+    left:14px;
+
+    top:13px;
+
+    font-size:18px;
+
+    color:#416b7f;
+
+    z-index:2;
+}
+
+
+/* =====================================================
+   PASSWORD EYE
+===================================================== */
+
+.eye{
+
+    position:absolute;
+
+    right:14px;
+
+    top:13px;
+
+    font-size:17px;
+
+    color:#496d7e;
+
+    cursor:pointer;
+
+    z-index:3;
+}
+
+
+/* =====================================================
+   SIGNUP BUTTON
+===================================================== */
+
+.signup-button{
+
+    display:block;
+
+    width:70%;
+
+    height:48px;
+
+    margin:
+
+        22px auto 0;
+
+    border:none;
+
+    border-radius:25px;
+
+    background:#478c8f;
+
+    color:white;
+
+    font-family:"DM Sans",sans-serif;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:
+
+        0 7px 15px
+        rgba(71,140,143,.18);
+
+    transition:.3s;
+
+    position:relative;
+
+    z-index:20;
+}
+
+
+.signup-button:hover{
+
+    background:#36777b;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+        0 10px 20px
+        rgba(71,140,143,.25);
+}
+
+
+/* =====================================================
+   LOGIN TEXT
+===================================================== */
+
+.login-text{
+
+    text-align:center;
+
+    margin-top:18px;
+
+    font-size:11px;
+
+    color:#667a87;
+
+    position:relative;
+
+    z-index:20;
+}
+
+
+.login-text a{
+
+    color:#246d74;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+    margin-left:5px;
+}
+
+
+.login-text a:hover{
+
+    text-decoration:underline;
+}
+
+
+/* =====================================================
+   SIDE MESSAGE
+===================================================== */
+
+.message{
+
+    position:absolute;
+
+    right:18px;
+
+    bottom:145px;
+
+    width:105px;
+
+    text-align:center;
+
+    color:#214d66;
+
+    font-family:"Pacifico",cursive;
+
+    font-size:14px;
+
+    line-height:1.45;
+
+    transform:rotate(-8deg);
+
+    z-index:8;
+}
+
+
+/* =====================================================
+   FILM STRIP
+===================================================== */
+
+.film-strip{
+
+    position:absolute;
+
+    width:45px;
+
+    height:155px;
+
+    left:115px;
+
+    bottom:35px;
+
+    background:#294c67;
+
+    transform:rotate(7deg);
+
+    opacity:.75;
+
+    z-index:1;
+}
+
+
+.film-strip:before,
+.film-strip:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:8px;
+
+    height:100%;
+
+    background:
+
+        repeating-linear-gradient(
+            to bottom,
+            #d9eee8 0 10px,
+            transparent 10px 20px
+        );
+
+}
+
+
+.film-strip:before{
+
+    left:4px;
+}
+
+
+.film-strip:after{
+
+    right:4px;
+}
+
+
+/* =====================================================
+   HANDWRITTEN LABEL
+===================================================== */
+
+.label{
+
+    position:absolute;
+
+    color:#28536a;
+
+    font-family:"Pacifico",cursive;
+
+    font-size:12px;
+
+    z-index:4;
+}
+
+
+.label1{
+
+    left:35px;
+
+    top:485px;
+
+    transform:rotate(-8deg);
+}
+
+
+.label2{
+
+    right:125px;
+
+    top:185px;
+
+    transform:rotate(7deg);
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:900px){
+
+    .signup-card{
+
+        width:430px;
+
+        min-height:610px;
+
+        padding:
+            35px 48px 30px;
+    }
+
+    .polaroid1{
+
+        width:100px;
+        height:130px;
+    }
+
+    .polaroid1 img{
+
+        height:100px;
+    }
+
+    .polaroid2,
+    .polaroid3,
+    .message,
+    .film-strip{
+
+        opacity:.65;
+    }
+}
+
+
+@media(max-width:650px){
+
+    body{
+        overflow:auto;
+    }
+
+    .page{
+
+        min-height:100vh;
+
+        height:auto;
+
+        padding:40px 0;
+    }
+
+    .signup-card{
+
+        width:88%;
+
+        min-height:auto;
+
+        padding:
+            32px 25px 30px;
+    }
+
+    .logo{
+
+        font-size:22px;
+    }
+
+    .title{
+
+        font-size:27px;
+    }
+
+    .subtitle{
+
+        font-size:11px;
+    }
+
+    .signup-button{
+
+        width:78%;
+    }
+
+    .polaroid1,
+    .polaroid2,
+    .polaroid3{
+
+        display:none;
+    }
+
+    .message{
+
+        display:none;
+    }
+
+    .film-strip{
+
+        display:none;
+    }
+
+}
+
+
+@media(max-width:430px){
+
+    .signup-card{
+
+        width:92%;
+
+        padding:
+            28px 20px;
+    }
+
+    .title{
+
+        font-size:24px;
+    }
+
+    .input-box input{
+
+        height:45px;
+    }
+
+    .signup-button{
+
+        width:82%;
+
+        height:46px;
+    }
+
+    .flower,
+    .butterfly,
+    .heart,
+    .star,
+    .leaf{
+
+        opacity:.55;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- ==========================================
+         BACKGROUND BLOBS
+    =========================================== -->
+
+    <div class="blob blob1"></div>
+
+    <div class="blob blob2"></div>
+
+    <div class="blob blob3"></div>
+
+
+    <!-- ==========================================
+         FLOWERS
+    =========================================== -->
+
+    <div class="flower flower1">
+        🌼
+    </div>
+
+    <div class="flower flower2">
+        🌿
+    </div>
+
+    <div class="flower flower3">
+        🌸
+    </div>
+
+
+    <!-- ==========================================
+         BUTTERFLIES
+    =========================================== -->
+
+    <div class="butterfly butterfly1">
+        🦋
+    </div>
+
+    <div class="butterfly butterfly2">
+        🦋
+    </div>
+
+
+    <!-- ==========================================
+         HEARTS
+    =========================================== -->
+
+    <div class="heart heart1">
+        ♡
+    </div>
+
+    <div class="heart heart2">
+        ♥
+    </div>
+
+    <div class="heart heart3">
+        ♡
+    </div>
+
+
+    <!-- ==========================================
+         STARS
+    =========================================== -->
+
+    <div class="star star1">
+        ✦
+    </div>
+
+    <div class="star star2">
+        ✧
+    </div>
+
+    <div class="star star3">
+        ✦
+    </div>
+
+
+    <!-- ==========================================
+         LEAVES
+    =========================================== -->
+
+    <div class="leaf leaf1">
+        ❧
+    </div>
+
+    <div class="leaf leaf2">
+        ❧
+    </div>
+
+
+    <!-- ==========================================
+         PAPER PLANE
+    =========================================== -->
+
+    <div class="plane">
+        ➤
+    </div>
+
+
+    <!-- ==========================================
+         CAMERA DOODLE
+    =========================================== -->
+
+    <div class="camera-doodle">
+        📷
+    </div>
+
+
+    <!-- ==========================================
+         POLAROID 1
+    =========================================== -->
+
+    <div class="polaroid polaroid1">
+
+        <div class="tape tape1"></div>
+
+        <img
+        src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80"
+        alt="Beautiful memory">
+
+    </div>
+
+
+    <!-- ==========================================
+         POLAROID 2
+    =========================================== -->
+
+    <div class="polaroid polaroid2">
+
+        <div class="tape tape2"></div>
+
+        <img
+        src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400&q=80"
+        alt="Flowers">
+
+    </div>
+
+
+    <!-- ==========================================
+         POLAROID 3
+    =========================================== -->
+
+    <div class="polaroid polaroid3">
+
+        <img
+        src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=400&q=80"
+        alt="Memory">
+
+    </div>
+
+
+    <!-- ==========================================
+         FILM STRIP
+    =========================================== -->
+
+    <div class="film-strip"></div>
+
+
+    <!-- ==========================================
+         HANDWRITTEN LABELS
+    =========================================== -->
+
+    <div class="label label1">
+        Smile! ✨
+    </div>
+
+    <div class="label label2">
+        Good Vibes ♡
+    </div>
+
+
+    <!-- ==========================================
+         MAIN SIGNUP CARD
+    =========================================== -->
+
+    <div class="signup-card">
+
+
+        <!-- TOP TAPE -->
+
+        <div class="top-tape"></div>
+
+
+        <!-- ======================================
+             LOGO
+        ======================================= -->
+
+        <div class="logo">
+
+            <span class="logo-camera">
+                📷
+            </span>
+
+            <span>
+                Snap Bridge
+            </span>
+
+            <span class="logo-star">
+                ✦
+            </span>
+
+        </div>
+
+
+        <!-- ======================================
+             TITLE
+        ======================================= -->
+
+        <h1 class="title">
+
+            Create Your Account
+
+            <span class="title-heart">
+                ♡
+            </span>
+
+        </h1>
+
+
+        <p class="subtitle">
+
+            Join the Snap Bridge community!
+
+        </p>
+
+
+        <!-- ======================================
+             FORM
+        ======================================= -->
+
+        <form
+            id="signupForm"
+            class="form">
+
+
+            <!-- FULL NAME -->
+
+            <div class="input-box">
+
+                <span class="input-icon">
+                    ♙
+                </span>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Full Name"
+                    autocomplete="name"
+                    required>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="input-box">
+
+                <span class="input-icon">
+                    ✉
+                </span>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Email or Username"
+                    autocomplete="email"
+                    required>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="input-box">
+
+                <span class="input-icon">
+                    ♧
+                </span>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    autocomplete="new-password"
+                    required>
+
+                <span
+                    class="eye"
+                    onclick="togglePassword('password',this)">
+
+                    ◉
+
+                </span>
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="input-box">
+
+                <span class="input-icon">
+                    ♧
+                </span>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm Password"
+                    autocomplete="new-password"
+                    required>
+
+                <span
+                    class="eye"
+                    onclick="togglePassword('confirmPassword',this)">
+
+                    ◉
+
+                </span>
+
+            </div>
+
+
+            <!-- SIGN UP BUTTON -->
+
+            <button
+                type="submit"
+                class="signup-button">
+
+                Sign Up
+
+            </button>
+
+
+        </form>
+
+
+        <!-- ======================================
+             LOGIN
+        ======================================= -->
+
+        <p class="login-text">
+
+            Already have an account?
+
+            <a href="index.html">
+                Log In
+            </a>
+
+        </p>
+
+
+    </div>
+
+
+    <!-- ==========================================
+         SIDE MESSAGE
+    =========================================== -->
+
+    <div class="message">
+
+        Collect<br>
+        Beautiful<br>
+        Moments ♡
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   PASSWORD SHOW / HIDE
+===================================================== */
+
+function togglePassword(inputId, element){
+
+    const input =
+        document.getElementById(inputId);
+
+
+    if(input.type === "password"){
+
+        input.type = "text";
+
+        element.textContent = "◉";
+
+    }
+
+    else{
+
+        input.type = "password";
+
+        element.textContent = "◉";
+
+    }
+
+}
+
+
+/* =====================================================
+   SIGNUP FORM
+===================================================== */
+
+document
+.getElementById("signupForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const name =
+            document
+            .getElementById("name")
+            .value
+            .trim();
+
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const password =
+            document
+            .getElementById("password")
+            .value;
+
+
+        const confirmPassword =
+            document
+            .getElementById("confirmPassword")
+            .value;
+
+
+        /* CHECK EMPTY */
+
+        if(
+            name === "" ||
+            email === "" ||
+            password === "" ||
+            confirmPassword === ""
+        ){
+
+            alert(
+                "Please fill in all fields."
+            );
+
+            return;
+        }
+
+
+        /* PASSWORD LENGTH */
+
+        if(password.length < 6){
+
+            alert(
+                "Password must contain at least 6 characters."
+            );
+
+            return;
+        }
+
+
+        /* PASSWORD MATCH */
+
+        if(password !== confirmPassword){
+
+            alert(
+                "Passwords do not match."
+            );
+
+            return;
+        }
+
+
+        /* SUCCESS */
+
+        alert(
+            "Account created successfully! 📸✨"
+        );
+
+
+        /* GO TO LOGIN */
+
+        window.location.href =
+            "index.html";
+
+    }
+);
+</script>
+</body>
+</html>

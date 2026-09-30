@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Snap Bridge | Templates & Frames</title>
+
+    <link rel="stylesheet" href="templates.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        <span class="camera-icon">📷</span>
+        <span>Snap Bridge</span>
+        <b>✦</b>
+    </div>
+
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="booth.html">Booth</a>
+        <a href="templates.html" class="active">Templates</a>
+        <a href="filters.html">Filters</a>
+        <a href="stickers.html">Stickers</a>
+        <a href="customize.html">Customize</a>
+    </nav>
+
+    <button class="profile">♡</button>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <span class="eyebrow">
+        SNAP BRIDGE ✦ CREATIVE STUDIO
+    </span>
+
+    <h1>
+        Create Your
+        <span>Perfect Frame</span>
+    </h1>
+
+    <p>
+        Choose a beautiful template, select your photo layout,
+        then add your memories with camera or upload.
+    </p>
+
+</section>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="studio">
+
+
+    <!-- ================= LEFT TEMPLATE PANEL ================= -->
+
+    <aside class="template-panel">
+
+        <div class="panel-heading">
+
+            <h2>Templates</h2>
+
+            <p>
+                Choose your favourite design
+            </p>
+
+        </div>
+
+
+        <!-- CATEGORY -->
+
+        <div class="category-buttons">
+
+            <button class="category active"
+                    onclick="filterTemplates('all', this)">
+                All
+            </button>
+
+            <button class="category"
+                    onclick="filterTemplates('cute', this)">
+                Cute
+            </button>
+
+            <button class="category"
+                    onclick="filterTemplates('classic', this)">
+                Classic
+            </button>
+
+            <button class="category"
+                    onclick="filterTemplates('aesthetic', this)">
+                Aesthetic
+            </button>
+
+        </div>
+
+
+        <!-- TEMPLATE GRID -->
+
+        <div class="templates">
+
+
+            <!-- SPIDER -->
+
+            <button class="template-card selected"
+                    data-category="cute"
+                    data-template="spider"
+                    onclick="selectTemplate('spider', this)">
+
+                <div class="template-preview spider">
+
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+
+                    <span class="decor">🕷️</span>
+
+                </div>
+
+                <strong>Spider</strong>
+                <small>Comic Vibes</small>
+
+            </button>
+
+
+            <!-- DENIM -->
+
+            <button class="template-card"
+                    data-category="aesthetic"
+                    data-template="denim"
+                    onclick="selectTemplate('denim', this)">
+
+                <div class="template-preview denim">
+
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+
+                    <span class="decor">☆</span>
+
+                </div>
+
+                <strong>Denim</strong>
+                <small>Blue Diary</small>
+
+            </button>
+
+
+            <!-- BOTANICAL -->
+
+            <button class="template-card"
+                    data-category="classic"
+                    data-template="botanical"
+                    onclick="selectTemplate('botanical', this)">
+
+                <div class="template-preview botanical">
+
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+
+                    <span class="decor">🌿</span>
+
+                </div>
+
+                <strong>Botanical</strong>
+                <small>Nature Notes</small>
+
+            </button>
+
+
+            <!-- BOW -->
+
+            <button class="template-card"
+                    data-category="cute"
+                    data-template="bow"
+                    onclick="selectTemplate('bow', this)">
+
+                <div class="template-preview bow">
+
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+
+                    <span class="decor">🎀</span>
+
+                </div>
+
+                <strong>Pink Bow</strong>
+                <small>Sweet Memories</small>
+
+            </button>
+
+
+            <!-- FILM -->
+
+            <button class="template-card"
+                    data-category="classic"
+                    data-template="film"
+                    onclick="selectTemplate('film', this)">
+
+                <div class="template-preview film">
+
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+
+                    <span class="decor">📷</span>
+
+                </div>
+
+                <strong>Film Strip</strong>
+                <small>Classic Camera</small>
+
+            </button>
+
+
+            <!-- RAINBOW -->
+
+            <button class="template-card"
+                    data-category="cute"
+                    data-template="rainbow"
+                    onclick="selectTemplate('rainbow', this)">
+
+                <div class="template-preview rainbow">
+
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+
+                    <span class="decor">🌈</span>
+
+                </div>
+
+                <strong>Rainbow</strong>
+                <small>Happy Days</small>
+
+            </button>
+
+
+            <!-- NEON -->
+
+            <button class="template-card"
+                    data-category="aesthetic"
+                    data-template="neon"
+                    onclick="selectTemplate('neon', this)">
+
+                <div class="template-preview neon">
+
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+
+                    <span class="decor">✦</span>
+
+                </div>
+
+                <strong>Neon Night</strong>
+                <small>Glow Memories</small>
+
+            </button>
+
+
+            <!-- ROSE -->
+
+            <button class="template-card"
+                    data-category="classic"
+                    data-template="rose"
+                    onclick="selectTemplate('rose', this)">
+
+                <div class="template-preview rose">
+
+                    <div class="template-photo"></div>
+                    <div class="template-photo"></div>
+
+                    <span class="decor">🌹</span>
+
+                </div>
+
+                <strong>Rose Garden</strong>
+                <small>Floral Memories</small>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================= EDITOR ================= -->
+
+    <section class="editor">
+
+
+        <!-- TOP -->
+
+        <div class="editor-header">
+
+            <div>
+
+                <span class="mini-label">
+                    LIVE PREVIEW
+                </span>
+
+                <h2 id="selectedTemplateName">
+                    Spider Template
+                </h2>
+
+                <p id="photoStatus">
+                    0 / 1 photos added
+                </p>
+
+            </div>
+
+
+            <span class="ready">
+                ● PRINT READY
+            </span>
+
+        </div>
+
+
+
+        <!-- ================= PREVIEW FRAME ================= -->
+
+        <div class="preview-area">
+
+            <div id="photoFrame"
+                 class="photo-frame spider">
+
+
+                <div id="photoGrid"
+                     class="photo-grid grid-1">
+
+                    <!-- Created by JavaScript -->
+
+                </div>
+
+
+                <!-- Decorative elements -->
+
+                <div class="decoration d1">✦</div>
+
+                <div class="decoration d2">♡</div>
+
+                <div class="decoration d3">✿</div>
+
+                <div class="frame-title"
+                     id="frameTitle">
+                    Snap Bridge
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= CONTROL BAR ================= -->
+
+        <div class="control-bar">
+
+
+            <!-- LAYOUT -->
+
+            <div class="control-section">
+
+                <h3>Photo Layout</h3>
+
+                <div class="layout-buttons">
+
+                    <button class="layout-button active"
+                            data-size="1"
+                            onclick="changeLayout(1, this)">
+
+                        <span class="mini-layout one">
+                            <i></i>
+                        </span>
+
+                        <b>1×1</b>
+
+                    </button>
+
+
+                    <button class="layout-button"
+                            data-size="2"
+                            onclick="changeLayout(2, this)">
+
+                        <span class="mini-layout two">
+                            <i></i><i></i>
+                            <i></i><i></i>
+                        </span>
+
+                        <b>2×2</b>
+
+                    </button>
+
+
+                    <button class="layout-button"
+                            data-size="3"
+                            onclick="changeLayout(3, this)">
+
+                        <span class="mini-layout three">
+                            <i></i><i></i><i></i>
+                            <i></i><i></i><i></i>
+                            <i></i><i></i><i></i>
+                        </span>
+
+                        <b>3×3</b>
+
+                    </button>
+
+
+                    <button class="layout-button"
+                            data-size="4"
+                            onclick="changeLayout(4, this)">
+
+                        <span class="mini-layout four">
+                            <i></i><i></i><i></i><i></i>
+                            <i></i><i></i><i></i><i></i>
+                            <i></i><i></i><i></i><i></i>
+                            <i></i><i></i><i></i><i></i>
+                        </span>
+
+                        <b>4×4</b>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTIONS -->
+
+            <div class="control-section">
+
+                <h3>Add Memories</h3>
+
+                <div class="action-buttons">
+
+                    <button class="take"
+                            onclick="openCamera()">
+
+                        📷
+                        <span>Take Photo</span>
+
+                    </button>
+
+
+                    <button class="upload"
+                            onclick="openUpload()">
+
+                        🖼️
+                        <span>Upload</span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ================= BOTTOM ================= -->
+
+        <div class="bottom-actions">
+
+            <button class="clear"
+                    onclick="clearFrame()">
+
+                🗑 Clear
+
+            </button>
+
+            <button class="save"
+                    onclick="downloadFrame()">
+
+                ↓ Save Frame
+
+            </button>
+
+            <button class="print"
+                    onclick="printFrame()">
+
+                🖨 Print
+
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= HIDDEN INPUT ================= -->
+
+<input
+    type="file"
+    id="imageUpload"
+    accept="image/*"
+    hidden
+>
+
+
+<!-- ================= CAMERA ================= -->
+
+<div id="cameraModal"
+     class="camera-modal">
+
+    <div class="camera-box">
+
+        <button class="close"
+                onclick="closeCamera()">
+            ×
+        </button>
+
+
+        <div class="camera-heading">
+
+            <span>📷</span>
+
+            <div>
+                <h2>Capture Memory</h2>
+                <p>Smile! Your moment is ready.</p>
+            </div>
+
+        </div>
+
+
+        <div class="video-wrapper">
+
+            <video
+                id="cameraVideo"
+                autoplay
+                playsinline>
+            </video>
+
+        </div>
+
+
+        <div class="camera-bottom">
+
+            <span>
+                Camera ready
+            </span>
+
+            <button
+                class="capture"
+                onclick="capturePhoto()">
+
+                <span></span>
+
+            </button>
+
+            <span>
+                📸 Snap
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="templates.js"></script>
+
+</body>
+</html>
