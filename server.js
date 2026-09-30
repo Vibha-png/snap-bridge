@@ -144,10 +144,10 @@ io.on("connection", (socket) => {
 });
 
 
-server.listen(PORT, "0.0.0.0 ",() =>{
+server.listen(PORT, "0.0.0.0",() =>{
 
     console.log(
-        `Snap Bridge server running at http://localhost:${PORT}`
+        `Snap Bridge server running on port${PORT}`
     );
 
 });
