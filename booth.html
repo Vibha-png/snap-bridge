@@ -1,5270 +1,1433 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snap Bridge</title>
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>Snap Bridge | Photo Booth</title>
-
-<!-- PeerJS -->
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
-
-<!-- Fonts -->
-<link rel="preconnect"
-      href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Pacifico&display=swap"
-      rel="stylesheet">
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
 
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-
-    font-family:"DM Sans",sans-serif;
-
+body {
+    font-family: "DM Sans", sans-serif;
+    min-height: 100vh;
+    color: #263b78;
     background:
-        radial-gradient(
-            circle at 75% 0%,
-            #ffffff 0%,
-            transparent 30%
-        ),
-        linear-gradient(
-            135deg,
-            #edf3ff,
-            #dce7f8
-        );
-
-    color:#182957;
-
-    overflow:hidden;
-}
-
-
-/* =====================================================
-   APP
-===================================================== */
-
-.app{
-
-    height:100vh;
-
-    display:flex;
-
-    background:
-        radial-gradient(
-            circle at 85% 5%,
-            rgba(255,255,255,.9),
-            transparent 25%
-        ),
-        linear-gradient(
-            135deg,
-            #eaf0ff,
-            #dbe6f7
-        );
-}
-
-
-/* =====================================================
-   SIDEBAR
-===================================================== */
-
-.sidebar{
-
-    width:230px;
-
-    height:100vh;
-
-    padding:18px 13px;
-
-    color:white;
-
-    background:
-        linear-gradient(
-            180deg,
-            #111c42,
-            #172957 55%,
-            #0d1737
-        );
-
-    box-shadow:
-        8px 0 30px rgba(25,42,80,.2);
-
-    display:flex;
-
-    flex-direction:column;
-
-    z-index:20;
-}
-
-
-.logo{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:9px;
-
-    padding:
-        5px
-        9px
-        20px;
-}
-
-
-.logo-camera{
-
-    width:38px;
-
-    height:30px;
-
-    border:
-        2px solid
-        white;
-
-    border-radius:9px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    font-size:17px;
-}
-
-
-.logo h1{
-
-    font-family:"Pacifico",cursive;
-
-    font-size:19px;
-
-    font-weight:400;
-}
-
-
-.logo h1 span{
-
-    color:#ffd66e;
-}
-
-
-.profile{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:9px;
-
-    padding:10px;
-
-    margin-bottom:16px;
-
-    border-radius:13px;
-
-    background:
-        rgba(255,255,255,.08);
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-}
-
-
-.avatar{
-
-    width:35px;
-
-    height:35px;
-
-    border-radius:50%;
-
-    background:#dce5ff;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:17px;
-}
-
-
-.profile strong{
-
-    display:block;
-
-    font-size:10px;
-}
-
-
-.profile small{
-
-    display:block;
-
-    margin-top:2px;
-
-    color:#aebbd6;
-
-    font-size:7px;
-}
-
-
-.nav{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:5px;
-}
-
-
-.nav-item{
-
-    height:43px;
-
-    padding:
-        0
-        12px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:11px;
-
-    border-radius:11px;
-
-    color:#d2dcef;
-
-    font-size:10px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-
-.nav-item:hover{
-
-    background:
-        rgba(255,255,255,.08);
-
-    transform:
-        translateX(2px);
-}
-
-
-.nav-item.active{
-
-    background:
-        linear-gradient(
-            135deg,
-            #596dce,
-            #7158ca
-        );
-
-    color:white;
-
-    box-shadow:
-        0 8px 22px
-        rgba(79,87,183,.25);
-}
-
-
-.nav-icon{
-
-    width:22px;
-
-    text-align:center;
-
-    font-size:16px;
-}
-
-
-.sidebar-bottom{
-
-    margin-top:auto;
-}
-
-
-.help{
-
-    padding:12px;
-
-    border-radius:13px;
-
-    background:
-        rgba(255,255,255,.06);
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-}
-
-
-.help strong{
-
-    font-size:9px;
-}
-
-
-.help p{
-
-    margin-top:5px;
-
-    color:#9eadd0;
-
-    font-size:7px;
-
-    line-height:1.5;
-}
-
-
-/* =====================================================
-   MAIN
-===================================================== */
-
-.main{
-
-    flex:1;
-
-    min-width:0;
-
-    height:100vh;
-
-    padding:
-        15px
-        19px;
-}
-
-
-/* =====================================================
-   TOPBAR
-===================================================== */
-
-.topbar{
-
-    height:55px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:11px;
-}
-
-
-.title h2{
-
-    font-size:21px;
-
-    font-weight:800;
-}
-
-
-.title p{
-
-    color:#7d8ba5;
-
-    font-size:8px;
-
-    margin-top:3px;
-}
-
-
-.top-right{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:7px;
-}
-
-
-.room-display{
-
-    display:none;
-
-    align-items:center;
-
-    gap:7px;
-
-    height:34px;
-
-    padding:
-        0
-        11px;
-
-    border-radius:9px;
-
-    background:white;
-
-    border:
-        1px solid
-        #d7dfed;
-
-    box-shadow:
-        0 5px 15px
-        rgba(50,70,110,.07);
-
-    font-size:8px;
-
-    font-weight:800;
-}
-
-
-.room-code{
-
-    color:#5d54c1;
-
-    letter-spacing:1px;
-}
-
-
-.people-count{
-
-    color:#64748c;
-}
-
-
-.top-btn{
-
-    height:34px;
-
-    padding:
-        0
-        13px;
-
-    border:
-        1px solid
-        #d6deec;
-
-    border-radius:9px;
-
-    background:white;
-
-    color:#40557c;
-
-    font-size:8px;
-
-    font-weight:800;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-
-.top-btn:hover{
-
-    transform:
-        translateY(-1px);
-}
-
-
-/* =====================================================
-   BOOTH
-===================================================== */
-
-.booth{
-
-    height:
-        calc(100vh - 81px);
-
-    display:grid;
-
-    grid-template-columns:
-        minmax(430px,1.22fr)
-        minmax(340px,.78fr);
-
-    gap:13px;
-}
-
-
-/* =====================================================
-   CAMERA PANEL
-===================================================== */
-
-.camera-panel{
-
-    position:relative;
-
-    overflow:hidden;
-
-    padding:14px;
-
-    border-radius:19px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #172855,
-            #0b1635
-        );
-
-    box-shadow:
-        0 20px 45px
-        rgba(36,53,93,.25);
-}
-
-
-.camera-panel::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:330px;
-
-    height:330px;
-
-    right:-100px;
-
-    top:-110px;
-
-    border-radius:50%;
-
-    background:#7587ec;
-
-    filter:blur(80px);
-
-    opacity:.17;
-}
-
-
-.camera-panel::after{
-
-    content:"✦";
-
-    position:absolute;
-
-    right:28px;
-
-    bottom:95px;
-
-    color:#fff;
-
-    font-size:25px;
-
-    opacity:.45;
-}
-
-
-.camera-head{
-
-    height:37px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    position:relative;
-
-    z-index:4;
-}
-
-
-.camera-head h3{
-
-    color:white;
-
-    font-size:11px;
-}
-
-
-.live{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:6px;
-
-    color:#afbddb;
-
-    font-size:7px;
-
-    font-weight:700;
-}
-
-
-.live-dot{
-
-    width:7px;
-
-    height:7px;
-
-    border-radius:50%;
-
-    background:#67e6ad;
-
-    box-shadow:
-        0 0 10px #67e6ad;
-}
-
-
-/* =====================================================
-   VIDEO AREA
-===================================================== */
-
-.video-area{
-
-    height:
-        calc(100% - 117px);
-
-    min-height:300px;
-
-    overflow:hidden;
-
-    position:relative;
-
-    border-radius:15px;
-
-    background:#202e4d;
-
-    border:
-        1px solid
-        rgba(255,255,255,.13);
-}
-
-
-.video-grid{
-
-    width:100%;
-
-    height:100%;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:4px;
-
-    background:#101a37;
-}
-
-
-.video-box{
-
-    position:relative;
-
-    overflow:hidden;
-
-    min-width:0;
-
-    background:
-        linear-gradient(
-            135deg,
-            #65799d,
-            #bdc9dc
-        );
-}
-
-
-.video-box.single{
-
-    grid-column:
-        1 / -1;
-}
-
-
-.video-box video{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
-    transform:
-        scaleX(-1);
-}
-
-
-.video-name{
-
-    position:absolute;
-
-    left:8px;
-
-    bottom:8px;
-
-    padding:
-        5px
-        8px;
-
-    border-radius:7px;
-
-    color:white;
-
-    background:
-        rgba(9,18,40,.67);
-
-    backdrop-filter:blur(8px);
-
-    font-size:7px;
-
-    font-weight:700;
-
-    z-index:4;
-}
-
-
-.camera-tag{
-
-    position:absolute;
-
-    left:12px;
-
-    top:12px;
-
-    padding:
-        7px
-        9px;
-
-    border-radius:7px;
-
-    color:white;
-
-    background:
-        rgba(8,18,40,.64);
-
-    backdrop-filter:blur(8px);
-
-    font-size:7px;
-
-    font-weight:700;
-
-    z-index:5;
-}
-
-
-.filter-tag{
-
-    position:absolute;
-
-    right:12px;
-
-    top:12px;
-
-    padding:
-        7px
-        9px;
-
-    border-radius:7px;
-
-    color:white;
-
-    background:
-        rgba(255,255,255,.14);
-
-    border:
-        1px solid
-        rgba(255,255,255,.18);
-
-    backdrop-filter:blur(8px);
-
-    font-size:7px;
-
-    z-index:5;
-}
-
-
-.countdown{
-
-    display:none;
-
-    position:absolute;
-
-    left:50%;
-
-    top:50%;
-
-    transform:
-        translate(-50%,-50%);
-
-    color:white;
-
-    font-size:105px;
-
-    font-weight:800;
-
-    text-shadow:
-        0 5px 35px
-        rgba(0,0,0,.5);
-
-    z-index:30;
-}
-
-
-/* =====================================================
-   CAMERA CONTROLS
-===================================================== */
-
-.camera-controls{
-
-    height:80px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:28px;
-
-    position:relative;
-
-    z-index:5;
-}
-
-
-.circle-btn{
-
-    width:42px;
-
-    height:42px;
-
-    border-radius:50%;
-
-    border:
-        1px solid
-        rgba(255,255,255,.2);
-
-    background:
-        rgba(255,255,255,.08);
-
-    color:white;
-
-    cursor:pointer;
-
-    font-size:15px;
-
-    transition:.2s;
-}
-
-
-.circle-btn:hover{
-
-    background:
-        rgba(255,255,255,.17);
-
-    transform:scale(1.05);
-}
-
-
-.capture{
-
-    position:relative;
-
-    width:66px;
-
-    height:66px;
-
-    border-radius:50%;
-
-    border:
-        7px solid
-        rgba(255,255,255,.25);
-
-    background:white;
-
-    box-shadow:
-        0 0 0 4px #705bd0,
-        0 0 30px
-        rgba(114,91,210,.75);
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-
-.capture::after{
-
-    content:"";
-
-    position:absolute;
-
-    inset:8px;
-
-    border-radius:50%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6679dd,
-            #7655c7
-        );
-}
-
-
-.capture:hover{
-
-    transform:scale(1.07);
-}
-
-
-/* =====================================================
-   RIGHT PANEL
-===================================================== */
-
-.right{
-
-    min-width:0;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:9px;
-
-    overflow-y:auto;
-
-    padding-right:2px;
-}
-
-
-.right::-webkit-scrollbar{
-
-    width:4px;
-}
-
-
-.right::-webkit-scrollbar-thumb{
-
-    background:#b6c3dd;
-
-    border-radius:10px;
-}
-
-
-.card{
-
-    flex-shrink:0;
-
-    padding:12px;
-
-    border-radius:15px;
-
-    background:
-        rgba(255,255,255,.87);
-
-    border:
-        1px solid
-        rgba(255,255,255,.95);
-
-    box-shadow:
-        0 8px 25px
-        rgba(53,73,115,.09);
-
-    backdrop-filter:blur(12px);
-}
-
-
-.card-head{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-bottom:9px;
-}
-
-
-.card-head h3{
-
-    font-size:11px;
-}
-
-
-.card-head span{
-
-    color:#8793aa;
-
-    font-size:7px;
-}
-
-
-/* =====================================================
-   ROOM CARD
-===================================================== */
-
-.room-card{
-
-    background:
-        linear-gradient(
-            135deg,
-            #fbfcff,
-            #edf2ff
-        );
-}
-
-
-.room-buttons{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        1fr;
-
-    gap:7px;
+        radial-gradient(circle at 8% 15%, #c9e8ff 0 7%, transparent 8%),
+        radial-gradient(circle at 90% 12%, #d7f5df 0 9%, transparent 10%),
+        radial-gradient(circle at 18% 90%, #ddd2ff 0 10%, transparent 11%),
+        radial-gradient(circle at 90% 90%, #c8f3e5 0 10%, transparent 11%),
+        linear-gradient(135deg, #eaf5ff, #eeeaff 45%, #e4f8ef);
+    overflow-x: hidden;
+}
+
+/* Decorative background */
+body::before {
+    content: "✦   ♡   ✧       🦋       ✦       ♡";
+    position: fixed;
+    top: 35px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    color: #9c9af5;
+    opacity: .65;
+    letter-spacing: 30px;
+    pointer-events: none;
+}
+
+body::after {
+    content: "✿        ✧        🌿        ♡        ✦";
+    position: fixed;
+    bottom: 15px;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    color: #8ccdb4;
+    opacity: .55;
+    letter-spacing: 25px;
+    pointer-events: none;
+}
+
+.app {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 260px 1fr 390px;
+    gap: 20px;
+    padding: 22px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,.9);
+    border-radius: 30px;
+    padding: 25px 18px;
+    box-shadow: 0 15px 40px rgba(112,126,190,.15);
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.logo-camera {
+    width: 48px;
+    height: 38px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #a9e1ff, #c8b9ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    box-shadow: 0 5px 15px rgba(130,130,220,.2);
+}
+
+.logo-text {
+    font-family: Pacifico, cursive;
+    font-size: 24px;
+    color: #304681;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.menu button {
+    border: none;
+    background: transparent;
+    padding: 14px 16px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #6879b6;
+    cursor: pointer;
+    transition: .25s;
+    text-align: left;
 }
-
-
-.room-btn{
-
-    height:35px;
-
-    border:
-        1px solid
-        #d6deec;
-
-    border-radius:8px;
 
-    background:white;
-
-    color:#42567a;
-
-    font-size:8px;
-
-    font-weight:800;
-
-    cursor:pointer;
-
-    transition:.2s;
+.menu button:hover {
+    background: #e9f5ff;
+    transform: translateX(3px);
 }
-
 
-.room-btn:hover{
-
-    transform:
-        translateY(-1px);
+.menu button.active {
+    background: linear-gradient(135deg, #c4d7ff, #d8c8ff);
+    color: #384c91;
+    box-shadow: 0 8px 20px rgba(137,137,220,.15);
 }
-
 
-.room-btn.primary{
-
-    color:white;
-
-    border:none;
-
-    background:
-        linear-gradient(
-            135deg,
-            #596dce,
-            #7156c8
-        );
+.menu-icon {
+    width: 27px;
+    text-align: center;
+    font-size: 21px;
 }
-
 
-.join-row{
-
-    display:none;
-
-    gap:6px;
-
-    margin-top:7px;
+.sidebar-bottom {
+    margin-top: auto;
+    background: linear-gradient(135deg, #e0f6ed, #e4edff);
+    border-radius: 22px;
+    padding: 20px;
+    text-align: center;
+    color: #5269a3;
+    line-height: 1.5;
 }
-
-
-.join-row input{
-
-    flex:1;
-
-    min-width:0;
-
-    height:34px;
-
-    padding:
-        0
-        9px;
-
-    outline:none;
-
-    border:
-        1px solid
-        #d4ddea;
-
-    border-radius:8px;
 
-    font-size:9px;
-
-    text-transform:uppercase;
+.sidebar-bottom .heart {
+    font-size: 25px;
 }
-
-
-.join-row button{
-
-    width:65px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#293e75;
-
-    color:white;
 
-    font-size:8px;
+/* ================= CENTER ================= */
 
-    font-weight:800;
-
-    cursor:pointer;
+.center {
+    min-width: 0;
 }
-
-
-.created-room{
-
-    display:none;
-
-    margin-top:7px;
-
-    padding:9px;
-
-    text-align:center;
-
-    border-radius:9px;
 
-    background:#f0f3ff;
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 5px 8px;
 }
 
-
-.created-room small{
-
-    display:block;
-
-    color:#7d89a1;
-
-    font-size:7px;
+.title-area h1 {
+    font-family: Pacifico, cursive;
+    font-size: 42px;
+    color: #334b8f;
+    line-height: 1.1;
 }
-
-
-.created-room strong{
-
-    display:block;
-
-    margin-top:2px;
 
-    color:#5c51c2;
-
-    font-size:17px;
-
-    letter-spacing:3px;
+.title-area p {
+    color: #6c7fb5;
+    margin-top: 5px;
+    font-weight: 600;
 }
-
-
-.copy-room{
-
-    margin-top:6px;
-
-    padding:
-        6px
-        10px;
-
-    border:none;
-
-    border-radius:7px;
 
-    color:white;
-
-    background:#5d6ece;
-
-    font-size:7px;
-
-    font-weight:800;
-
-    cursor:pointer;
+.room {
+    background: rgba(255,255,255,.82);
+    border: 1px solid white;
+    padding: 13px 20px;
+    border-radius: 30px;
+    box-shadow: 0 8px 25px rgba(90,110,170,.12);
+    font-weight: 600;
 }
-
-
-/* =====================================================
-   SHARE LINK
-===================================================== */
-
-.share-link-btn{
-
-    width:100%;
-
-    height:36px;
-
-    margin-top:7px;
-
-    border:none;
-
-    border-radius:8px;
-
-    color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6678d7,
-            #8060cf
-        );
-
-    font-size:8px;
-
-    font-weight:800;
 
-    cursor:pointer;
-
-    box-shadow:
-        0 6px 16px
-        rgba(90,83,190,.18);
-
-    transition:.2s;
+.room span {
+    color: #7567c9;
+    font-weight: 800;
 }
-
-
-.share-link-btn:hover{
 
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 9px 20px
-        rgba(90,83,190,.25);
+/* Camera */
+.camera-card {
+    background: rgba(255,255,255,.82);
+    padding: 12px;
+    border-radius: 30px;
+    box-shadow: 0 15px 40px rgba(100,120,180,.15);
+    border: 2px solid rgba(255,255,255,.95);
 }
-
-
-/* =====================================================
-   PARTICIPANTS
-===================================================== */
-
-.participants{
 
-    display:flex;
-
-    gap:6px;
+.camera-wrapper {
+    position: relative;
+    height: 455px;
+    border-radius: 23px;
+    overflow: hidden;
+    background: #d8eaff;
 }
-
-
-.person{
-
-    flex:1;
-
-    min-width:0;
-
-    padding:7px;
-
-    text-align:center;
-
-    border-radius:8px;
 
-    background:#f0f4fc;
-
-    border:
-        1px solid
-        #dfe5f0;
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1);
+    display: block;
 }
-
 
-.person-avatar{
-
-    font-size:19px;
+.camera-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 }
-
-
-.person-name{
-
-    margin-top:2px;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
 
-    white-space:nowrap;
-
-    font-size:7px;
-
-    font-weight:800;
+.corner {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    border-color: white;
+    border-style: solid;
 }
-
-
-.person-status{
 
-    margin-top:2px;
-
-    color:#62b790;
-
-    font-size:6px;
+.corner.tl {
+    top: 22px;
+    left: 22px;
+    border-width: 4px 0 0 4px;
+    border-radius: 10px 0 0 0;
 }
-
-
-/* =====================================================
-   TEMPLATES
-===================================================== */
 
-.templates{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(5,1fr);
-
-    gap:6px;
+.corner.tr {
+    top: 22px;
+    right: 22px;
+    border-width: 4px 4px 0 0;
+    border-radius: 0 10px 0 0;
 }
-
-
-.template{
-
-    height:66px;
-
-    position:relative;
-
-    overflow:hidden;
 
-    cursor:pointer;
-
-    border:
-        2px solid
-        transparent;
-
-    border-radius:8px;
-
-    transition:.2s;
+.corner.bl {
+    bottom: 22px;
+    left: 22px;
+    border-width: 0 0 4px 4px;
+    border-radius: 0 0 0 10px;
 }
-
 
-.template:hover{
-
-    transform:
-        translateY(-2px);
+.corner.br {
+    bottom: 22px;
+    right: 22px;
+    border-width: 0 4px 4px 0;
+    border-radius: 0 0 10px 0;
 }
-
-
-.template.selected{
-
-    border-color:#7357d2;
 
-    box-shadow:
-        0 5px 13px
-        rgba(96,78,191,.18);
+.camera-label {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 16px;
+    background: rgba(55,75,125,.72);
+    color: white;
+    border-radius: 25px;
+    font-weight: 700;
+    backdrop-filter: blur(8px);
 }
 
-
-.temp-one{
-
-    background:
-        linear-gradient(
-            #dce7fa,
-            #f8faff
-        );
+.live {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,.88);
+    border-radius: 25px;
+    font-weight: 700;
+    color: #5570a8;
 }
-
-
-.temp-two{
 
-    background:
-        linear-gradient(
-            #f4dfeb,
-            #dce7fa
-        );
+.live-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #63d8a4;
+    border-radius: 50%;
+    margin-right: 5px;
 }
 
-
-.temp-three{
-
-    background:
-        linear-gradient(
-            135deg,
-            #fff1da,
-            #e9d8f5
-        );
+.camera-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(52,70,120,.78);
+    color: white;
+    padding: 22px 35px;
+    border-radius: 25px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: .3s;
 }
-
-
-.temp-four{
 
-    background:
-        linear-gradient(
-            #dcecf1,
-            #e9f0ff
-        );
+.camera-message.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
-
-.temp-five{
-
-    background:
-        linear-gradient(
-            #28355c,
-            #7b6791
-        );
+.camera-message strong {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 5px;
 }
-
-
-.template::after{
-
-    position:absolute;
-
-    left:0;
-
-    right:0;
-
-    bottom:7px;
 
-    text-align:center;
-
-    font-size:7px;
-
-    font-weight:800;
+.countdown {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 110px;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 5px 20px rgba(0,0,0,.3);
 }
 
+/* Controls */
 
-.temp-one::after{
-    content:"4 CUT";
+.controls {
+    margin-top: 12px;
+    background: rgba(255,255,255,.85);
+    border-radius: 25px;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 2px solid white;
 }
 
-
-.temp-two::after{
-    content:"3 CUT";
+.control-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: none;
+    background: #e5efff;
+    color: #5069a9;
+    font-size: 24px;
+    cursor: pointer;
+    transition: .25s;
 }
-
 
-.temp-three::after{
-    content:"POLAROID";
+.control-btn:hover {
+    transform: translateY(-3px);
+    background: #dce9ff;
 }
 
-
-.temp-four::after{
-    content:"GRID";
+.capture-btn {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    border: 7px solid #d8e6ff;
+    background: linear-gradient(135deg, #a98cff, #c8a8ff);
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(155,120,230,.3);
+    transition: .2s;
 }
-
-
-.temp-five::after{
-
-    content:"FILM";
 
-    color:white;
+.capture-btn:hover {
+    transform: scale(1.06);
 }
 
-
-/* =====================================================
-   FILTERS
-===================================================== */
-
-.filters{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(5,1fr);
-
-    gap:7px;
+.capture-btn:active {
+    transform: scale(.95);
 }
-
 
-.filter{
+/* Gallery */
 
-    text-align:center;
-
-    cursor:pointer;
+.gallery {
+    margin-top: 15px;
+    background: rgba(255,255,255,.82);
+    border-radius: 25px;
+    padding: 17px;
+    border: 2px solid white;
 }
-
 
-.filter-img{
-
-    height:43px;
-
-    margin-bottom:3px;
-
-    border:
-        2px solid
-        transparent;
-
-    border-radius:7px;
+.gallery-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
-
-.filter.active .filter-img{
-
-    border-color:#7258d1;
+.gallery-title h3 {
+    color: #425993;
 }
-
-
-.filter-name{
 
-    color:#5e6e88;
-
-    font-size:6px;
-
-    font-weight:800;
+.gallery-title span {
+    color: #8c92c7;
+    font-size: 13px;
 }
-
-
-.original{
 
-    background:
-        linear-gradient(
-            135deg,
-            #eabfa6,
-            #8ba8cb
-        );
+.photos {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 5px;
 }
 
-
-.bw{
-
-    background:
-        linear-gradient(
-            135deg,
-            #333,
-            #ddd
-        );
+.photo-item {
+    min-width: 90px;
+    height: 80px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 3px solid white;
+    box-shadow: 0 4px 15px rgba(80,100,160,.15);
 }
-
-
-.vintage{
 
-    background:
-        linear-gradient(
-            135deg,
-            #c99769,
-            #75604c
-        );
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
+/* ================= RIGHT PANEL ================= */
 
-.warm{
-
-    background:
-        linear-gradient(
-            135deg,
-            #f4bd79,
-            #e27a64
-        );
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
-
 
-.cool{
-
-    background:
-        linear-gradient(
-            135deg,
-            #9dbfe5,
-            #6274ba
-        );
+.panel {
+    background: rgba(255,255,255,.84);
+    border: 2px solid rgba(255,255,255,.95);
+    border-radius: 25px;
+    padding: 20px;
+    box-shadow: 0 12px 30px rgba(100,120,180,.12);
 }
-
 
-.pixel{
-
-    background:
-        repeating-linear-gradient(
-            45deg,
-            #687fd0 0 5px,
-            #c5d1ff 5px 10px
-        );
+.panel-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
 }
-
 
-.cartoon{
-
-    background:
-        linear-gradient(
-            135deg,
-            #f2b6c8,
-            #8cc4d9
-        );
+.panel-title h3 {
+    font-size: 17px;
+    color: #3d548f;
 }
-
 
-.dreamy{
-
-    background:
-        linear-gradient(
-            135deg,
-            #dcb7ef,
-            #9bb9e5
-        );
+.panel-title span {
+    font-size: 12px;
+    color: #8995c3;
 }
-
 
-.retro{
+/* Templates */
 
-    background:
-        linear-gradient(
-            135deg,
-            #d69a73,
-            #767a9b
-        );
+.templates {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 }
-
-
-.ghibli{
 
-    background:
-        linear-gradient(
-            135deg,
-            #9dc49b,
-            #8bb5d0
-        );
+.template {
+    cursor: pointer;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6373a9;
 }
-
-
-/* =====================================================
-   STICKERS
-===================================================== */
-
-.stickers{
-
-    display:flex;
 
-    flex-wrap:wrap;
-
-    gap:6px;
+.template-box {
+    height: 78px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #d9edff, #e5d8ff);
+    border: 2px solid transparent;
+    padding: 8px;
+    margin-bottom: 5px;
+    display: grid;
+    gap: 4px;
 }
-
-
-.sticker{
-
-    width:32px;
-
-    height:32px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
 
-    border-radius:8px;
-
-    background:#f1f5ff;
-
-    border:
-        1px solid
-        #dde4f1;
-
-    font-size:17px;
-
-    cursor:pointer;
-
-    transition:.2s;
+.template.selected .template-box {
+    border-color: #a36ff1;
+    box-shadow: 0 4px 15px rgba(165,110,240,.25);
 }
-
-
-.sticker:hover{
-
-    transform:
-        scale(1.13)
-        rotate(-5deg);
 
-    background:white;
+.cut4 {
+    grid-template-columns: 1fr 1fr;
 }
 
-
-/* =====================================================
-   RECENT
-===================================================== */
-
-.recent{
-
-    display:flex;
-
-    gap:5px;
+.cut3 {
+    grid-template-rows: repeat(3,1fr);
 }
-
-
-.recent-photo{
-
-    flex:1;
-
-    height:43px;
 
-    border-radius:7px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #cddaf0,
-            #8da6ca
-        );
+.polaroid {
+    grid-template-rows: 1fr .3fr;
 }
-
-
-/* =====================================================
-   ACTIONS
-===================================================== */
-
-.action-row{
 
-    display:flex;
-
-    gap:7px;
+.grid4 {
+    grid-template-columns: repeat(2,1fr);
 }
-
-
-.download{
-
-    flex:1;
 
-    height:36px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #596dce,
-            #7157c8
-        );
-
-    color:white;
-
-    font-size:8px;
-
-    font-weight:800;
-
-    cursor:pointer;
+.template-box span {
+    background: rgba(255,255,255,.7);
+    border-radius: 4px;
 }
-
 
-.leave{
+/* Filters */
 
-    width:78px;
-
-    height:36px;
-
-    border:
-        1px solid
-        #d6deeb;
-
-    border-radius:8px;
-
-    background:white;
-
-    color:#64748b;
+.filters {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 9px;
+}
 
-    font-size:8px;
+.filter {
+    text-align: center;
+    cursor: pointer;
+    font-size: 10px;
+    color: #6775aa;
+}
 
-    font-weight:800;
+.filter-circle {
+    height: 48px;
+    width: 48px;
+    margin: auto auto 5px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 3px 10px rgba(80,100,150,.12);
+    background: linear-gradient(135deg,#c8e8ff,#cdbbff);
+}
 
-    cursor:pointer;
+.filter.selected .filter-circle {
+    outline: 3px solid #9c83f0;
 }
 
+.original {
+    filter: none;
+}
 
-/* =====================================================
-   TOAST
-===================================================== */
+.bw {
+    filter: grayscale(1);
+}
 
-.toast{
+.vintage {
+    filter: sepia(.65);
+}
 
-    position:fixed;
+.warm {
+    filter: saturate(1.3) sepia(.25);
+}
 
-    left:50%;
+.cool {
+    filter: hue-rotate(15deg) saturate(.8);
+}
 
-    bottom:23px;
+.pixel {
+    filter: contrast(1.4) saturate(1.5);
+}
 
-    transform:
-        translateX(-50%);
+.cartoon {
+    filter: saturate(1.7) contrast(1.15);
+}
 
-    padding:
-        10px
-        17px;
+.dreamy {
+    filter: brightness(1.12) saturate(.8);
+}
 
-    border-radius:10px;
+.retro {
+    filter: sepia(.45) contrast(1.1);
+}
 
-    color:white;
+.ghibli {
+    filter: saturate(.7) brightness(1.08);
+}
 
-    background:#172755;
+/* Stickers */
 
-    box-shadow:
-        0 10px 30px
-        rgba(0,0,0,.25);
+.stickers {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 8px;
+}
 
-    font-size:9px;
+.sticker {
+    height: 45px;
+    border-radius: 12px;
+    border: 1px solid #dce5fa;
+    background: #f6f9ff;
+    font-size: 23px;
+    cursor: pointer;
+    transition: .2s;
+}
 
-    font-weight:700;
+.sticker:hover {
+    background: #e8f0ff;
+    transform: scale(1.08);
+}
 
-    z-index:1000;
+/* Actions */
 
-    animation:
-        toastIn .2s ease;
+.action-btn {
+    width: 100%;
+    border: none;
+    border-radius: 25px;
+    padding: 14px;
+    margin-top: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
 }
 
+.download {
+    background: linear-gradient(135deg,#a58cf4,#b6a0ff);
+    color: white;
+}
 
-@keyframes toastIn{
+.clear {
+    background: #eaf3ff;
+    color: #6476a9;
+}
 
-    from{
+/* Sticker overlay */
 
-        opacity:0;
+#stickerLayer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
 
-        transform:
-            translate(
-                -50%,
-                10px
-            );
+.floating-sticker {
+    position: absolute;
+    font-size: 42px;
+    animation: pop .35s ease;
+}
 
+@keyframes pop {
+    from {
+        transform: scale(0);
+        opacity: 0;
     }
-
-    to{
-
-        opacity:1;
-
-        transform:
-            translate(
-                -50%,
-                0
-            );
-
-    }
-
-}
-
-
-/* =====================================================
-   FLASH
-===================================================== */
-
-.flash{
-
-    position:fixed;
-
-    inset:0;
-
-    background:white;
-
-    opacity:0;
-
-    pointer-events:none;
-
-    z-index:900;
-}
-
-
-.flash.active{
-
-    opacity:1;
-}
-
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width:1050px){
-
-    body{
-        overflow:auto;
-    }
-
-    .app{
-        height:auto;
-        min-height:100vh;
-    }
-
-    .sidebar{
-        width:190px;
-    }
-
-    .booth{
-
-        grid-template-columns:1fr;
-
-        height:auto;
-    }
-
-    .camera-panel{
-
-        min-height:620px;
-    }
-
-    .main{
-
-        height:auto;
+    to {
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
+/* Responsive */
 
-@media(max-width:700px){
-
-    .sidebar{
-
-        width:62px;
-
-        padding:
-            14px 7px;
+@media(max-width:1200px) {
+    .app {
+        grid-template-columns: 220px 1fr;
     }
 
-    .logo h1,
-    .profile div:not(.avatar),
-    .nav-item span:not(.nav-icon),
-    .help{
-
-        display:none;
-    }
-
-    .nav-item{
-
-        justify-content:center;
-
-        padding:0;
-    }
-
-    .main{
-
-        padding:9px;
+    .right-panel {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
     }
 }
 
+@media(max-width:850px) {
+    .app {
+        grid-template-columns: 1fr;
+        padding: 12px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .right-panel {
+        display: block;
+    }
+
+    .panel {
+        margin-bottom: 12px;
+    }
+
+    .camera-wrapper {
+        height: 380px;
+    }
+
+    .title-area h1 {
+        font-size: 32px;
+    }
+}
+
+@media(max-width:550px) {
+    .topbar {
+        align-items: flex-start;
+    }
+
+    .room {
+        padding: 9px 12px;
+        font-size: 12px;
+    }
+
+    .camera-wrapper {
+        height: 300px;
+    }
+
+    .controls {
+        padding: 12px;
+    }
+
+    .capture-btn {
+        width: 70px;
+        height: 70px;
+    }
+
+    .control-btn {
+        width: 50px;
+        height: 50px;
+    }
+}
 </style>
-
 </head>
-
 
 <body>
 
-
 <div class="app">
 
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
-
-<aside class="sidebar">
-
-
-    <div class="logo">
-
-        <div class="logo-camera">
-            📷
+        <div class="logo">
+            <div class="logo-camera">📸</div>
+            <div class="logo-text">Snap Bridge</div>
         </div>
 
-        <h1>
-            Snap Bridge<span>✦</span>
-        </h1>
-
-    </div>
-
-
-    <div class="profile">
-
-        <div class="avatar">
-            👩🏻
-        </div>
-
-        <div>
-
-            <strong id="profileName">
-                You
-            </strong>
-
-            <small>
-                Photo booth ready
-            </small>
-
-        </div>
-
-    </div>
-
-
-    <nav class="nav">
-
-
-        <div class="nav-item active">
-
-            <span class="nav-icon">
-                📸
-            </span>
-
-            <span>
-                Photo Booth
-            </span>
-
-        </div>
-
-
-        <div class="nav-item"
-             onclick="showToast('Templates section ✨')">
-
-            <span class="nav-icon">
-                ▦
-            </span>
-
-            <span>
-                Templates
-            </span>
-
-        </div>
-
-
-        <div class="nav-item"
-             onclick="showToast('Filters section ✨')">
-
-            <span class="nav-icon">
-                ◉
-            </span>
-
-            <span>
-                Filters
-            </span>
-
-        </div>
-
-
-        <div class="nav-item"
-             onclick="showToast('Stickers section 🌸')">
-
-            <span class="nav-icon">
-                ♡
-            </span>
-
-            <span>
-                Stickers
-            </span>
-
-        </div>
-
-
-        <div class="nav-item"
-             onclick="showToast('Customize section ✨')">
-
-            <span class="nav-icon">
-                ✎
-            </span>
-
-            <span>
-                Customize
-            </span>
-
-        </div>
-
-
-        <div class="nav-item"
-             onclick="showToast('Gallery section 🖼️')">
-
-            <span class="nav-icon">
-                ▣
-            </span>
-
-            <span>
-                Gallery
-            </span>
-
-        </div>
-
-
-        <div class="nav-item"
-             onclick="showToast('Settings ⚙️')">
-
-            <span class="nav-icon">
-                ⚙
-            </span>
-
-            <span>
-                Settings
-            </span>
-
-        </div>
-
-
-    </nav>
-
-
-    <div class="sidebar-bottom">
-
-        <div class="help">
-
-            <strong>
-                ✨ Memory Mode
-            </strong>
-
-            <p>
-                Invite your friends and
-                create beautiful memories
-                together.
-            </p>
-
-        </div>
-
-    </div>
-
-
-</aside>
-
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="main">
-
-
-    <!-- TOP BAR -->
-
-    <div class="topbar">
-
-
-        <div class="title">
-
-            <h2>
-                Photo Booth
-            </h2>
-
-            <p>
-                Capture the moment together ✦
-            </p>
-
-        </div>
-
-
-        <div class="top-right">
-
-
-            <div class="room-display"
-                 id="roomDisplay">
-
-                <span>
-                    ROOM
-                </span>
-
-                <strong class="room-code"
-                        id="topRoomCode">
-                    ------
-                </strong>
-
-                <span class="people-count"
-                      id="peopleCount">
-                    👥 1/3
-                </span>
-
-            </div>
-
-
-            <button class="top-btn"
-                    onclick="goHome()">
-
-                ← Home
-
+        <div class="menu">
+
+            <button class="active">
+                <span class="menu-icon">📸</span>
+                <span>Snap Bridge</span>
             </button>
 
+            <button onclick="goTo('templates.html')">
+                <span class="menu-icon">▦</span>
+                <span>Templates</span>
+            </button>
+
+            <button onclick="scrollToPanel('filtersPanel')">
+                <span class="menu-icon">✧</span>
+                <span>Filters</span>
+            </button>
+
+            <button onclick="scrollToPanel('stickersPanel')">
+                <span class="menu-icon">♡</span>
+                <span>Stickers</span>
+            </button>
+
+            <button>
+                <span class="menu-icon">✎</span>
+                <span>Customize</span>
+            </button>
+
+            <button onclick="document.querySelector('.gallery').scrollIntoView({behavior:'smooth'})">
+                <span class="menu-icon">▧</span>
+                <span>Gallery</span>
+            </button>
+
+            <button>
+                <span class="menu-icon">⚙</span>
+                <span>Settings</span>
+            </button>
+
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="heart">♡</div>
+            <p>
+                Capture more than photos,<br>
+                create memories together!
+            </p>
+        </div>
+
+    </aside>
+
+
+    <!-- CENTER -->
+    <main class="center">
+
+        <div class="topbar">
+
+            <div class="title-area">
+                <h1>Snap Bridge ♡</h1>
+                <p>Capture the moment together ✨</p>
+            </div>
+
+            <div class="room">
+                👥 Room:
+                <span id="roomCode">SB7K2P</span>
+            </div>
 
         </div>
 
 
-    </div>
+        <!-- CAMERA -->
+        <section class="camera-card">
 
+            <div class="camera-wrapper">
 
+                <video id="video" autoplay playsinline></video>
 
-    <!-- =================================================
-         BOOTH
-    ================================================= -->
+                <div id="stickerLayer"></div>
 
-    <div class="booth">
+                <div class="camera-overlay">
 
+                    <div class="corner tl"></div>
+                    <div class="corner tr"></div>
+                    <div class="corner bl"></div>
+                    <div class="corner br"></div>
 
-        <!-- =============================================
-             CAMERA
-        ============================================== -->
-
-        <section class="camera-panel">
-
-
-            <div class="camera-head">
-
-                <h3>
-                    ✦ Live Group Booth
-                </h3>
-
-                <div class="live">
-
-                    <span class="live-dot"></span>
-
-                    CAMERA LIVE
-
-                </div>
-
-            </div>
-
-
-            <div class="video-area">
-
-
-                <div class="video-grid"
-                     id="videoGrid">
-
-
-                    <!-- LOCAL USER -->
-
-                    <div class="video-box single"
-                         id="localBox">
-
-
-                        <video id="localVideo"
-                               autoplay
-                               muted
-                               playsinline>
-                        </video>
-
-
-                        <div class="video-name">
-                            You
-                        </div>
-
-
+                    <div class="camera-label">
+                        📷 SNAP BRIDGE
                     </div>
 
+                    <div class="live">
+                        <span class="live-dot"></span>
+                        CAMERA LIVE
+                    </div>
+
+                    <div class="camera-message" id="cameraMessage">
+                        <strong>📸 Camera is ready!</strong>
+                        Smile! You're all set for photos! ✨
+                    </div>
+
+                    <div class="countdown" id="countdown">
+                        3
+                    </div>
 
                 </div>
-
-
-                <div class="camera-tag">
-                    📷 SNAP BRIDGE
-                </div>
-
-
-                <div class="filter-tag"
-                     id="filterTag">
-
-                    Original
-
-                </div>
-
-
-                <div class="countdown"
-                     id="countdown">
-
-                    3
-
-                </div>
-
 
             </div>
 
 
-            <div class="camera-controls">
+            <!-- CONTROLS -->
+            <div class="controls">
 
+                <button class="control-btn" onclick="switchCamera()" title="Switch Camera">
+                    🔄
+                </button>
 
-                <button class="circle-btn"
-                        id="cameraBtn"
-                        onclick="toggleCamera()">
-
+                <button class="capture-btn" onclick="takePhoto()" title="Take Photo">
                     📷
-
                 </button>
 
-
-                <button class="capture"
-                        onclick="takeGroupPhoto()"
-                        title="Capture">
+                <button class="control-btn" onclick="toggleMic()" title="Toggle Microphone">
+                    🎙️
                 </button>
-
-
-                <button class="circle-btn"
-                        id="micBtn"
-                        onclick="toggleMic()">
-
-                    🎤
-
-                </button>
-
 
             </div>
-
 
         </section>
 
 
+        <!-- GALLERY -->
+        <section class="gallery">
 
-        <!-- =============================================
-             RIGHT SIDE
-        ============================================== -->
-
-        <section class="right">
-
-
-            <!-- ROOM -->
-
-            <div class="card room-card">
-
-
-                <div class="card-head">
-
-                    <h3>
-                        👥 Create or Join Booth
-                    </h3>
-
-                    <span>
-                        Up to 3 people
-                    </span>
-
-                </div>
-
-
-                <div class="room-buttons">
-
-
-                    <button class="room-btn primary"
-                            onclick="createRoom()">
-
-                        ✨ Create Booth
-
-                    </button>
-
-
-                    <button class="room-btn"
-                            onclick="showJoin()">
-
-                        🔗 Join Booth
-
-                    </button>
-
-
-                </div>
-
-
-                <!-- JOIN -->
-
-                <div class="join-row"
-                     id="joinRow">
-
-
-                    <input id="roomInput"
-                           maxlength="6"
-                           placeholder="ROOM CODE">
-
-
-                    <button onclick="joinRoom()">
-
-                        JOIN
-
-                    </button>
-
-
-                </div>
-
-
-                <!-- CREATED ROOM -->
-
-                <div class="created-room"
-                     id="createdRoom">
-
-
-                    <small>
-                        Share this room code with your friends
-                    </small>
-
-
-                    <strong id="roomCode">
-                        ------
-                    </strong>
-
-
-                    <button class="copy-room"
-                            onclick="copyRoom()">
-
-                        📋 Copy Code
-
-                    </button>
-
-
-                </div>
-
-
-                <!-- SHARE LINK -->
-
-                <button class="share-link-btn"
-                        id="shareLinkBtn"
-                        onclick="shareBoothLink()"
-                        style="display:none;">
-
-                    🔗 Share Booth Link
-
-                </button>
-
-
+            <div class="gallery-title">
+                <h3>🖼️ My Photos</h3>
+                <span>Your captured photos ♡</span>
             </div>
 
-
-
-            <!-- PARTICIPANTS -->
-
-            <div class="card">
-
-
-                <div class="card-head">
-
-                    <h3>
-                        People in Booth
-                    </h3>
-
-                    <span id="participantText">
-                        1 / 3
-                    </span>
-
+            <div class="photos" id="photos">
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=300&q=80">
                 </div>
 
-
-                <div class="participants"
-                     id="participants">
-
-
-                    <div class="person">
-
-
-                        <div class="person-avatar">
-                            👩🏻
-                        </div>
-
-
-                        <div class="person-name">
-                            You
-                        </div>
-
-
-                        <div class="person-status">
-                            ● Ready
-                        </div>
-
-
-                    </div>
-
-
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=300&q=80">
                 </div>
 
-
+                <div class="photo-item">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=300&q=80">
+                </div>
             </div>
 
+        </section>
+
+    </main>
 
 
-            <!-- TEMPLATES -->
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel">
 
-            <div class="card">
+        <!-- Templates -->
+        <section class="panel">
 
-
-                <div class="card-head">
-
-                    <h3>
-                        Choose Template
-                    </h3>
-
-                    <span>
-                        Premium layouts
-                    </span>
-
-                </div>
-
-
-                <div class="templates">
-
-
-                    <div class="template temp-one selected"
-                         onclick="selectTemplate(this,'4 Cut')">
-                    </div>
-
-
-                    <div class="template temp-two"
-                         onclick="selectTemplate(this,'3 Cut')">
-                    </div>
-
-
-                    <div class="template temp-three"
-                         onclick="selectTemplate(this,'Polaroid')">
-                    </div>
-
-
-                    <div class="template temp-four"
-                         onclick="selectTemplate(this,'Grid')">
-                    </div>
-
-
-                    <div class="template temp-five"
-                         onclick="selectTemplate(this,'Film Strip')">
-                    </div>
-
-
-                </div>
-
-
+            <div class="panel-title">
+                <h3>▧ Choose Template</h3>
+                <span>4 styles</span>
             </div>
 
+            <div class="templates">
 
-
-            <!-- FILTERS -->
-
-            <div class="card">
-
-
-                <div class="card-head">
-
-                    <h3>
-                        ✨ Photo Filters
-                    </h3>
-
-                    <span>
-                        10 styles
-                    </span>
-
+                <div class="template selected" onclick="selectTemplate(this)">
+                    <div class="template-box cut4">
+                        <span></span><span></span>
+                        <span></span><span></span>
+                    </div>
+                    4 Cut
                 </div>
 
-
-                <div class="filters">
-
-
-                    <div class="filter active"
-                         onclick="selectFilter(this,'Original')">
-
-                        <div class="filter-img original"></div>
-
-                        <div class="filter-name">
-                            Original
-                        </div>
-
+                <div class="template" onclick="selectTemplate(this)">
+                    <div class="template-box cut3">
+                        <span></span><span></span><span></span>
                     </div>
-
-
-                    <div class="filter"
-                         onclick="selectFilter(this,'B&W')">
-
-                        <div class="filter-img bw"></div>
-
-                        <div class="filter-name">
-                            B&W
-                        </div>
-
-                    </div>
-
-
-                    <div class="filter"
-                         onclick="selectFilter(this,'Vintage')">
-
-                        <div class="filter-img vintage"></div>
-
-                        <div class="filter-name">
-                            Vintage
-                        </div>
-
-                    </div>
-
-
-                    <div class="filter"
-                         onclick="selectFilter(this,'Warm')">
-
-                        <div class="filter-img warm"></div>
-
-                        <div class="filter-name">
-                            Warm
-                        </div>
-
-                    </div>
-
-
-                    <div class="filter"
-                         onclick="selectFilter(this,'Cool')">
-
-                        <div class="filter-img cool"></div>
-
-                        <div class="filter-name">
-                            Cool
-                        </div>
-
-                    </div>
-
-
-                    <div class="filter"
-                         onclick="selectFilter(this,'Pixel')">
-
-                        <div class="filter-img pixel"></div>
-
-                        <div class="filter-name">
-                            Pixel
-                        </div>
-
-                    </div>
-
-
-                    <div class="filter"
-                         onclick="selectFilter(this,'Cartoon')">
-
-                        <div class="filter-img cartoon"></div>
-
-                        <div class="filter-name">
-                            Cartoon
-                        </div>
-
-                    </div>
-
-
-                    <div class="filter"
-                         onclick="selectFilter(this,'Dreamy')">
-
-                        <div class="filter-img dreamy"></div>
-
-                        <div class="filter-name">
-                            Dreamy
-                        </div>
-
-                    </div>
-
-
-                    <div class="filter"
-                         onclick="selectFilter(this,'Retro')">
-
-                        <div class="filter-img retro"></div>
-
-                        <div class="filter-name">
-                            Retro
-                        </div>
-
-                    </div>
-
-
-                    <div class="filter"
-                         onclick="selectFilter(this,'Ghibli Art')">
-
-                        <div class="filter-img ghibli"></div>
-
-                        <div class="filter-name">
-                            Ghibli
-                        </div>
-
-                    </div>
-
-
+                    3 Cut
                 </div>
 
+                <div class="template" onclick="selectTemplate(this)">
+                    <div class="template-box polaroid">
+                        <span></span><span></span>
+                    </div>
+                    Polaroid
+                </div>
+
+                <div class="template" onclick="selectTemplate(this)">
+                    <div class="template-box grid4">
+                        <span></span><span></span>
+                        <span></span><span></span>
+                    </div>
+                    Grid
+                </div>
 
             </div>
-
-
-
-            <!-- STICKERS -->
-
-            <div class="card">
-
-
-                <div class="card-head">
-
-                    <h3>
-                        🌸 Add Stickers
-                    </h3>
-
-                    <span>
-                        Cute collection
-                    </span>
-
-                </div>
-
-
-                <div class="stickers">
-
-
-                    <div class="sticker"
-                         onclick="addSticker('💖')">
-                        💖
-                    </div>
-
-
-                    <div class="sticker"
-                         onclick="addSticker('🌸')">
-                        🌸
-                    </div>
-
-
-                    <div class="sticker"
-                         onclick="addSticker('🌷')">
-                        🌷
-                    </div>
-
-
-                    <div class="sticker"
-                         onclick="addSticker('🦋')">
-                        🦋
-                    </div>
-
-
-                    <div class="sticker"
-                         onclick="addSticker('👑')">
-                        👑
-                    </div>
-
-
-                    <div class="sticker"
-                         onclick="addSticker('🎀')">
-                        🎀
-                    </div>
-
-
-                    <div class="sticker"
-                         onclick="addSticker('✨')">
-                        ✨
-                    </div>
-
-
-                    <div class="sticker"
-                         onclick="addSticker('⭐')">
-                        ⭐
-                    </div>
-
-
-                    <div class="sticker"
-                         onclick="addSticker('📸')">
-                        📸
-                    </div>
-
-
-                    <div class="sticker"
-                         onclick="addSticker('💐')">
-                        💐
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- RECENT -->
-
-            <div class="card">
-
-
-                <div class="card-head">
-
-                    <h3>
-                        Recent Memories
-                    </h3>
-
-                    <span>
-                        Your photos
-                    </span>
-
-                </div>
-
-
-                <div class="recent">
-
-                    <div class="recent-photo"></div>
-
-                    <div class="recent-photo"></div>
-
-                    <div class="recent-photo"></div>
-
-                    <div class="recent-photo"></div>
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- ACTIONS -->
-
-            <div class="action-row">
-
-
-                <button class="download"
-                        onclick="downloadPhoto()">
-
-                    ↓ Download Memory
-
-                </button>
-
-
-                <button class="leave"
-                        onclick="leaveRoom()">
-
-                    Leave Room
-
-                </button>
-
-
-            </div>
-
 
         </section>
 
 
-    </div>
+        <!-- FILTERS -->
+        <section class="panel" id="filtersPanel">
+
+            <div class="panel-title">
+                <h3>✦ Photo Filters</h3>
+                <span>10 styles</span>
+            </div>
+
+            <div class="filters">
+
+                <div class="filter selected" onclick="applyFilter('original',this)">
+                    <div class="filter-circle original"></div>
+                    Original
+                </div>
+
+                <div class="filter" onclick="applyFilter('bw',this)">
+                    <div class="filter-circle bw"></div>
+                    B&W
+                </div>
+
+                <div class="filter" onclick="applyFilter('vintage',this)">
+                    <div class="filter-circle vintage"></div>
+                    Vintage
+                </div>
+
+                <div class="filter" onclick="applyFilter('warm',this)">
+                    <div class="filter-circle warm"></div>
+                    Warm
+                </div>
+
+                <div class="filter" onclick="applyFilter('cool',this)">
+                    <div class="filter-circle cool"></div>
+                    Cool
+                </div>
+
+                <div class="filter" onclick="applyFilter('pixel',this)">
+                    <div class="filter-circle pixel"></div>
+                    Pixel
+                </div>
+
+                <div class="filter" onclick="applyFilter('cartoon',this)">
+                    <div class="filter-circle cartoon"></div>
+                    Cartoon
+                </div>
+
+                <div class="filter" onclick="applyFilter('dreamy',this)">
+                    <div class="filter-circle dreamy"></div>
+                    Dreamy
+                </div>
+
+                <div class="filter" onclick="applyFilter('retro',this)">
+                    <div class="filter-circle retro"></div>
+                    Retro
+                </div>
+
+                <div class="filter" onclick="applyFilter('ghibli',this)">
+                    <div class="filter-circle ghibli"></div>
+                    Ghibli
+                </div>
+
+            </div>
+
+        </section>
 
 
-</main>
+        <!-- STICKERS -->
+        <section class="panel" id="stickersPanel">
+
+            <div class="panel-title">
+                <h3>♡ Add Stickers</h3>
+                <span>Cute collection ♡</span>
+            </div>
+
+            <div class="stickers">
+
+                <button class="sticker" onclick="addSticker('💗')">💗</button>
+                <button class="sticker" onclick="addSticker('🌸')">🌸</button>
+                <button class="sticker" onclick="addSticker('🦋')">🦋</button>
+                <button class="sticker" onclick="addSticker('⭐')">⭐</button>
+                <button class="sticker" onclick="addSticker('👑')">👑</button>
+
+                <button class="sticker" onclick="addSticker('🎀')">🎀</button>
+                <button class="sticker" onclick="addSticker('✨')">✨</button>
+                <button class="sticker" onclick="addSticker('🌷')">🌷</button>
+                <button class="sticker" onclick="addSticker('😊')">😊</button>
+                <button class="sticker" onclick="addSticker('📸')">📸</button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACTIONS -->
+        <section class="panel">
+
+            <div class="panel-title">
+                <h3>⚡ Actions</h3>
+            </div>
+
+            <button class="action-btn download" onclick="downloadLatest()">
+                ⬇ Download Photo
+            </button>
+
+            <button class="action-btn clear" onclick="clearGallery()">
+                🗑 Clear Gallery
+            </button>
+
+        </section>
+
+    </aside>
 
 </div>
 
 
-<div class="flash"
-     id="flash">
-</div>
-
+<canvas id="canvas" style="display:none;"></canvas>
 
 
 <script>
 
-/* =====================================================
-   SNAP BRIDGE
-   GROUP PHOTO BOOTH
-===================================================== */
-
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
-let peer = null;
-
-let localStream = null;
-
-let roomCode = null;
-
-let isHost = false;
-
-let connections = {};
-
-let calls = {};
-
-let participantNames = {};
-
-let cameraEnabled = true;
-
+let stream = null;
+let currentFilter = "original";
+let latestPhoto = null;
 let micEnabled = true;
 
-let currentFilter = "Original";
 
-let currentTemplate = "4 Cut";
+/* ================= CAMERA ================= */
 
-let capturedPhoto = null;
+async function startCamera() {
 
+    try {
 
-/* =====================================================
-   START CAMERA
-===================================================== */
-
-async function startCamera(){
-
-    try{
-
-        localStream =
-            await navigator.mediaDevices
-            .getUserMedia({
-
-                video:{
-                    width:{
-                        ideal:1280
-                    },
-
-                    height:{
-                        ideal:720
-                    },
-
-                    facingMode:"user"
-
-                },
-
-                audio:true
-
-            });
-
-
-        document
-        .getElementById("localVideo")
-        .srcObject =
-            localStream;
-
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        showToast(
-            "Please allow camera and microphone access 📷"
-        );
-
-    }
-
-}
-
-
-startCamera();
-
-
-
-/* =====================================================
-   GENERATE ROOM CODE
-===================================================== */
-
-function generateRoomCode(){
-
-    const chars =
-        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-    let code="SB";
-
-    for(
-        let i=0;
-        i<4;
-        i++
-    ){
-
-        code +=
-            chars[
-                Math.floor(
-                    Math.random()*chars.length
-                )
-            ];
-
-    }
-
-    return code;
-
-}
-
-
-
-/* =====================================================
-   CREATE ROOM
-===================================================== */
-
-function createRoom(){
-
-    if(!localStream){
-
-        showToast(
-            "Please allow camera access first 📷"
-        );
-
-        return;
-
-    }
-
-
-    if(peer){
-
-        showToast(
-            "You already have a booth."
-        );
-
-        return;
-
-    }
-
-
-    roomCode =
-        generateRoomCode();
-
-    isHost=true;
-
-
-    peer =
-        new Peer(
-            roomCode,
-            {
-                debug:2
-            }
-        );
-
-
-    peer.on(
-        "open",
-        function(id){
-
-            console.log(
-                "Room created:",
-                id
-            );
-
-
-            participantNames[
-                id
-            ]="You";
-
-
-            showCreatedRoom();
-
-
-            showToast(
-                "Booth created! Share the link 🔗"
-            );
-
-        }
-    );
-
-
-    peer.on(
-        "call",
-        function(call){
-
-            handleIncomingCall(call);
-
-        }
-    );
-
-
-    peer.on(
-        "connection",
-        function(connection){
-
-            handleDataConnection(
-                connection
-            );
-
-        }
-    );
-
-
-    peer.on(
-        "error",
-        function(error){
-
-            console.error(error);
-
-            showToast(
-                "Could not create booth."
-            );
-
-        }
-    );
-
-}
-
-
-
-/* =====================================================
-   SHOW CREATED ROOM
-===================================================== */
-
-function showCreatedRoom(){
-
-    document
-    .getElementById("createdRoom")
-    .style.display =
-        "block";
-
-
-    document
-    .getElementById("roomCode")
-    .textContent =
-        roomCode;
-
-
-    document
-    .getElementById("topRoomCode")
-    .textContent =
-        roomCode;
-
-
-    document
-    .getElementById("roomDisplay")
-    .style.display =
-        "flex";
-
-
-    document
-    .getElementById("shareLinkBtn")
-    .style.display =
-        "block";
-
-
-    updatePeopleCount();
-
-}
-
-
-
-/* =====================================================
-   SHOW JOIN
-===================================================== */
-
-function showJoin(){
-
-    document
-    .getElementById("joinRow")
-    .style.display =
-        "flex";
-
-
-    document
-    .getElementById("roomInput")
-    .focus();
-
-}
-
-
-
-/* =====================================================
-   JOIN ROOM
-===================================================== */
-
-function joinRoom(){
-
-    const input =
-        document
-        .getElementById("roomInput")
-        .value
-        .trim()
-        .toUpperCase();
-
-
-    if(input.length !== 6){
-
-        showToast(
-            "Enter a valid room code."
-        );
-
-        return;
-
-    }
-
-
-    if(!localStream){
-
-        showToast(
-            "Please allow camera access first."
-        );
-
-        return;
-
-    }
-
-
-    if(peer){
-
-        showToast(
-            "You are already connected."
-        );
-
-        return;
-
-    }
-
-
-    roomCode=input;
-
-    isHost=false;
-
-
-    peer =
-        new Peer(
-            undefined,
-            {
-                debug:2
-            }
-        );
-
-
-    peer.on(
-        "open",
-        function(myId){
-
-            console.log(
-                "My ID:",
-                myId
-            );
-
-
-            participantNames[
-                myId
-            ]="You";
-
-
-            connectToHost(
-                roomCode,
-                myId
-            );
-
-        }
-    );
-
-
-    peer.on(
-        "call",
-        function(call){
-
-            handleIncomingCall(call);
-
-        }
-    );
-
-
-    peer.on(
-        "connection",
-        function(connection){
-
-            handleDataConnection(
-                connection
-            );
-
-        }
-    );
-
-
-    peer.on(
-        "error",
-        function(error){
-
-            console.error(error);
-
-            showToast(
-                "Unable to join booth. Check the code."
-            );
-
-        }
-    );
-
-}
-
-
-
-/* =====================================================
-   CONNECT TO HOST
-===================================================== */
-
-function connectToHost(
-    hostId,
-    myId
-){
-
-    const connection =
-        peer.connect(
-            hostId,
-            {
-                reliable:true
-            }
-        );
-
-
-    connection.on(
-        "open",
-        function(){
-
-            connections[
-                hostId
-            ] =
-                connection;
-
-
-            connection.send({
-
-                type:"hello",
-
-                peerId:myId,
-
-                name:"Friend"
-
-            });
-
-
-            callPeer(
-                hostId
-            );
-
-
-            showJoinedRoom();
-
-        }
-    );
-
-
-    connection.on(
-        "data",
-        function(data){
-
-            handleData(
-                data,
-                connection
-            );
-
-        }
-    );
-
-
-    connection.on(
-        "close",
-        function(){
-
-            removeParticipant(
-                hostId
-            );
-
-        }
-    );
-
-}
-
-
-
-/* =====================================================
-   SHOW JOINED ROOM
-===================================================== */
-
-function showJoinedRoom(){
-
-    document
-    .getElementById("roomDisplay")
-    .style.display =
-        "flex";
-
-
-    document
-    .getElementById("topRoomCode")
-    .textContent =
-        roomCode;
-
-
-    document
-    .getElementById("joinRow")
-    .style.display =
-        "none";
-
-
-    updatePeopleCount();
-
-
-    showToast(
-        "You joined the booth! 👥"
-    );
-
-}
-
-
-
-/* =====================================================
-   DATA CONNECTION
-===================================================== */
-
-function handleDataConnection(
-    connection
-){
-
-    const id =
-        connection.peer;
-
-
-    connections[id] =
-        connection;
-
-
-    connection.on(
-        "data",
-        function(data){
-
-            handleData(
-                data,
-                connection
-            );
-
-        }
-    );
-
-
-    connection.on(
-        "close",
-        function(){
-
-            removeParticipant(id);
-
-        }
-    );
-
-}
-
-
-
-/* =====================================================
-   HANDLE DATA
-===================================================== */
-
-function handleData(
-    data,
-    connection
-){
-
-    if(!data)
-        return;
-
-
-    /* ---------------------------------------------
-       NEW PARTICIPANT
-    --------------------------------------------- */
-
-    if(data.type === "hello"){
-
-        participantNames[
-            data.peerId
-        ] =
-            data.name ||
-            "Friend";
-
-
-        addParticipant(
-            data.peerId,
-            data.name || "Friend"
-        );
-
-
-        /*
-           Host tells all existing users
-           about the new participant.
-        */
-
-        if(isHost){
-
-            Object.keys(
-                connections
-            ).forEach(
-                function(id){
-
-                    if(
-                        id !== data.peerId
-                    ){
-
-                        sendTo(
-                            id,
-                            {
-
-                                type:
-                                "participant",
-
-                                peerId:
-                                data.peerId,
-
-                                name:
-                                data.name ||
-                                "Friend"
-
-                            }
-                        );
-
-                    }
-
-                }
-            );
-
-
-            /*
-               Tell the new user about
-               all current participants.
-            */
-
-            Object.keys(
-                connections
-            ).forEach(
-                function(id){
-
-                    if(
-                        id !== data.peerId
-                    ){
-
-                        sendTo(
-                            data.peerId,
-                            {
-
-                                type:
-                                "participant",
-
-                                peerId:id,
-
-                                name:
-                                participantNames[id]
-                                ||
-                                "Friend"
-
-                            }
-                        );
-
-                    }
-
-                }
-            );
-
-        }
-
-    }
-
-
-
-    /* ---------------------------------------------
-       PARTICIPANT
-    --------------------------------------------- */
-
-    if(data.type === "participant"){
-
-        participantNames[
-            data.peerId
-        ] =
-            data.name ||
-            "Friend";
-
-
-        addParticipant(
-            data.peerId,
-            data.name ||
-            "Friend"
-        );
-
-
-        /*
-           Create direct video connection.
-        */
-
-        if(
-            peer &&
-            data.peerId !== peer.id &&
-            !calls[data.peerId]
-        ){
-
-            callPeer(
-                data.peerId
-            );
-
-        }
-
-    }
-
-
-
-    /* ---------------------------------------------
-       CAPTURE
-    --------------------------------------------- */
-
-    if(data.type === "capture"){
-
-        startCountdown(
-            false
-        );
-
-    }
-
-
-
-    /* ---------------------------------------------
-       FILTER
-    --------------------------------------------- */
-
-    if(data.type === "filter"){
-
-        currentFilter =
-            data.filter;
-
-
-        document
-        .getElementById("filterTag")
-        .textContent =
-            data.filter;
-
-    }
-
-
-
-    /* ---------------------------------------------
-       STICKER
-    --------------------------------------------- */
-
-    if(data.type === "sticker"){
-
-        showToast(
-            data.sticker +
-            " sticker added ✨"
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   CALL PEER
-===================================================== */
-
-function callPeer(
-    peerId
-){
-
-    if(
-        !peer ||
-        !localStream ||
-        peerId === peer.id ||
-        calls[peerId]
-    ){
-
-        return;
-
-    }
-
-
-    try{
-
-        const call =
-            peer.call(
-                peerId,
-                localStream
-            );
-
-
-        calls[
-            peerId
-        ] =
-            call;
-
-
-        call.on(
-            "stream",
-            function(remoteStream){
-
-                addRemoteVideo(
-                    peerId,
-                    remoteStream
-                );
-
-            }
-        );
-
-
-        call.on(
-            "close",
-            function(){
-
-                removeParticipant(
-                    peerId
-                );
-
-            }
-        );
-
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-    }
-
-}
-
-
-
-/* =====================================================
-   INCOMING CALL
-===================================================== */
-
-function handleIncomingCall(
-    call
-){
-
-    calls[
-        call.peer
-    ] =
-        call;
-
-
-    call.answer(
-        localStream
-    );
-
-
-    call.on(
-        "stream",
-        function(remoteStream){
-
-            addRemoteVideo(
-                call.peer,
-                remoteStream
-            );
-
-        }
-    );
-
-
-    call.on(
-        "close",
-        function(){
-
-            removeParticipant(
-                call.peer
-            );
-
-        }
-    );
-
-}
-
-
-
-/* =====================================================
-   ADD REMOTE VIDEO
-===================================================== */
-
-function addRemoteVideo(
-    peerId,
-    stream
-){
-
-    if(
-        document.getElementById(
-            "video-" +
-            peerId
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const box =
-        document.createElement(
-            "div"
-        );
-
-
-    box.className =
-        "video-box";
-
-
-    box.id =
-        "box-" +
-        peerId;
-
-
-    const video =
-        document.createElement(
-            "video"
-        );
-
-
-    video.id =
-        "video-" +
-        peerId;
-
-
-    video.autoplay=true;
-
-    video.playsInline=true;
-
-    video.srcObject =
-        stream;
-
-
-    const name =
-        document.createElement(
-            "div"
-        );
-
-
-    name.className =
-        "video-name";
-
-
-    name.textContent =
-        participantNames[
-            peerId
-        ] ||
-        "Friend";
-
-
-    box.appendChild(
-        video
-    );
-
-
-    box.appendChild(
-        name
-    );
-
-
-    document
-    .getElementById("videoGrid")
-    .appendChild(
-        box
-    );
-
-
-    updateVideoLayout();
-
-
-    addParticipant(
-        peerId,
-        participantNames[
-            peerId
-        ] ||
-        "Friend"
-    );
-
-}
-
-
-
-/* =====================================================
-   VIDEO LAYOUT
-===================================================== */
-
-function updateVideoLayout(){
-
-    const grid =
-        document.getElementById(
-            "videoGrid"
-        );
-
-
-    const boxes =
-        grid.querySelectorAll(
-            ".video-box"
-        );
-
-
-    boxes.forEach(
-        function(box){
-
-            box.classList.remove(
-                "single"
-            );
-
-        }
-    );
-
-
-    if(boxes.length === 1){
-
-        boxes[0].classList.add(
-            "single"
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   ADD PARTICIPANT
-===================================================== */
-
-function addParticipant(
-    id,
-    name
-){
-
-    if(
-        id === peer?.id
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        document.getElementById(
-            "person-" +
-            id
-        )
-    ){
-
-        return;
-
-    }
-
-
-    const container =
-        document.getElementById(
-            "participants"
-        );
-
-
-    /*
-       Maximum 2 friends + You
-    */
-
-    if(
-        container.children.length >= 3
-    ){
-
-        return;
-
-    }
-
-
-    const person =
-        document.createElement(
-            "div"
-        );
-
-
-    person.className =
-        "person";
-
-
-    person.id =
-        "person-" +
-        id;
-
-
-    person.innerHTML = `
-
-        <div class="person-avatar">
-            🧑🏻
-        </div>
-
-        <div class="person-name">
-            ${escapeHTML(name)}
-        </div>
-
-        <div class="person-status">
-            ● Ready
-        </div>
-
-    `;
-
-
-    container.appendChild(
-        person
-    );
-
-
-    updatePeopleCount();
-
-}
-
-
-
-/* =====================================================
-   REMOVE PARTICIPANT
-===================================================== */
-
-function removeParticipant(
-    id
-){
-
-    const video =
-        document.getElementById(
-            "box-" +
-            id
-        );
-
-
-    if(video){
-
-        video.remove();
-
-    }
-
-
-    const person =
-        document.getElementById(
-            "person-" +
-            id
-        );
-
-
-    if(person){
-
-        person.remove();
-
-    }
-
-
-    delete calls[id];
-
-    delete connections[id];
-
-    delete participantNames[id];
-
-
-    updateVideoLayout();
-
-    updatePeopleCount();
-
-}
-
-
-
-/* =====================================================
-   UPDATE PEOPLE COUNT
-===================================================== */
-
-function updatePeopleCount(){
-
-    const container =
-        document.getElementById(
-            "participants"
-        );
-
-
-    let count =
-        container.children.length;
-
-
-    if(count < 1){
-
-        count=1;
-
-    }
-
-
-    if(count > 3){
-
-        count=3;
-
-    }
-
-
-    document
-    .getElementById("peopleCount")
-    .textContent =
-        "👥 " +
-        count +
-        "/3";
-
-
-    document
-    .getElementById("participantText")
-    .textContent =
-        count +
-        " / 3";
-
-}
-
-
-
-/* =====================================================
-   SEND DATA TO USER
-===================================================== */
-
-function sendTo(
-    id,
-    data
-){
-
-    if(
-        connections[id] &&
-        connections[id].open
-    ){
-
-        connections[id].send(
-            data
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   BROADCAST
-===================================================== */
-
-function broadcast(
-    data
-){
-
-    Object.values(
-        connections
-    ).forEach(
-        function(connection){
-
-            if(
-                connection.open
-            ){
-
-                connection.send(
-                    data
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-
-/* =====================================================
-   COUNTDOWN
-===================================================== */
-
-function startCountdown(
-    send=true
-){
-
-    if(send){
-
-        broadcast({
-
-            type:
-            "capture"
-
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: "user",
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+            },
+            audio: true
         });
 
+        const video = document.getElementById("video");
+
+        video.srcObject = stream;
+
+        document.getElementById("cameraMessage")
+            .classList.add("hidden");
+
+    } catch(error) {
+
+        console.log(error);
+
+        document.getElementById("cameraMessage").innerHTML =
+            "<strong>📷 Camera permission needed</strong>" +
+            "<span>Please allow camera access.</span>";
+
     }
 
-
-    const countdown =
-        document.getElementById(
-            "countdown"
-        );
+}
 
 
-    countdown.style.display =
-        "block";
+/* ================= SWITCH CAMERA ================= */
 
+async function switchCamera() {
 
-    let number=3;
+    if (!stream) return;
 
+    stream.getTracks().forEach(track => track.stop());
 
-    countdown.textContent =
-        number;
+    try {
 
-
-    const timer =
-        setInterval(
-            function(){
-
-                number--;
-
-
-                if(number > 0){
-
-                    countdown.textContent =
-                        number;
-
-                }
-
-                else{
-
-                    clearInterval(
-                        timer
-                    );
-
-
-                    countdown.style.display =
-                        "none";
-
-
-                    flashScreen();
-
-
-                    capturePhoto();
-
-                }
-
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: "environment"
             },
-            700
-        );
+            audio: true
+        });
+
+        document.getElementById("video").srcObject = stream;
+
+    } catch(error) {
+
+        console.log(error);
+
+    }
 
 }
 
 
+/* ================= MICROPHONE ================= */
 
-/* =====================================================
-   TAKE GROUP PHOTO
-===================================================== */
+function toggleMic() {
 
-function takeGroupPhoto(){
+    if (!stream) return;
 
-    if(!localStream){
+    const audioTracks = stream.getAudioTracks();
 
-        showToast(
-            "Camera is not ready."
-        );
+    audioTracks.forEach(track => {
+        track.enabled = !track.enabled;
+        micEnabled = track.enabled;
+    });
 
-        return;
-
-    }
-
-
-    startCountdown(true);
+    alert(
+        micEnabled
+        ? "Microphone ON 🎙️"
+        : "Microphone OFF 🔇"
+    );
 
 }
 
 
+/* ================= COUNTDOWN ================= */
 
-/* =====================================================
-   CAPTURE PHOTO
-===================================================== */
+function startCountdown(callback) {
 
-function capturePhoto(){
+    const countdown = document.getElementById("countdown");
 
-    const videos =
-        document.querySelectorAll(
-            ".video-box video"
-        );
+    let number = 3;
+
+    countdown.style.display = "flex";
+    countdown.textContent = number;
+
+    const timer = setInterval(() => {
+
+        number--;
+
+        if(number <= 0) {
+
+            clearInterval(timer);
+
+            countdown.style.display = "none";
+
+            callback();
+
+        } else {
+
+            countdown.textContent = number;
+
+        }
+
+    }, 1000);
+
+}
 
 
-    if(
-        videos.length === 0
-    ){
+/* ================= TAKE PHOTO ================= */
 
+function takePhoto() {
+
+    if(!stream) {
+        alert("Please allow camera access first.");
         return;
-
     }
 
+    startCountdown(capturePhoto);
 
-    const canvas =
-        document.createElement(
-            "canvas"
-        );
+}
 
 
-    canvas.width=1200;
+function capturePhoto() {
 
-    canvas.height=800;
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
 
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
 
-    const ctx =
-        canvas.getContext(
-            "2d"
-        );
+    const ctx = canvas.getContext("2d");
 
+    /* Mirror the captured image */
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
 
-    /*
-       Background
-    */
+    ctx.filter = getFilter(currentFilter);
 
-    ctx.fillStyle =
-        "#eef3ff";
-
-
-    ctx.fillRect(
+    ctx.drawImage(
+        video,
         0,
         0,
         canvas.width,
         canvas.height
     );
 
+    latestPhoto = canvas.toDataURL("image/png");
 
-    const count =
-        videos.length;
-
-
-    const width =
-        canvas.width /
-        count;
-
-
-    videos.forEach(
-        function(video,index){
-
-            const x =
-                index *
-                width;
-
-
-            const w =
-                width;
-
-
-            const h =
-                canvas.height;
-
-
-            ctx.save();
-
-
-            /*
-               Mirror local camera.
-            */
-
-            if(index === 0){
-
-                ctx.translate(
-                    x + w,
-                    0
-                );
-
-
-                ctx.scale(
-                    -1,
-                    1
-                );
-
-
-                ctx.drawImage(
-                    video,
-                    0,
-                    0,
-                    w,
-                    h
-                );
-
-            }
-
-            else{
-
-                ctx.drawImage(
-                    video,
-                    x,
-                    0,
-                    w,
-                    h
-                );
-
-            }
-
-
-            ctx.restore();
-
-        }
-    );
-
-
-    /*
-       Bottom Snap Bridge label
-    */
-
-    ctx.fillStyle =
-        "rgba(255,255,255,.94)";
-
-
-    ctx.fillRect(
-        0,
-        canvas.height - 58,
-        canvas.width,
-        58
-    );
-
-
-    ctx.fillStyle =
-        "#172755";
-
-
-    ctx.font =
-        "bold 22px DM Sans";
-
-
-    ctx.fillText(
-        "📷 Snap Bridge",
-        25,
-        canvas.height - 23
-    );
-
-
-    ctx.font =
-        "14px DM Sans";
-
-
-    ctx.fillStyle =
-        "#697895";
-
-
-    ctx.fillText(
-        currentTemplate +
-        " • " +
-        currentFilter,
-        250,
-        canvas.height - 23
-    );
-
-
-    capturedPhoto =
-        canvas.toDataURL(
-            "image/png"
-        );
-
-
-    localStorage.setItem(
-        "snapBridgePhoto",
-        capturedPhoto
-    );
-
-
-    showToast(
-        "Beautiful memory captured! ✨📸"
-    );
+    addPhotoToGallery(latestPhoto);
 
 }
 
 
+/* ================= FILTER ================= */
 
-/* =====================================================
-   FLASH
-===================================================== */
+function applyFilter(filter, element) {
 
-function flashScreen(){
+    currentFilter = filter;
 
-    const flash =
-        document.getElementById(
-            "flash"
-        );
+    document.querySelectorAll(".filter")
+        .forEach(item => item.classList.remove("selected"));
 
+    element.classList.add("selected");
 
-    flash.classList.add(
-        "active"
-    );
-
-
-    setTimeout(
-        function(){
-
-            flash.classList.remove(
-                "active"
-            );
-
-        },
-        150
-    );
+    document.getElementById("video").style.filter =
+        getFilter(filter);
 
 }
 
 
+function getFilter(filter) {
 
-/* =====================================================
-   CAMERA TOGGLE
-===================================================== */
+    switch(filter) {
 
-function toggleCamera(){
+        case "bw":
+            return "grayscale(1)";
 
-    if(!localStream)
-        return;
+        case "vintage":
+            return "sepia(.65)";
 
+        case "warm":
+            return "saturate(1.3) sepia(.25)";
 
-    cameraEnabled =
-        !cameraEnabled;
+        case "cool":
+            return "hue-rotate(15deg) saturate(.8)";
 
+        case "pixel":
+            return "contrast(1.4) saturate(1.5)";
 
-    localStream
-    .getVideoTracks()
-    .forEach(
-        function(track){
+        case "cartoon":
+            return "saturate(1.7) contrast(1.15)";
 
-            track.enabled =
-                cameraEnabled;
+        case "dreamy":
+            return "brightness(1.12) saturate(.8)";
 
-        }
-    );
+        case "retro":
+            return "sepia(.45) contrast(1.1)";
 
+        case "ghibli":
+            return "saturate(.7) brightness(1.08)";
 
-    document
-    .getElementById("cameraBtn")
-    .textContent =
-        cameraEnabled
-        ? "📷"
-        : "🚫";
-
-
-    showToast(
-        cameraEnabled
-        ? "Camera on 📷"
-        : "Camera off"
-    );
+        default:
+            return "none";
+    }
 
 }
 
 
+/* ================= GALLERY ================= */
 
-/* =====================================================
-   MICROPHONE
-===================================================== */
+function addPhotoToGallery(photo) {
 
-function toggleMic(){
+    const gallery = document.getElementById("photos");
 
-    if(!localStream)
-        return;
+    const item = document.createElement("div");
 
+    item.className = "photo-item";
 
-    micEnabled =
-        !micEnabled;
+    const image = document.createElement("img");
 
+    image.src = photo;
 
-    localStream
-    .getAudioTracks()
-    .forEach(
-        function(track){
+    item.appendChild(image);
 
-            track.enabled =
-                micEnabled;
-
-        }
-    );
-
-
-    document
-    .getElementById("micBtn")
-    .textContent =
-        micEnabled
-        ? "🎤"
-        : "🔇";
-
-
-    showToast(
-        micEnabled
-        ? "Microphone on 🎤"
-        : "Microphone muted"
-    );
+    gallery.prepend(item);
 
 }
 
 
+function downloadLatest() {
 
-/* =====================================================
-   FILTER
-===================================================== */
+    if(!latestPhoto) {
 
-function selectFilter(
-    element,
-    filter
-){
-
-    document
-    .querySelectorAll(
-        ".filter"
-    )
-    .forEach(
-        function(item){
-
-            item.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    element.classList.add(
-        "active"
-    );
-
-
-    currentFilter =
-        filter;
-
-
-    document
-    .getElementById("filterTag")
-    .textContent =
-        filter;
-
-
-    broadcast({
-
-        type:
-        "filter",
-
-        filter:
-        filter
-
-    });
-
-
-    showToast(
-        filter +
-        " filter selected ✨"
-    );
-
-}
-
-
-
-/* =====================================================
-   TEMPLATE
-===================================================== */
-
-function selectTemplate(
-    element,
-    template
-){
-
-    document
-    .querySelectorAll(
-        ".template"
-    )
-    .forEach(
-        function(item){
-
-            item.classList.remove(
-                "selected"
-            );
-
-        }
-    );
-
-
-    element.classList.add(
-        "selected"
-    );
-
-
-    currentTemplate =
-        template;
-
-
-    showToast(
-        template +
-        " template selected ✨"
-    );
-
-}
-
-
-
-/* =====================================================
-   STICKER
-===================================================== */
-
-function addSticker(
-    sticker
-){
-
-    broadcast({
-
-        type:
-        "sticker",
-
-        sticker:
-        sticker
-
-    });
-
-
-    showToast(
-        sticker +
-        " sticker added ✨"
-    );
-
-}
-
-
-
-/* =====================================================
-   COPY ROOM CODE
-===================================================== */
-
-async function copyRoom(){
-
-    if(!roomCode){
-
-        showToast(
-            "Create a booth first."
-        );
+        alert("Take a photo first 📸");
 
         return;
-
     }
 
+    const link = document.createElement("a");
 
-    try{
+    link.download = "snap-bridge-photo.png";
 
-        await navigator
-        .clipboard
-        .writeText(
-            roomCode
-        );
-
-
-        showToast(
-            "Room code copied! 📋"
-        );
-
-    }
-
-    catch{
-
-        showToast(
-            "Room code: " +
-            roomCode
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   CREATE SHARE LINK
-===================================================== */
-
-function getShareLink(){
-
-    /*
-       Example:
-
-       http://localhost:5500/booth.html?room=SB7K2P
-    */
-
-    return (
-        window.location.origin +
-        window.location.pathname +
-        "?room=" +
-        encodeURIComponent(
-            roomCode
-        )
-    );
-
-}
-
-
-
-/* =====================================================
-   SHARE BOOTH LINK
-===================================================== */
-
-async function shareBoothLink(){
-
-    if(!roomCode){
-
-        showToast(
-            "Create a booth first ✨"
-        );
-
-        return;
-
-    }
-
-
-    const shareUrl =
-        getShareLink();
-
-
-    /*
-       Mobile / supported browser
-    */
-
-    if(
-        navigator.share
-    ){
-
-        try{
-
-            await navigator.share({
-
-                title:
-                    "Snap Bridge 📸",
-
-                text:
-                    "Join my Snap Bridge photo booth! ✨",
-
-                url:
-                    shareUrl
-
-            });
-
-
-            showToast(
-                "Booth link shared! 🔗"
-            );
-
-
-            return;
-
-        }
-
-        catch(error){
-
-            /*
-               User cancelled share.
-            */
-
-            console.log(
-                "Share cancelled"
-            );
-
-        }
-
-    }
-
-
-    /*
-       Desktop fallback
-    */
-
-    try{
-
-        await navigator
-        .clipboard
-        .writeText(
-            shareUrl
-        );
-
-
-        showToast(
-            "Booth link copied! 🔗"
-        );
-
-    }
-
-    catch(error){
-
-        /*
-           Old-browser fallback.
-        */
-
-        const input =
-            document.createElement(
-                "input"
-            );
-
-
-        input.value =
-            shareUrl;
-
-
-        document.body.appendChild(
-            input
-        );
-
-
-        input.select();
-
-
-        document.execCommand(
-            "copy"
-        );
-
-
-        input.remove();
-
-
-        showToast(
-            "Booth link copied! 🔗"
-        );
-
-    }
-
-}
-
-
-
-/* =====================================================
-   AUTO DETECT SHARED ROOM LINK
-===================================================== */
-
-function checkSharedRoom(){
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const sharedRoom =
-        params.get(
-            "room"
-        );
-
-
-    if(!sharedRoom){
-
-        return;
-
-    }
-
-
-    const code =
-        sharedRoom
-        .trim()
-        .toUpperCase();
-
-
-    if(code.length !== 6){
-
-        return;
-
-    }
-
-
-    /*
-       Automatically open
-       Join Booth area.
-    */
-
-    document
-    .getElementById("joinRow")
-    .style.display =
-        "flex";
-
-
-    document
-    .getElementById("roomInput")
-    .value =
-        code;
-
-
-    showToast(
-        "Booth invitation detected! 👥"
-    );
-
-}
-
-
-
-/* =====================================================
-   DOWNLOAD PHOTO
-===================================================== */
-
-function downloadPhoto(){
-
-    if(!capturedPhoto){
-
-        capturedPhoto =
-            localStorage.getItem(
-                "snapBridgePhoto"
-            );
-
-    }
-
-
-    if(!capturedPhoto){
-
-        showToast(
-            "Take a photo first 📸"
-        );
-
-        return;
-
-    }
-
-
-    const link =
-        document.createElement(
-            "a"
-        );
-
-
-    link.href =
-        capturedPhoto;
-
-
-    link.download =
-        "Snap-Bridge-Memory.png";
-
+    link.href = latestPhoto;
 
     link.click();
 
+}
 
-    showToast(
-        "Photo downloaded! 💾"
-    );
+
+function clearGallery() {
+
+    document.getElementById("photos").innerHTML = "";
+
+    latestPhoto = null;
 
 }
 
 
+/* ================= TEMPLATES ================= */
 
-/* =====================================================
-   LEAVE ROOM
-===================================================== */
+function selectTemplate(element) {
 
-function leaveRoom(){
+    document.querySelectorAll(".template")
+        .forEach(item => item.classList.remove("selected"));
 
-    Object.values(
-        calls
-    ).forEach(
-        function(call){
+    element.classList.add("selected");
 
-            try{
-
-                call.close();
-
-            }
-
-            catch{}
-
-        }
-    );
+}
 
 
-    Object.values(
-        connections
-    ).forEach(
-        function(connection){
+/* ================= STICKERS ================= */
 
-            try{
+function addSticker(sticker) {
 
-                connection.close();
+    const layer = document.getElementById("stickerLayer");
 
-            }
+    const item = document.createElement("div");
 
-            catch{}
+    item.className = "floating-sticker";
 
-        }
-    );
+    item.textContent = sticker;
+
+    item.style.left =
+        Math.random() * 80 + 10 + "%";
+
+    item.style.top =
+        Math.random() * 70 + 10 + "%";
+
+    layer.appendChild(item);
+
+}
 
 
-    if(peer){
+/* ================= NAVIGATION ================= */
 
-        peer.destroy();
+function scrollToPanel(id) {
+
+    document.getElementById(id)
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+function goTo(page) {
+
+    window.location.href = page;
+
+}
+
+
+/* ================= ROOM CODE ================= */
+
+function generateRoomCode() {
+
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let code = "SB";
+
+    for(let i = 0; i < 4; i++) {
+
+        code += chars[
+            Math.floor(Math.random() * chars.length)
+        ];
 
     }
 
-
-    peer=null;
-
-    roomCode=null;
-
-    isHost=false;
-
-    connections={};
-
-    calls={};
-
-    participantNames={};
-
-
-    document
-    .getElementById("createdRoom")
-    .style.display =
-        "none";
-
-
-    document
-    .getElementById("shareLinkBtn")
-    .style.display =
-        "none";
-
-
-    document
-    .getElementById("roomDisplay")
-    .style.display =
-        "none";
-
-
-    document
-    .getElementById("joinRow")
-    .style.display =
-        "none";
-
-
-    /*
-       Remove remote videos.
-    */
-
-    document
-    .querySelectorAll(
-        ".video-box:not(#localBox)"
-    )
-    .forEach(
-        function(element){
-
-            element.remove();
-
-        }
-    );
-
-
-    /*
-       Reset participants.
-    */
-
-    document
-    .getElementById("participants")
-    .innerHTML = `
-
-        <div class="person">
-
-            <div class="person-avatar">
-                👩🏻
-            </div>
-
-            <div class="person-name">
-                You
-            </div>
-
-            <div class="person-status">
-                ● Ready
-            </div>
-
-        </div>
-
-    `;
-
-
-    updateVideoLayout();
-
-    updatePeopleCount();
-
-
-    showToast(
-        "You left the booth."
-    );
+    document.getElementById("roomCode").textContent = code;
 
 }
 
 
+/* ================= START ================= */
 
-/* =====================================================
-   HOME
-===================================================== */
+window.addEventListener("load", () => {
 
-function goHome(){
+    startCamera();
 
-    window.location.href =
-        "home.html";
+    generateRoomCode();
 
-}
+});
 
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-function showToast(
-    message
-){
-
-    const old =
-        document.querySelector(
-            ".toast"
-        );
-
-
-    if(old){
-
-        old.remove();
-
-    }
-
-
-    const toast =
-        document.createElement(
-            "div"
-        );
-
-
-    toast.className =
-        "toast";
-
-
-    toast.textContent =
-        message;
-
-
-    document.body.appendChild(
-        toast
-    );
-
-
-    setTimeout(
-        function(){
-
-            if(toast){
-
-                toast.remove();
-
-            }
-
-        },
-        2300
-    );
-
-}
-
-
-
-/* =====================================================
-   HTML ESCAPE
-===================================================== */
-
-function escapeHTML(
-    text
-){
-
-    return String(text)
-    .replace(
-        /[&<>"']/g,
-        function(match){
-
-            return {
-
-                "&":"&amp;",
-
-                "<":"&lt;",
-
-                ">":"&gt;",
-
-                '"':"&quot;",
-
-                "'":"&#039;"
-
-            }[match];
-
-        }
-    );
-
-}
-
-
-
-/* =====================================================
-   PAGE LOAD
-===================================================== */
-
-window.addEventListener(
-    "load",
-    function(){
-
-        /*
-           If URL contains:
-
-           ?room=SB1234
-
-           the room code is automatically
-           placed in Join Booth.
-        */
-
-        checkSharedRoom();
-
-    }
-);
-
-
-
-/* =====================================================
-   CLEANUP
-===================================================== */
-
-window.addEventListener(
-    "beforeunload",
-    function(){
-
-        if(peer){
-
-            peer.destroy();
-
-        }
-
-    }
-);
 </script>
+
 </body>
 </html>
