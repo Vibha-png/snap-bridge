@@ -495,7 +495,7 @@ function updateStatus() {
    FRAME STYLE
 ========================================== */
 
-function changeFrameStyle(style) {
+function changeFrameStyle(style, button) {
 
     const frame =
         document.getElementById(
@@ -509,18 +509,24 @@ function changeFrameStyle(style) {
 
     document.querySelectorAll(
         ".style-option"
-    ).forEach(button => {
+    ).forEach(btn => {
 
-        button.classList.remove(
+        btn.classList.remove(
             "selected"
         );
 
     });
 
 
-    event.currentTarget.classList.add(
-        "selected"
-    );
+    if (button) {
+        button.classList.add("selected");
+    } else {
+        const found = Array.from(document.querySelectorAll(".style-option"))
+            .find(btn => btn.textContent.trim().toLowerCase() === style.toLowerCase());
+        if (found) {
+            found.classList.add("selected");
+        }
+    }
 
 }
 

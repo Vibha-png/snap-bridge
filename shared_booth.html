@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Snap Bridge | Shared Booth</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    font-family:"DM Sans",sans-serif;
+    color:#292b57;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(255,204,231,.7),transparent 25%),
+        radial-gradient(circle at 90% 15%,rgba(204,214,255,.75),transparent 28%),
+        radial-gradient(circle at 50% 100%,rgba(203,244,224,.55),transparent 30%),
+        #f8f9ff;
+    overflow-x:hidden;
+}
+
+
+/* =====================================================
+   FLOATING BACKGROUND
+===================================================== */
+
+.background-light{
+    position:fixed;
+    border-radius:50%;
+    pointer-events:none;
+    filter:blur(5px);
+    z-index:-2;
+    animation:moveLight 9s ease-in-out infinite;
+}
+
+.light-one{
+    width:260px;
+    height:260px;
+    background:#ffd1e9;
+    top:5%;
+    left:-120px;
+}
+
+.light-two{
+    width:320px;
+    height:320px;
+    background:#ccd5ff;
+    right:-150px;
+    top:35%;
+    animation-delay:2s;
+}
+
+.light-three{
+    width:250px;
+    height:250px;
+    background:#c8f4df;
+    left:40%;
+    bottom:-150px;
+    animation-delay:4s;
+}
+
+@keyframes moveLight{
+
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(30px,-25px);
+    }
+}
+
+
+/* =====================================================
+   FLOATING DECORATIONS
+===================================================== */
+
+.floating{
+    position:fixed;
+    z-index:1;
+    pointer-events:none;
+    font-size:30px;
+    animation:floatDecoration 5s ease-in-out infinite;
+}
+
+.float-one{
+    top:17%;
+    left:4%;
+}
+
+.float-two{
+    top:30%;
+    right:4%;
+    animation-delay:1s;
+}
+
+.float-three{
+    bottom:16%;
+    left:6%;
+    animation-delay:2s;
+}
+
+.float-four{
+    bottom:20%;
+    right:7%;
+    animation-delay:3s;
+}
+
+@keyframes floatDecoration{
+
+    0%,100%{
+        transform:translateY(0) rotate(-5deg);
+    }
+
+    50%{
+        transform:translateY(-18px) rotate(7deg);
+    }
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header{
+    width:100%;
+    height:76px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 5%;
+
+    position:sticky;
+    top:0;
+    z-index:100;
+
+    background:rgba(255,255,255,.78);
+    backdrop-filter:blur(20px);
+
+    border-bottom:1px solid rgba(215,219,237,.8);
+}
+
+.logo{
+    text-decoration:none;
+    color:#292b57;
+
+    font-family:"Pacifico",cursive;
+    font-size:26px;
+}
+
+.logo span{
+    color:#6972dc;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.live-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    color:#66708d;
+    font-size:11px;
+    font-weight:800;
+}
+
+.live-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#4ec686;
+
+    box-shadow:
+        0 0 0 5px rgba(78,198,134,.12);
+
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+
+    50%{
+        opacity:.4;
+    }
+}
+
+.leave-button{
+    border:1px solid #dce0ef;
+    background:white;
+    color:#383b65;
+
+    padding:10px 17px;
+
+    border-radius:18px;
+
+    font-weight:700;
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.leave-button:hover{
+    transform:translateY(-2px);
+    background:#f4f4ff;
+}
+
+
+/* =====================================================
+   ENTRY SCREEN
+===================================================== */
+
+#roomEntry{
+    width:min(470px,92%);
+
+    margin:70px auto;
+
+    padding:45px 35px;
+
+    text-align:center;
+
+    background:rgba(255,255,255,.84);
+    backdrop-filter:blur(25px);
+
+    border:1px solid #e0e3f1;
+
+    border-radius:36px;
+
+    box-shadow:
+        0 30px 80px rgba(48,54,115,.15);
+}
+
+.entry-icon{
+    width:95px;
+    height:95px;
+
+    margin:0 auto 24px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:48px;
+
+    border-radius:30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e5e8ff,
+            #ffe4f3
+        );
+
+    box-shadow:
+        0 15px 35px rgba(90,95,170,.12);
+
+    animation:entryFloat 3s ease-in-out infinite;
+}
+
+@keyframes entryFloat{
+
+    50%{
+        transform:translateY(-8px) rotate(2deg);
+    }
+}
+
+#roomEntry h1{
+    font-size:32px;
+    letter-spacing:-1px;
+    margin-bottom:10px;
+}
+
+.entry-description{
+    color:#7d849c;
+    font-size:14px;
+    line-height:1.7;
+    margin-bottom:28px;
+}
+
+#joinCode{
+    width:100%;
+
+    padding:17px;
+
+    border-radius:17px;
+
+    border:2px solid #e0e3ef;
+
+    outline:none;
+
+    background:#fafaff;
+
+    color:#5d66d2;
+
+    text-align:center;
+
+    font-size:20px;
+    font-weight:800;
+
+    letter-spacing:4px;
+
+    text-transform:uppercase;
+
+    transition:.2s;
+}
+
+#joinCode:focus{
+    border-color:#747ce0;
+
+    box-shadow:
+        0 0 0 4px rgba(116,124,224,.12);
+}
+
+.join-button{
+    width:100%;
+
+    margin-top:14px;
+
+    border:0;
+
+    padding:16px;
+
+    border-radius:17px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5e68d4,
+            #8979e8
+        );
+
+    font-size:14px;
+    font-weight:800;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 12px 28px rgba(91,101,210,.25);
+
+    transition:.25s;
+}
+
+.join-button:hover{
+    transform:translateY(-3px);
+    box-shadow:
+        0 17px 35px rgba(91,101,210,.32);
+}
+
+#joinStatus{
+    min-height:20px;
+
+    margin-top:16px;
+
+    color:#6f7792;
+
+    font-size:12px;
+    font-weight:700;
+}
+
+
+/* =====================================================
+   CAMERA SCREEN
+===================================================== */
+
+#cameraOnly{
+    display:none;
+
+    min-height:calc(100vh - 76px);
+
+    padding:
+        28px 4%
+        55px;
+}
+
+.camera-top{
+    max-width:1200px;
+
+    margin:0 auto 20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.camera-logo{
+    font-family:"Pacifico",cursive;
+    font-size:25px;
+}
+
+.camera-subtitle{
+    margin-top:3px;
+    color:#858ca4;
+    font-size:11px;
+}
+
+.connected{
+    padding:9px 14px;
+
+    border-radius:20px;
+
+    background:#ebfaf2;
+
+    color:#46a975;
+
+    font-size:10px;
+    font-weight:800;
+}
+
+
+/* =====================================================
+   CAMERA STAGE
+===================================================== */
+
+.camera-stage{
+    position:relative;
+
+    width:100%;
+    max-width:1200px;
+
+    height:70vh;
+    min-height:430px;
+
+    margin:auto;
+
+    overflow:hidden;
+
+    border-radius:35px;
+
+    background:#171a37;
+
+    box-shadow:
+        0 30px 80px rgba(31,35,80,.28);
+}
+
+.camera-stage::after{
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.05),
+            transparent 25%,
+            transparent 70%,
+            rgba(0,0,0,.2)
+        );
+}
+
+
+/* =====================================================
+   VIDEO
+===================================================== */
+
+#localVideo{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    transform:scaleX(-1);
+
+    display:block;
+
+    background:#171a37;
+}
+
+
+/* =====================================================
+   CAMERA MESSAGE
+===================================================== */
+
+#cameraMessage{
+    position:absolute;
+
+    inset:0;
+
+    z-index:3;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            rgba(22,25,53,.35),
+            rgba(22,25,53,.55)
+        );
+
+    pointer-events:none;
+}
+
+.message-camera-icon{
+    font-size:60px;
+
+    margin-bottom:12px;
+
+    animation:cameraIconFloat 2s ease-in-out infinite;
+}
+
+@keyframes cameraIconFloat{
+
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+#cameraMessage h2{
+    font-size:24px;
+}
+
+#cameraMessage p{
+    margin-top:6px;
+
+    color:#d0d3e3;
+
+    font-size:13px;
+}
+
+
+/* =====================================================
+   CAMERA CORNERS
+===================================================== */
+
+.camera-corner{
+    position:absolute;
+
+    z-index:5;
+
+    width:48px;
+    height:48px;
+
+    border-color:rgba(255,255,255,.85);
+}
+
+.corner-tl{
+    top:28px;
+    left:28px;
+
+    border-top:3px solid;
+    border-left:3px solid;
+}
+
+.corner-tr{
+    top:28px;
+    right:28px;
+
+    border-top:3px solid;
+    border-right:3px solid;
+}
+
+.corner-bl{
+    bottom:28px;
+    left:28px;
+
+    border-bottom:3px solid;
+    border-left:3px solid;
+}
+
+.corner-br{
+    bottom:28px;
+    right:28px;
+
+    border-bottom:3px solid;
+    border-right:3px solid;
+}
+
+
+/* =====================================================
+   CAMERA DECORATIONS
+===================================================== */
+
+.camera-sticker{
+    position:absolute;
+
+    z-index:8;
+
+    padding:10px 12px;
+
+    border-radius:15px;
+
+    background:white;
+
+    font-size:22px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.2);
+
+    animation:cameraStickerFloat 4s ease-in-out infinite;
+}
+
+.sticker-top{
+    top:38px;
+    left:50%;
+}
+
+.sticker-left{
+    bottom:65px;
+    left:38px;
+
+    animation-delay:1s;
+}
+
+.sticker-right{
+    bottom:75px;
+    right:38px;
+
+    animation-delay:2s;
+}
+
+@keyframes cameraStickerFloat{
+
+    0%,100%{
+        transform:translateY(0) rotate(-5deg);
+    }
+
+    50%{
+        transform:translateY(-13px) rotate(6deg);
+    }
+}
+
+
+/* =====================================================
+   CAMERA CONTROLS
+===================================================== */
+
+.camera-controls{
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:25px;
+
+    padding-top:25px;
+}
+
+.small-button{
+    width:50px;
+    height:50px;
+
+    border:1px solid #dce0ef;
+
+    border-radius:50%;
+
+    background:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 8px 20px rgba(40,45,90,.1);
+
+    transition:.2s;
+}
+
+.small-button:hover{
+    transform:translateY(-2px);
+    background:#f4f4ff;
+}
+
+.capture-button{
+    width:84px;
+    height:84px;
+
+    border-radius:50%;
+
+    border:7px solid white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5e68d4,
+            #8979e8
+        );
+
+    color:white;
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 0 3px #dfe2ff,
+        0 15px 35px rgba(91,101,210,.32);
+
+    transition:.2s;
+}
+
+.capture-button:hover{
+    transform:scale(1.08);
+}
+
+
+/* =====================================================
+   CAPTURE PREVIEW
+===================================================== */
+
+#photoPreview{
+    display:none;
+
+    width:min(520px,92%);
+
+    margin:35px auto;
+
+    padding:25px;
+
+    border-radius:27px;
+
+    background:white;
+
+    text-align:center;
+
+    box-shadow:
+        0 20px 60px rgba(40,45,90,.15);
+}
+
+#photoPreview h2{
+    font-family:"Pacifico",cursive;
+
+    color:#626bd5;
+
+    margin-bottom:15px;
+}
+
+#previewImage{
+    width:100%;
+
+    display:block;
+
+    border-radius:14px;
+}
+
+
+/* =====================================================
+   FLASH
+===================================================== */
+
+#flash{
+    position:fixed;
+
+    inset:0;
+
+    z-index:999;
+
+    pointer-events:none;
+
+    background:white;
+
+    opacity:0;
+}
+
+#flash.active{
+    animation:flashEffect .4s ease;
+}
+
+@keyframes flashEffect{
+
+    0%{
+        opacity:0;
+    }
+
+    20%{
+        opacity:.95;
+    }
+
+    100%{
+        opacity:0;
+    }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+    header{
+        padding:0 4%;
+    }
+
+    .logo{
+        font-size:22px;
+    }
+
+    .live-status{
+        display:none;
+    }
+
+    #roomEntry{
+        margin:45px auto;
+        padding:35px 24px;
+    }
+
+    #roomEntry h1{
+        font-size:27px;
+    }
+
+    #cameraOnly{
+        padding:
+            20px 3%
+            40px;
+    }
+
+    .camera-logo{
+        font-size:21px;
+    }
+
+    .connected{
+        font-size:9px;
+        padding:8px 10px;
+    }
+
+    .camera-stage{
+        height:65vh;
+        min-height:350px;
+        border-radius:25px;
+    }
+
+    .camera-corner{
+        width:35px;
+        height:35px;
+    }
+
+    .camera-sticker{
+        font-size:17px;
+    }
+
+    .sticker-left{
+        left:20px;
+    }
+
+    .sticker-right{
+        right:20px;
+    }
+
+    .capture-button{
+        width:76px;
+        height:76px;
+    }
+
+    .floating{
+        display:none;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND
+===================================================== -->
+
+<div class="background-light light-one"></div>
+<div class="background-light light-two"></div>
+<div class="background-light light-three"></div>
+
+
+<!-- FLOATING DECORATIONS -->
+
+<div class="floating float-one">✨</div>
+<div class="floating float-two">🌸</div>
+<div class="floating float-three">🦋</div>
+<div class="floating float-four">🎀</div>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <a
+        href="index.html"
+        class="logo">
+
+        📸 Snap <span>Bridge</span>
+
+    </a>
+
+
+    <div class="header-right">
+
+        <div class="live-status">
+
+            <span class="live-dot"></span>
+
+            LIVE BOOTH
+
+        </div>
+
+
+        <button
+            class="leave-button"
+            onclick="leaveRoom()">
+
+            ← Leave
+
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     ROOM ENTRY
+===================================================== -->
+
+<section id="roomEntry">
+
+    <div class="entry-icon">
+
+        👯
+
+    </div>
+
+
+    <h1>
+
+        Join Shared Booth
+
+    </h1>
+
+
+    <p class="entry-description">
+
+        Enter the room code shared by your
+        friend to enter the photo booth.
+
+    </p>
+
+
+    <input
+        type="text"
+        id="joinCode"
+        placeholder="ROOM CODE"
+        maxlength="8"
+        autocomplete="off"
+    >
+
+
+    <button
+        class="join-button"
+        onclick="joinSharedRoom()">
+
+        🚀 Join Shared Booth
+
+    </button>
+
+
+    <div id="joinStatus"></div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CAMERA ONLY SCREEN
+===================================================== -->
+
+<section
+    id="cameraOnly">
+
+
+    <div class="camera-top">
+
+
+        <div>
+
+            <div class="camera-logo">
+
+                📸 Snap Bridge
+
+            </div>
+
+
+            <div class="camera-subtitle">
+
+                Shared Booth ✨
+
+            </div>
+
+        </div>
+
+
+        <div class="connected">
+
+            ● CONNECTED
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CAMERA -->
+
+    <div class="camera-stage">
+
+
+        <video
+            id="localVideo"
+            autoplay
+            muted
+            playsinline>
+        </video>
+
+
+        <!-- CAMERA MESSAGE -->
+
+        <div id="cameraMessage">
+
+            <div class="message-camera-icon">
+
+                📸
+
+            </div>
+
+
+            <h2>
+
+                Camera Ready
+
+            </h2>
+
+
+            <p>
+
+                Get ready for your photo!
+
+            </p>
+
+        </div>
+
+
+        <!-- CORNERS -->
+
+        <div
+            class="camera-corner corner-tl">
+        </div>
+
+        <div
+            class="camera-corner corner-tr">
+        </div>
+
+        <div
+            class="camera-corner corner-bl">
+        </div>
+
+        <div
+            class="camera-corner corner-br">
+        </div>
+
+
+        <!-- DECORATIONS -->
+
+        <div class="camera-sticker sticker-top">
+            ✨
+        </div>
+
+        <div class="camera-sticker sticker-left">
+            🌸
+        </div>
+
+        <div class="camera-sticker sticker-right">
+            💜
+        </div>
+
+    </div>
+
+
+
+    <!-- CONTROLS -->
+
+    <div class="camera-controls">
+
+
+        <button
+            class="small-button"
+            onclick="flipCamera()">
+
+            🔄
+
+        </button>
+
+
+        <button
+            class="capture-button"
+            onclick="capturePhoto()">
+
+            📸
+
+        </button>
+
+
+        <button
+            class="small-button"
+            onclick="toggleMirror()">
+
+            🪞
+
+        </button>
+
+    </div>
+
+
+
+    <!-- PHOTO PREVIEW -->
+
+    <div id="photoPreview">
+
+        <h2>
+
+            ✨ Your Snap ✨
+
+        </h2>
+
+
+        <img
+            id="previewImage"
+            alt="Captured photo">
+
+    </div>
+
+
+</section>
+
+
+
+<!-- FLASH -->
+
+<div id="flash"></div>
+
+
+<!-- CANVAS -->
+
+<canvas
+    id="photoCanvas"
+    style="display:none;">
+</canvas>
+
+
+
+<!-- SOCKET.IO -->
+
+<script src="/socket.io/socket.io.js"></script>
+
+
+<script>
+
+/* =====================================================
+   SOCKET.IO
+===================================================== */
+
+const socket = io();
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentStream = null;
+
+let facingMode = "user";
+
+let mirrorEnabled = true;
+
+let roomCode = "";
+
+
+/* =====================================================
+   JOIN SHARED ROOM
+===================================================== */
+
+function joinSharedRoom(){
+
+    const input =
+        document.getElementById("joinCode");
+
+
+    roomCode =
+        input.value
+            .trim()
+            .toUpperCase();
+
+
+    const status =
+        document.getElementById(
+            "joinStatus"
+        );
+
+
+    if(!roomCode){
+
+        status.textContent =
+            "⚠️ Please enter a room code.";
+
+        return;
+
+    }
+
+
+    status.textContent =
+        "⏳ Checking room...";
+
+
+    /*
+       Sends the room code to your
+       existing Socket.IO server.
+    */
+
+    socket.emit(
+        "join-room",
+        roomCode,
+        function(result){
+
+            /*
+               If your server returns
+               success:false
+            */
+
+            if(
+                result &&
+                result.success === false
+            ){
+
+                status.textContent =
+                    "❌ " +
+                    (
+                        result.message ||
+                        "Room not found."
+                    );
+
+                return;
+
+            }
+
+
+            /*
+               Successful join
+            */
+
+            showCameraOnly();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SHOW CAMERA
+===================================================== */
+
+function showCameraOnly(){
+
+    /*
+       Hide room-code screen
+    */
+
+    document.getElementById(
+        "roomEntry"
+    ).style.display =
+        "none";
+
+
+    /*
+       Show ONLY camera
+    */
+
+    document.getElementById(
+        "cameraOnly"
+    ).style.display =
+        "block";
+
+
+    /*
+       Start camera
+    */
+
+    startCamera();
+
+}
+
+
+/* =====================================================
+   START CAMERA
+===================================================== */
+
+async function startCamera(){
+
+    try{
+
+        /*
+           Stop previous camera
+        */
+
+        if(currentStream){
+
+            currentStream
+                .getTracks()
+                .forEach(
+                    track =>
+                    track.stop()
+                );
+
+        }
+
+
+        /*
+           Request camera
+        */
+
+        currentStream =
+            await navigator
+                .mediaDevices
+                .getUserMedia({
+
+                    video:{
+                        facingMode:
+                            facingMode
+                    },
+
+                    audio:false
+
+                });
+
+
+        const video =
+            document.getElementById(
+                "localVideo"
+            );
+
+
+        video.srcObject =
+            currentStream;
+
+
+        /*
+           Mirror front camera
+        */
+
+        video.style.transform =
+            mirrorEnabled
+            ? "scaleX(-1)"
+            : "scaleX(1)";
+
+
+        /*
+           Hide camera message
+        */
+
+        document.getElementById(
+            "cameraMessage"
+        ).style.display =
+            "none";
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Camera error:",
+            error
+        );
+
+
+        document.getElementById(
+            "cameraMessage"
+        ).innerHTML = `
+
+            <div class="message-camera-icon">
+                ⚠️
+            </div>
+
+            <h2>
+                Camera Permission Needed
+            </h2>
+
+            <p>
+                Please allow camera access
+                in your browser.
+            </p>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   FLIP CAMERA
+===================================================== */
+
+function flipCamera(){
+
+    facingMode =
+        facingMode === "user"
+        ? "environment"
+        : "user";
+
+
+    startCamera();
+
+}
+
+
+/* =====================================================
+   MIRROR CAMERA
+===================================================== */
+
+function toggleMirror(){
+
+    mirrorEnabled =
+        !mirrorEnabled;
+
+
+    const video =
+        document.getElementById(
+            "localVideo"
+        );
+
+
+    video.style.transform =
+        mirrorEnabled
+        ? "scaleX(-1)"
+        : "scaleX(1)";
+
+}
+
+
+/* =====================================================
+   CAPTURE PHOTO
+===================================================== */
+
+function capturePhoto(){
+
+    const video =
+        document.getElementById(
+            "localVideo"
+        );
+
+
+    const canvas =
+        document.getElementById(
+            "photoCanvas"
+        );
+
+
+    const preview =
+        document.getElementById(
+            "previewImage"
+        );
+
+
+    /*
+       Check camera
+    */
+
+    if(
+        !video.videoWidth ||
+        !video.videoHeight
+    ){
+
+        alert(
+            "Camera is not ready yet."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Flash
+    */
+
+    const flash =
+        document.getElementById(
+            "flash"
+        );
+
+
+    flash.classList.remove(
+        "active"
+    );
+
+
+    void flash.offsetWidth;
+
+
+    flash.classList.add(
+        "active"
+    );
+
+
+    /*
+       Canvas size
+    */
+
+    canvas.width =
+        video.videoWidth;
+
+
+    canvas.height =
+        video.videoHeight;
+
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    /*
+       Mirror captured image
+    */
+
+    if(mirrorEnabled){
+
+        ctx.translate(
+            canvas.width,
+            0
+        );
+
+        ctx.scale(
+            -1,
+            1
+        );
+
+    }
+
+
+    /*
+       Draw image
+    */
+
+    ctx.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /*
+       Convert to image
+    */
+
+    preview.src =
+        canvas.toDataURL(
+            "image/png"
+        );
+
+
+    /*
+       Show preview
+    */
+
+    const previewBox =
+        document.getElementById(
+            "photoPreview"
+        );
+
+
+    previewBox.style.display =
+        "block";
+
+
+    previewBox.scrollIntoView({
+
+        behavior:"smooth",
+
+        block:"center"
+
+    });
+
+}
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+document.getElementById(
+    "joinCode"
+).addEventListener(
+    "keydown",
+
+    function(event){
+
+        if(
+            event.key === "Enter"
+        ){
+
+            joinSharedRoom();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LEAVE ROOM
+===================================================== */
+
+function leaveRoom(){
+
+    if(
+        currentStream
+    ){
+
+        currentStream
+            .getTracks()
+            .forEach(
+                track =>
+                track.stop()
+            );
+
+    }
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =====================================================
+   SOCKET ROOM ERROR
+===================================================== */
+
+socket.on(
+    "room-error",
+
+    function(message){
+
+        document.getElementById(
+            "joinStatus"
+        ).textContent =
+            "❌ " + message;
+
+    }
+);
+
+</script>
+
+</body>
+</html>

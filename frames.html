@@ -27,10 +27,8 @@
     <nav>
         <a href="home.html">Home</a>
         <a href="booth.html">Booth</a>
-        <a href="templates.html" class="active">Frames</a>
-        <a href="filters.html">Filters</a>
-        <a href="stickers.html">Stickers</a>
-        <a href="customize.html">Customize</a>
+        <a href="templates.html">Templates</a>
+        <a href="frames.html" class="active">Frames</a>
     </nav>
 
     <button class="profile">♡</button>
@@ -57,6 +55,12 @@
             Choose a layout, take photos or upload your memories,
             and create your own printable frame.
         </p>
+
+        <div style="margin-top: 15px;">
+            <a href="booth.html" style="display:inline-flex; align-items:center; gap:8px; padding:11px 22px; background:linear-gradient(135deg, #5b64d1, #7f66dc); color:white; border-radius:16px; font-weight:800; font-size:13px; text-decoration:none; box-shadow:0 8px 22px rgba(95,100,215,0.25);">
+                📸 Open Combined Photo Booth Studio →
+            </a>
+        </div>
 
     </section>
 
@@ -183,22 +187,22 @@
 
                 <div class="style-buttons">
 
-                    <button onclick="changeFrameStyle('classic')"
+                    <button onclick="changeFrameStyle('classic', this)"
                             class="style-option selected">
                         Classic
                     </button>
 
-                    <button onclick="changeFrameStyle('soft')"
+                    <button onclick="changeFrameStyle('soft', this)"
                             class="style-option">
                         Soft
                     </button>
 
-                    <button onclick="changeFrameStyle('lavender')"
+                    <button onclick="changeFrameStyle('lavender', this)"
                             class="style-option">
                         Lavender
                     </button>
 
-                    <button onclick="changeFrameStyle('mint')"
+                    <button onclick="changeFrameStyle('mint', this)"
                             class="style-option">
                         Mint
                     </button>

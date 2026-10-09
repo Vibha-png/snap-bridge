@@ -1,1433 +1,473 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Snap Bridge</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <title>Snap Bridge | Combined Photo Booth & Frame Studio</title>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <link rel="stylesheet" href="booth.css">
 
-body {
-    font-family: "DM Sans", sans-serif;
-    min-height: 100vh;
-    color: #263b78;
-    background:
-        radial-gradient(circle at 8% 15%, #c9e8ff 0 7%, transparent 8%),
-        radial-gradient(circle at 90% 12%, #d7f5df 0 9%, transparent 10%),
-        radial-gradient(circle at 18% 90%, #ddd2ff 0 10%, transparent 11%),
-        radial-gradient(circle at 90% 90%, #c8f3e5 0 10%, transparent 11%),
-        linear-gradient(135deg, #eaf5ff, #eeeaff 45%, #e4f8ef);
-    overflow-x: hidden;
-}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
 
-/* Decorative background */
-body::before {
-    content: "✦   ♡   ✧       🦋       ✦       ♡";
-    position: fixed;
-    top: 35px;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    font-size: 28px;
-    color: #9c9af5;
-    opacity: .65;
-    letter-spacing: 30px;
-    pointer-events: none;
-}
-
-body::after {
-    content: "✿        ✧        🌿        ♡        ✦";
-    position: fixed;
-    bottom: 15px;
-    right: 0;
-    width: 100%;
-    text-align: center;
-    font-size: 25px;
-    color: #8ccdb4;
-    opacity: .55;
-    letter-spacing: 25px;
-    pointer-events: none;
-}
-
-.app {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 260px 1fr 390px;
-    gap: 20px;
-    padding: 22px;
-    position: relative;
-    z-index: 1;
-}
-
-/* ================= SIDEBAR ================= */
-
-.sidebar {
-    background: rgba(255,255,255,.82);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255,255,255,.9);
-    border-radius: 30px;
-    padding: 25px 18px;
-    box-shadow: 0 15px 40px rgba(112,126,190,.15);
-    display: flex;
-    flex-direction: column;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 35px;
-}
-
-.logo-camera {
-    width: 48px;
-    height: 38px;
-    border-radius: 13px;
-    background: linear-gradient(135deg, #a9e1ff, #c8b9ff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    box-shadow: 0 5px 15px rgba(130,130,220,.2);
-}
-
-.logo-text {
-    font-family: Pacifico, cursive;
-    font-size: 24px;
-    color: #304681;
-}
-
-.menu {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-}
-
-.menu button {
-    border: none;
-    background: transparent;
-    padding: 14px 16px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #6879b6;
-    cursor: pointer;
-    transition: .25s;
-    text-align: left;
-}
-
-.menu button:hover {
-    background: #e9f5ff;
-    transform: translateX(3px);
-}
-
-.menu button.active {
-    background: linear-gradient(135deg, #c4d7ff, #d8c8ff);
-    color: #384c91;
-    box-shadow: 0 8px 20px rgba(137,137,220,.15);
-}
-
-.menu-icon {
-    width: 27px;
-    text-align: center;
-    font-size: 21px;
-}
-
-.sidebar-bottom {
-    margin-top: auto;
-    background: linear-gradient(135deg, #e0f6ed, #e4edff);
-    border-radius: 22px;
-    padding: 20px;
-    text-align: center;
-    color: #5269a3;
-    line-height: 1.5;
-}
-
-.sidebar-bottom .heart {
-    font-size: 25px;
-}
-
-/* ================= CENTER ================= */
-
-.center {
-    min-width: 0;
-}
-
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding: 5px 8px;
-}
-
-.title-area h1 {
-    font-family: Pacifico, cursive;
-    font-size: 42px;
-    color: #334b8f;
-    line-height: 1.1;
-}
-
-.title-area p {
-    color: #6c7fb5;
-    margin-top: 5px;
-    font-weight: 600;
-}
-
-.room {
-    background: rgba(255,255,255,.82);
-    border: 1px solid white;
-    padding: 13px 20px;
-    border-radius: 30px;
-    box-shadow: 0 8px 25px rgba(90,110,170,.12);
-    font-weight: 600;
-}
-
-.room span {
-    color: #7567c9;
-    font-weight: 800;
-}
-
-/* Camera */
-.camera-card {
-    background: rgba(255,255,255,.82);
-    padding: 12px;
-    border-radius: 30px;
-    box-shadow: 0 15px 40px rgba(100,120,180,.15);
-    border: 2px solid rgba(255,255,255,.95);
-}
-
-.camera-wrapper {
-    position: relative;
-    height: 455px;
-    border-radius: 23px;
-    overflow: hidden;
-    background: #d8eaff;
-}
-
-#video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scaleX(-1);
-    display: block;
-}
-
-.camera-overlay {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-}
-
-.corner {
-    position: absolute;
-    width: 45px;
-    height: 45px;
-    border-color: white;
-    border-style: solid;
-}
-
-.corner.tl {
-    top: 22px;
-    left: 22px;
-    border-width: 4px 0 0 4px;
-    border-radius: 10px 0 0 0;
-}
-
-.corner.tr {
-    top: 22px;
-    right: 22px;
-    border-width: 4px 4px 0 0;
-    border-radius: 0 10px 0 0;
-}
-
-.corner.bl {
-    bottom: 22px;
-    left: 22px;
-    border-width: 0 0 4px 4px;
-    border-radius: 0 0 0 10px;
-}
-
-.corner.br {
-    bottom: 22px;
-    right: 22px;
-    border-width: 0 4px 4px 0;
-    border-radius: 0 0 10px 0;
-}
-
-.camera-label {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 10px 16px;
-    background: rgba(55,75,125,.72);
-    color: white;
-    border-radius: 25px;
-    font-weight: 700;
-    backdrop-filter: blur(8px);
-}
-
-.live {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px 16px;
-    background: rgba(255,255,255,.88);
-    border-radius: 25px;
-    font-weight: 700;
-    color: #5570a8;
-}
-
-.live-dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background: #63d8a4;
-    border-radius: 50%;
-    margin-right: 5px;
-}
-
-.camera-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(52,70,120,.78);
-    color: white;
-    padding: 22px 35px;
-    border-radius: 25px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    transition: .3s;
-}
-
-.camera-message.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.camera-message strong {
-    display: block;
-    font-size: 20px;
-    margin-bottom: 5px;
-}
-
-.countdown {
-    position: absolute;
-    inset: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-size: 110px;
-    font-weight: 800;
-    color: white;
-    text-shadow: 0 5px 20px rgba(0,0,0,.3);
-}
-
-/* Controls */
-
-.controls {
-    margin-top: 12px;
-    background: rgba(255,255,255,.85);
-    border-radius: 25px;
-    padding: 15px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 2px solid white;
-}
-
-.control-btn {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    border: none;
-    background: #e5efff;
-    color: #5069a9;
-    font-size: 24px;
-    cursor: pointer;
-    transition: .25s;
-}
-
-.control-btn:hover {
-    transform: translateY(-3px);
-    background: #dce9ff;
-}
-
-.capture-btn {
-    width: 82px;
-    height: 82px;
-    border-radius: 50%;
-    border: 7px solid #d8e6ff;
-    background: linear-gradient(135deg, #a98cff, #c8a8ff);
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(155,120,230,.3);
-    transition: .2s;
-}
-
-.capture-btn:hover {
-    transform: scale(1.06);
-}
-
-.capture-btn:active {
-    transform: scale(.95);
-}
-
-/* Gallery */
-
-.gallery {
-    margin-top: 15px;
-    background: rgba(255,255,255,.82);
-    border-radius: 25px;
-    padding: 17px;
-    border: 2px solid white;
-}
-
-.gallery-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.gallery-title h3 {
-    color: #425993;
-}
-
-.gallery-title span {
-    color: #8c92c7;
-    font-size: 13px;
-}
-
-.photos {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-}
-
-.photo-item {
-    min-width: 90px;
-    height: 80px;
-    border-radius: 14px;
-    overflow: hidden;
-    border: 3px solid white;
-    box-shadow: 0 4px 15px rgba(80,100,160,.15);
-}
-
-.photo-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* ================= RIGHT PANEL ================= */
-
-.right-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.panel {
-    background: rgba(255,255,255,.84);
-    border: 2px solid rgba(255,255,255,.95);
-    border-radius: 25px;
-    padding: 20px;
-    box-shadow: 0 12px 30px rgba(100,120,180,.12);
-}
-
-.panel-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.panel-title h3 {
-    font-size: 17px;
-    color: #3d548f;
-}
-
-.panel-title span {
-    font-size: 12px;
-    color: #8995c3;
-}
-
-/* Templates */
-
-.templates {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-}
-
-.template {
-    cursor: pointer;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: #6373a9;
-}
-
-.template-box {
-    height: 78px;
-    border-radius: 13px;
-    background: linear-gradient(135deg, #d9edff, #e5d8ff);
-    border: 2px solid transparent;
-    padding: 8px;
-    margin-bottom: 5px;
-    display: grid;
-    gap: 4px;
-}
-
-.template.selected .template-box {
-    border-color: #a36ff1;
-    box-shadow: 0 4px 15px rgba(165,110,240,.25);
-}
-
-.cut4 {
-    grid-template-columns: 1fr 1fr;
-}
-
-.cut3 {
-    grid-template-rows: repeat(3,1fr);
-}
-
-.polaroid {
-    grid-template-rows: 1fr .3fr;
-}
-
-.grid4 {
-    grid-template-columns: repeat(2,1fr);
-}
-
-.template-box span {
-    background: rgba(255,255,255,.7);
-    border-radius: 4px;
-}
-
-/* Filters */
-
-.filters {
-    display: grid;
-    grid-template-columns: repeat(5,1fr);
-    gap: 9px;
-}
-
-.filter {
-    text-align: center;
-    cursor: pointer;
-    font-size: 10px;
-    color: #6775aa;
-}
-
-.filter-circle {
-    height: 48px;
-    width: 48px;
-    margin: auto auto 5px;
-    border-radius: 50%;
-    border: 3px solid white;
-    box-shadow: 0 3px 10px rgba(80,100,150,.12);
-    background: linear-gradient(135deg,#c8e8ff,#cdbbff);
-}
-
-.filter.selected .filter-circle {
-    outline: 3px solid #9c83f0;
-}
-
-.original {
-    filter: none;
-}
-
-.bw {
-    filter: grayscale(1);
-}
-
-.vintage {
-    filter: sepia(.65);
-}
-
-.warm {
-    filter: saturate(1.3) sepia(.25);
-}
-
-.cool {
-    filter: hue-rotate(15deg) saturate(.8);
-}
-
-.pixel {
-    filter: contrast(1.4) saturate(1.5);
-}
-
-.cartoon {
-    filter: saturate(1.7) contrast(1.15);
-}
-
-.dreamy {
-    filter: brightness(1.12) saturate(.8);
-}
-
-.retro {
-    filter: sepia(.45) contrast(1.1);
-}
-
-.ghibli {
-    filter: saturate(.7) brightness(1.08);
-}
-
-/* Stickers */
-
-.stickers {
-    display: grid;
-    grid-template-columns: repeat(5,1fr);
-    gap: 8px;
-}
-
-.sticker {
-    height: 45px;
-    border-radius: 12px;
-    border: 1px solid #dce5fa;
-    background: #f6f9ff;
-    font-size: 23px;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.sticker:hover {
-    background: #e8f0ff;
-    transform: scale(1.08);
-}
-
-/* Actions */
-
-.action-btn {
-    width: 100%;
-    border: none;
-    border-radius: 25px;
-    padding: 14px;
-    margin-top: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.download {
-    background: linear-gradient(135deg,#a58cf4,#b6a0ff);
-    color: white;
-}
-
-.clear {
-    background: #eaf3ff;
-    color: #6476a9;
-}
-
-/* Sticker overlay */
-
-#stickerLayer {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.floating-sticker {
-    position: absolute;
-    font-size: 42px;
-    animation: pop .35s ease;
-}
-
-@keyframes pop {
-    from {
-        transform: scale(0);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* Responsive */
-
-@media(max-width:1200px) {
-    .app {
-        grid-template-columns: 220px 1fr;
-    }
-
-    .right-panel {
-        grid-column: 1 / -1;
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-    }
-}
-
-@media(max-width:850px) {
-    .app {
-        grid-template-columns: 1fr;
-        padding: 12px;
-    }
-
-    .sidebar {
-        display: none;
-    }
-
-    .right-panel {
-        display: block;
-    }
-
-    .panel {
-        margin-bottom: 12px;
-    }
-
-    .camera-wrapper {
-        height: 380px;
-    }
-
-    .title-area h1 {
-        font-size: 32px;
-    }
-}
-
-@media(max-width:550px) {
-    .topbar {
-        align-items: flex-start;
-    }
-
-    .room {
-        padding: 9px 12px;
-        font-size: 12px;
-    }
-
-    .camera-wrapper {
-        height: 300px;
-    }
-
-    .controls {
-        padding: 12px;
-    }
-
-    .capture-btn {
-        width: 70px;
-        height: 70px;
-    }
-
-    .control-btn {
-        width: 50px;
-        height: 50px;
-    }
-}
-</style>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
 
-<div class="app">
+<!-- ================= TOPBAR ================= -->
+<header class="topbar">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <div class="logo">
+        <span class="camera-icon">📷</span>
+        <span>Snap Bridge</span>
+        <b>✦</b>
+    </div>
 
-        <div class="logo">
-            <div class="logo-camera">📸</div>
-            <div class="logo-text">Snap Bridge</div>
+    <nav class="top-nav">
+        <a href="home.html">Home</a>
+        <a href="booth.html" class="active">Booth Studio</a>
+        <a href="templates.html">Templates</a>
+        <a href="frames.html">Frames</a>
+    </nav>
+
+    <div class="topbar-right">
+        <button id="shareLinkTopbarBtn" class="share-header-btn" type="button" onclick="openShareModal()">
+            🔗 Share Link
+        </button>
+        <div class="room-info">
+            Room: <strong id="roomCode">SOLO</strong>
         </div>
+        <button class="leave-btn" type="button" onclick="leaveBooth()">
+            Leave
+        </button>
+    </div>
 
-        <div class="menu">
-
-            <button class="active">
-                <span class="menu-icon">📸</span>
-                <span>Snap Bridge</span>
-            </button>
-
-            <button onclick="goTo('templates.html')">
-                <span class="menu-icon">▦</span>
-                <span>Templates</span>
-            </button>
-
-            <button onclick="scrollToPanel('filtersPanel')">
-                <span class="menu-icon">✧</span>
-                <span>Filters</span>
-            </button>
-
-            <button onclick="scrollToPanel('stickersPanel')">
-                <span class="menu-icon">♡</span>
-                <span>Stickers</span>
-            </button>
-
-            <button>
-                <span class="menu-icon">✎</span>
-                <span>Customize</span>
-            </button>
-
-            <button onclick="document.querySelector('.gallery').scrollIntoView({behavior:'smooth'})">
-                <span class="menu-icon">▧</span>
-                <span>Gallery</span>
-            </button>
-
-            <button>
-                <span class="menu-icon">⚙</span>
-                <span>Settings</span>
-            </button>
-
-        </div>
-
-        <div class="sidebar-bottom">
-            <div class="heart">♡</div>
-            <p>
-                Capture more than photos,<br>
-                create memories together!
-            </p>
-        </div>
-
-    </aside>
+</header>
 
 
-    <!-- CENTER -->
-    <main class="center">
+<!-- ================= MAIN WORKSPACE ================= -->
+<main class="studio-layout">
 
-        <div class="topbar">
+    <!-- ================= LEFT: CAMERA & LIVE BOOTH ================= -->
+    <section class="booth-column">
 
-            <div class="title-area">
-                <h1>Snap Bridge ♡</h1>
-                <p>Capture the moment together ✨</p>
+        <div class="panel-card camera-box">
+
+            <div class="panel-header">
+                <div>
+                    <span class="eyebrow">LIVE CAMERA BOOTH</span>
+                    <h2>Camera & Friends ✨</h2>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button class="invite-pill-btn" type="button" onclick="openShareModal()">
+                        🔗 Invite Friend
+                    </button>
+                    <div class="live-tag">
+                        <span class="live-dot"></span> LIVE
+                    </div>
+                </div>
             </div>
 
-            <div class="room">
-                👥 Room:
-                <span id="roomCode">SB7K2P</span>
-            </div>
+            <!-- CAMERA VIEW AREA (Split Screen in One Camera) -->
+            <div class="video-stage">
 
-        </div>
+                <div id="splitIndicator" class="split-indicator">
+                    <span>👯</span> Split Screen
+                </div>
 
+                <div id="flashOverlay" class="flash-overlay"></div>
 
-        <!-- CAMERA -->
-        <section class="camera-card">
+                <div id="countdownOverlay" class="countdown-overlay">
+                    <span id="countdownNumber">3</span>
+                </div>
 
-            <div class="camera-wrapper">
+                <!-- VIDEO GRID (Supports Local + Remote WebRTC Peers) -->
+                <div id="videoGrid" class="video-grid">
 
-                <video id="video" autoplay playsinline></video>
-
-                <div id="stickerLayer"></div>
-
-                <div class="camera-overlay">
-
-                    <div class="corner tl"></div>
-                    <div class="corner tr"></div>
-                    <div class="corner bl"></div>
-                    <div class="corner br"></div>
-
-                    <div class="camera-label">
-                        📷 SNAP BRIDGE
-                    </div>
-
-                    <div class="live">
-                        <span class="live-dot"></span>
-                        CAMERA LIVE
-                    </div>
-
-                    <div class="camera-message" id="cameraMessage">
-                        <strong>📸 Camera is ready!</strong>
-                        Smile! You're all set for photos! ✨
-                    </div>
-
-                    <div class="countdown" id="countdown">
-                        3
+                    <div class="video-card" id="localCard">
+                        <video id="localVideo" autoplay playsinline muted></video>
+                        <div class="video-name">You (Host)</div>
                     </div>
 
                 </div>
 
             </div>
 
-
             <!-- CONTROLS -->
-            <div class="controls">
+            <div class="camera-controls">
 
-                <button class="control-btn" onclick="switchCamera()" title="Switch Camera">
-                    🔄
-                </button>
-
-                <button class="capture-btn" onclick="takePhoto()" title="Take Photo">
+                <button id="cameraBtn" class="tool-btn" type="button" onclick="toggleCamera()" title="Toggle Camera">
                     📷
                 </button>
 
-                <button class="control-btn" onclick="toggleMic()" title="Toggle Microphone">
+                <button id="micBtn" class="tool-btn" type="button" onclick="toggleMic()" title="Toggle Microphone">
                     🎙️
+                </button>
+
+                <button id="countdownBtn" class="action-btn timer-btn" type="button" onclick="startCountdownSnap()" title="3-Second Timer Snap">
+                    ⏱️ 3s Snap
+                </button>
+
+                <button id="captureBtn" class="action-btn snap-btn" type="button" onclick="snapCurrentPhoto()" title="Instant Snap">
+                    📸 Snap
+                </button>
+
+                <button id="uploadTriggerBtn" class="action-btn upload-btn" type="button" onclick="triggerImageUpload()" title="Upload from Device">
+                    🖼️ Upload
                 </button>
 
             </div>
 
-        </section>
-
-
-        <!-- GALLERY -->
-        <section class="gallery">
-
-            <div class="gallery-title">
-                <h3>🖼️ My Photos</h3>
-                <span>Your captured photos ♡</span>
-            </div>
-
-            <div class="photos" id="photos">
-                <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=300&q=80">
-                </div>
-
-                <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=300&q=80">
-                </div>
-
-                <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=300&q=80">
+            <!-- LIVE CAMERA FILTERS BAR -->
+            <div class="filter-bar">
+                <span class="filter-label">✨ Filter:</span>
+                <div class="filter-scroll">
+                    <button class="filter-pill active" type="button" onclick="applyCameraFilter('normal', 'none', this)">Normal</button>
+                    <button class="filter-pill" type="button" onclick="applyCameraFilter('warm', 'contrast(105%) brightness(105%) saturate(125%)', this)">Peach Warm</button>
+                    <button class="filter-pill" type="button" onclick="applyCameraFilter('sepia', 'sepia(70%) contrast(105%) brightness(95%)', this)">Vintage</button>
+                    <button class="filter-pill" type="button" onclick="applyCameraFilter('bw', 'grayscale(100%) contrast(115%)', this)">B&W</button>
+                    <button class="filter-pill" type="button" onclick="applyCameraFilter('rose', 'sepia(25%) saturate(145%) hue-rotate(320deg) brightness(105%)', this)">Rose Glow</button>
+                    <button class="filter-pill" type="button" onclick="applyCameraFilter('cyber', 'hue-rotate(180deg) saturate(130%) contrast(110%)', this)">Cyber</button>
+                    <button class="filter-pill" type="button" onclick="applyCameraFilter('golden', 'sepia(40%) saturate(155%) brightness(105%)', this)">Golden</button>
+                    <button class="filter-pill" type="button" onclick="applyCameraFilter('film', 'contrast(120%) brightness(95%) sepia(30%) saturate(115%)', this)">Retro Film</button>
                 </div>
             </div>
 
-        </section>
+            <p id="status" class="status-badge">
+                Connecting camera...
+            </p>
 
-    </main>
+        </div>
 
 
-    <!-- RIGHT PANEL -->
-    <aside class="right-panel">
+        <!-- ================= STUDIO CUSTOMIZATION TABS ================= -->
+        <div class="panel-card tabs-box">
 
-        <!-- Templates -->
-        <section class="panel">
-
-            <div class="panel-title">
-                <h3>▧ Choose Template</h3>
-                <span>4 styles</span>
+            <div class="studio-tabs">
+                <button id="tabTemplatesBtn" class="tab-btn active" type="button" onclick="switchStudioTab('templates')">
+                    🎨 Templates
+                </button>
+                <button id="tabFiltersBtn" class="tab-btn" type="button" onclick="switchStudioTab('filters')">
+                    ✨ Filters
+                </button>
+                <button id="tabFramesBtn" class="tab-btn" type="button" onclick="switchStudioTab('frames')">
+                    🖼️ Frames & Layout
+                </button>
+                <button id="tabStickersBtn" class="tab-btn" type="button" onclick="switchStudioTab('stickers')">
+                    🎀 Stickers
+                </button>
             </div>
 
-            <div class="templates">
+            <!-- TAB 1: TEMPLATES -->
+            <div id="tabTemplates" class="tab-content active">
 
-                <div class="template selected" onclick="selectTemplate(this)">
-                    <div class="template-box cut4">
-                        <span></span><span></span>
-                        <span></span><span></span>
+                <div class="template-categories">
+                    <button class="cat-pill active" type="button" onclick="filterTemplateCategory('all', this)">All</button>
+                    <button class="cat-pill" type="button" onclick="filterTemplateCategory('cute', this)">Cute</button>
+                    <button class="cat-pill" type="button" onclick="filterTemplateCategory('classic', this)">Classic</button>
+                    <button class="cat-pill" type="button" onclick="filterTemplateCategory('aesthetic', this)">Aesthetic</button>
+                </div>
+
+                <div class="templates-grid">
+
+                    <button class="template-btn selected" data-cat="cute" data-template="spider" type="button" onclick="selectTemplateTheme('spider', this)">
+                        <div class="thumb spider-thumb">🕷️</div>
+                        <strong>Spider</strong>
+                        <small>Comic Vibes</small>
+                    </button>
+
+                    <button class="template-btn" data-cat="aesthetic" data-template="denim" type="button" onclick="selectTemplateTheme('denim', this)">
+                        <div class="thumb denim-thumb">☆</div>
+                        <strong>Denim</strong>
+                        <small>Blue Diary</small>
+                    </button>
+
+                    <button class="template-btn" data-cat="cute" data-template="bow" type="button" onclick="selectTemplateTheme('bow', this)">
+                        <div class="thumb bow-thumb">🎀</div>
+                        <strong>Pink Bow</strong>
+                        <small>Sweet Vibes</small>
+                    </button>
+
+                    <button class="template-btn" data-cat="classic" data-template="film" type="button" onclick="selectTemplateTheme('film', this)">
+                        <div class="thumb film-thumb">🎞️</div>
+                        <strong>Film Strip</strong>
+                        <small>Vintage Roll</small>
+                    </button>
+
+                    <button class="template-btn" data-cat="aesthetic" data-template="botanical" type="button" onclick="selectTemplateTheme('botanical', this)">
+                        <div class="thumb botanical-thumb">🌿</div>
+                        <strong>Botanical</strong>
+                        <small>Nature Dream</small>
+                    </button>
+
+                    <button class="template-btn" data-cat="cute" data-template="rainbow" type="button" onclick="selectTemplateTheme('rainbow', this)">
+                        <div class="thumb rainbow-thumb">🌈</div>
+                        <strong>Rainbow</strong>
+                        <small>Happy Days</small>
+                    </button>
+
+                    <button class="template-btn" data-cat="aesthetic" data-template="neon" type="button" onclick="selectTemplateTheme('neon', this)">
+                        <div class="thumb neon-thumb">✦</div>
+                        <strong>Neon Night</strong>
+                        <small>Glow Vibe</small>
+                    </button>
+
+                    <button class="template-btn" data-cat="classic" data-template="rose" type="button" onclick="selectTemplateTheme('rose', this)">
+                        <div class="thumb rose-thumb">🌹</div>
+                        <strong>Rose Garden</strong>
+                        <small>Floral Romance</small>
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- TAB 2: FILTERS -->
+            <div id="tabFilters" class="tab-content">
+                <p class="stickers-help">Live photo booth camera filters applied to you and your friends:</p>
+                <div class="filters-grid">
+                    <button class="filter-card active" type="button" onclick="applyCameraFilter('normal', 'none', this)">
+                        <div class="filter-sample normal-sample">✨</div>
+                        <strong>Normal</strong>
+                        <small>Natural Look</small>
+                    </button>
+                    <button class="filter-card" type="button" onclick="applyCameraFilter('warm', 'contrast(105%) brightness(105%) saturate(125%)', this)">
+                        <div class="filter-sample warm-sample">🍑</div>
+                        <strong>Peach Warm</strong>
+                        <small>Soft & Cozy</small>
+                    </button>
+                    <button class="filter-card" type="button" onclick="applyCameraFilter('sepia', 'sepia(70%) contrast(105%) brightness(95%)', this)">
+                        <div class="filter-sample sepia-sample">🎞️</div>
+                        <strong>Vintage Sepia</strong>
+                        <small>90s Nostalgia</small>
+                    </button>
+                    <button class="filter-card" type="button" onclick="applyCameraFilter('bw', 'grayscale(100%) contrast(115%)', this)">
+                        <div class="filter-sample bw-sample">🖤</div>
+                        <strong>B&W Classic</strong>
+                        <small>Timeless Monochrome</small>
+                    </button>
+                    <button class="filter-card" type="button" onclick="applyCameraFilter('rose', 'sepia(25%) saturate(145%) hue-rotate(320deg) brightness(105%)', this)">
+                        <div class="filter-sample rose-sample">🌸</div>
+                        <strong>Rose Glow</strong>
+                        <small>Pink Radiance</small>
+                    </button>
+                    <button class="filter-card" type="button" onclick="applyCameraFilter('cyber', 'hue-rotate(180deg) saturate(130%) contrast(110%)', this)">
+                        <div class="filter-sample cyber-sample">⚡</div>
+                        <strong>Cyber Blue</strong>
+                        <small>Cool Neon</small>
+                    </button>
+                    <button class="filter-card" type="button" onclick="applyCameraFilter('golden', 'sepia(40%) saturate(155%) brightness(105%)', this)">
+                        <div class="filter-sample golden-sample">☀️</div>
+                        <strong>Golden Hour</strong>
+                        <small>Sunset Radiance</small>
+                    </button>
+                    <button class="filter-card" type="button" onclick="applyCameraFilter('film', 'contrast(120%) brightness(95%) sepia(30%) saturate(115%)', this)">
+                        <div class="filter-sample film-sample">📼</div>
+                        <strong>Retro Film</strong>
+                        <small>Moody Cinema</small>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 3: FRAMES & LAYOUT -->
+            <div id="tabFrames" class="tab-content">
+
+                <div class="option-group">
+                    <label class="option-label">Photo Grid Layout</label>
+                    <div class="layout-buttons">
+                        <button class="layout-btn" type="button" onclick="changeStudioLayout(1, this)">
+                            <b>1 × 1</b>
+                            <small>1 Photo</small>
+                        </button>
+                        <button class="layout-btn active" type="button" onclick="changeStudioLayout(2, this)">
+                            <b>2 × 2</b>
+                            <small>4 Photos</small>
+                        </button>
+                        <button class="layout-btn" type="button" onclick="changeStudioLayout(3, this)">
+                            <b>3 × 3</b>
+                            <small>9 Photos</small>
+                        </button>
+                        <button class="layout-btn" type="button" onclick="changeStudioLayout(4, this)">
+                            <b>4 × 4</b>
+                            <small>16 Photos</small>
+                        </button>
                     </div>
-                    4 Cut
                 </div>
 
-                <div class="template" onclick="selectTemplate(this)">
-                    <div class="template-box cut3">
-                        <span></span><span></span><span></span>
+                <div class="option-group">
+                    <label class="option-label">Frame Border Style</label>
+                    <div class="style-buttons">
+                        <button class="style-btn selected" type="button" onclick="changeStudioFrameStyle('classic', this)">
+                            Classic
+                        </button>
+                        <button class="style-btn" type="button" onclick="changeStudioFrameStyle('soft', this)">
+                            Soft Pink
+                        </button>
+                        <button class="style-btn" type="button" onclick="changeStudioFrameStyle('lavender', this)">
+                            Lavender
+                        </button>
+                        <button class="style-btn" type="button" onclick="changeStudioFrameStyle('mint', this)">
+                            Mint
+                        </button>
                     </div>
-                    3 Cut
                 </div>
 
-                <div class="template" onclick="selectTemplate(this)">
-                    <div class="template-box polaroid">
-                        <span></span><span></span>
+                <div class="slider-row">
+                    <label>
+                        Spacing: <span id="spacingVal">8px</span>
+                        <input type="range" id="spacingRange" min="2" max="24" value="8" oninput="changeStudioSpacing(this.value)">
+                    </label>
+
+                    <label>
+                        Roundness: <span id="roundnessVal">10px</span>
+                        <input type="range" id="roundnessRange" min="0" max="30" value="10" oninput="changeStudioRoundness(this.value)">
+                    </label>
+                </div>
+
+            </div>
+
+            <!-- TAB 3: STICKERS -->
+            <div id="tabStickers" class="tab-content">
+
+                <p class="stickers-help">Click stickers to decorate your frame title and corners:</p>
+
+                <div class="stickers-palette">
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('🕷️')">🕷️</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('♡')">♡</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('✦')">✦</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('🎀')">🎀</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('🌸')">🌸</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('🦋')">🦋</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('🌈')">🌈</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('📷')">📷</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('🍓')">🍓</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('🧸')">🧸</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('✨')">✨</button>
+                    <button class="sticker-chip" type="button" onclick="addStickerToFrame('🌹')">🌹</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= RIGHT: LIVE FRAME STUDIO ================= -->
+    <section class="frame-column">
+
+        <div class="panel-card preview-card">
+
+            <div class="frame-topbar">
+                <div>
+                    <span class="eyebrow">PHOTO FRAME PREVIEW</span>
+                    <h3 id="templateDisplayName">Spider Template</h3>
+                    <p id="slotsStatus" class="slots-status">0 / 4 photos snapped</p>
+                </div>
+
+                <div class="export-actions">
+                    <button class="studio-btn print-btn" type="button" onclick="printStudioFrame()">
+                        🖨️ Print
+                    </button>
+                    <button class="studio-btn save-btn" type="button" onclick="downloadCompositeFrame()">
+                        💾 Download
+                    </button>
+                    <button class="studio-btn clear-btn" type="button" onclick="clearStudioFrame()">
+                        🗑️ Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- INTERACTIVE PHOTO FRAME -->
+            <div class="frame-stage">
+
+                <div id="photoFrame" class="photo-frame spider classic">
+
+                    <!-- CORNER DECORATIONS -->
+                    <div id="decorTopLeft" class="decor d-tl">✦</div>
+                    <div id="decorTopRight" class="decor d-tr">♡</div>
+                    <div id="decorBottomRight" class="decor d-br">✿</div>
+
+                    <!-- PHOTO GRID SLOTS -->
+                    <div id="photoGrid" class="photo-grid grid-2">
+                        <!-- Populated by JavaScript -->
                     </div>
-                    Polaroid
-                </div>
 
-                <div class="template" onclick="selectTemplate(this)">
-                    <div class="template-box grid4">
-                        <span></span><span></span>
-                        <span></span><span></span>
+                    <!-- FRAME BOTTOM TITLE -->
+                    <div id="frameTitle" class="frame-title" contenteditable="true" title="Click to edit title">
+                        Snap Bridge ✨
                     </div>
-                    Grid
+
                 </div>
 
             </div>
 
-        </section>
+            <p class="frame-hint">
+                💡 <b>Tip:</b> Click any photo slot above to select it, or click <b>Snap</b> / <b>Upload</b> to fill the next slot.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
 
 
-        <!-- FILTERS -->
-        <section class="panel" id="filtersPanel">
+<!-- HIDDEN FILE INPUT -->
+<input type="file" id="imageUpload" accept="image/*" style="display:none;">
 
-            <div class="panel-title">
-                <h3>✦ Photo Filters</h3>
-                <span>10 styles</span>
+<!-- HIDDEN CANVAS FOR HIGH-RES EXPORT -->
+<canvas id="photoCanvas" style="display:none;"></canvas>
+
+<!-- ================= SHARE INVITE LINK MODAL ================= -->
+<div id="shareModalOverlay" class="share-modal-overlay" onclick="handleShareOverlayClick(event)">
+    <div class="share-modal">
+        <button class="share-modal-close" type="button" onclick="closeShareModal()" aria-label="Close">×</button>
+        <div class="share-modal-icon">👯</div>
+        <h3>Shared Photo Booth Link</h3>
+        <p>Invite your friend to join this booth! You will both appear <b>side-by-side in split screen</b> in the same camera.</p>
+
+        <div class="share-code-box">
+            <div>
+                <small style="display:block; font-size:10px; color:#7884a8; font-weight:700;">ROOM CODE</small>
+                <span id="shareCodeDisplay" class="share-code-text">------</span>
             </div>
-
-            <div class="filters">
-
-                <div class="filter selected" onclick="applyFilter('original',this)">
-                    <div class="filter-circle original"></div>
-                    Original
-                </div>
-
-                <div class="filter" onclick="applyFilter('bw',this)">
-                    <div class="filter-circle bw"></div>
-                    B&W
-                </div>
-
-                <div class="filter" onclick="applyFilter('vintage',this)">
-                    <div class="filter-circle vintage"></div>
-                    Vintage
-                </div>
-
-                <div class="filter" onclick="applyFilter('warm',this)">
-                    <div class="filter-circle warm"></div>
-                    Warm
-                </div>
-
-                <div class="filter" onclick="applyFilter('cool',this)">
-                    <div class="filter-circle cool"></div>
-                    Cool
-                </div>
-
-                <div class="filter" onclick="applyFilter('pixel',this)">
-                    <div class="filter-circle pixel"></div>
-                    Pixel
-                </div>
-
-                <div class="filter" onclick="applyFilter('cartoon',this)">
-                    <div class="filter-circle cartoon"></div>
-                    Cartoon
-                </div>
-
-                <div class="filter" onclick="applyFilter('dreamy',this)">
-                    <div class="filter-circle dreamy"></div>
-                    Dreamy
-                </div>
-
-                <div class="filter" onclick="applyFilter('retro',this)">
-                    <div class="filter-circle retro"></div>
-                    Retro
-                </div>
-
-                <div class="filter" onclick="applyFilter('ghibli',this)">
-                    <div class="filter-circle ghibli"></div>
-                    Ghibli
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- STICKERS -->
-        <section class="panel" id="stickersPanel">
-
-            <div class="panel-title">
-                <h3>♡ Add Stickers</h3>
-                <span>Cute collection ♡</span>
-            </div>
-
-            <div class="stickers">
-
-                <button class="sticker" onclick="addSticker('💗')">💗</button>
-                <button class="sticker" onclick="addSticker('🌸')">🌸</button>
-                <button class="sticker" onclick="addSticker('🦋')">🦋</button>
-                <button class="sticker" onclick="addSticker('⭐')">⭐</button>
-                <button class="sticker" onclick="addSticker('👑')">👑</button>
-
-                <button class="sticker" onclick="addSticker('🎀')">🎀</button>
-                <button class="sticker" onclick="addSticker('✨')">✨</button>
-                <button class="sticker" onclick="addSticker('🌷')">🌷</button>
-                <button class="sticker" onclick="addSticker('😊')">😊</button>
-                <button class="sticker" onclick="addSticker('📸')">📸</button>
-
-            </div>
-
-        </section>
-
-
-        <!-- ACTIONS -->
-        <section class="panel">
-
-            <div class="panel-title">
-                <h3>⚡ Actions</h3>
-            </div>
-
-            <button class="action-btn download" onclick="downloadLatest()">
-                ⬇ Download Photo
+            <button class="share-sub-btn" type="button" onclick="copyShareCode()" style="flex:0; padding:8px 14px;">
+                📋 Copy Code
             </button>
+        </div>
 
-            <button class="action-btn clear" onclick="clearGallery()">
-                🗑 Clear Gallery
+        <div class="share-link-input-group">
+            <input type="text" id="shareUrlInput" readonly onclick="this.select()">
+            <button class="share-copy-btn" type="button" onclick="copyShareLink()">
+                📋 Copy Link
             </button>
+        </div>
 
-        </section>
+        <div class="share-actions-row">
+            <button class="share-sub-btn" type="button" onclick="shareWhatsApp()">
+                💬 WhatsApp
+            </button>
+            <button class="share-sub-btn" type="button" onclick="shareNative()">
+                📱 Share via Apps
+            </button>
+        </div>
 
-    </aside>
-
+        <div class="network-hint-box">
+            <span>🌐 <b>Different Networks:</b></span>
+            <p>To invite friends across different Wi-Fi or cellular networks, run <code>npm run tunnel</code> to get an <b>https://</b> link. Modern browsers require HTTPS for camera permissions across different networks.</p>
+        </div>
+    </div>
 </div>
 
+<!-- TOAST NOTIFICATION -->
+<div id="shareToast" class="share-toast">Link copied to clipboard!</div>
 
-<canvas id="canvas" style="display:none;"></canvas>
 
-
-<script>
-
-let stream = null;
-let currentFilter = "original";
-let latestPhoto = null;
-let micEnabled = true;
-
-
-/* ================= CAMERA ================= */
-
-async function startCamera() {
-
-    try {
-
-        stream = await navigator.mediaDevices.getUserMedia({
-            video: {
-                facingMode: "user",
-                width: { ideal: 1280 },
-                height: { ideal: 720 }
-            },
-            audio: true
-        });
-
-        const video = document.getElementById("video");
-
-        video.srcObject = stream;
-
-        document.getElementById("cameraMessage")
-            .classList.add("hidden");
-
-    } catch(error) {
-
-        console.log(error);
-
-        document.getElementById("cameraMessage").innerHTML =
-            "<strong>📷 Camera permission needed</strong>" +
-            "<span>Please allow camera access.</span>";
-
-    }
-
-}
-
-
-/* ================= SWITCH CAMERA ================= */
-
-async function switchCamera() {
-
-    if (!stream) return;
-
-    stream.getTracks().forEach(track => track.stop());
-
-    try {
-
-        stream = await navigator.mediaDevices.getUserMedia({
-            video: {
-                facingMode: "environment"
-            },
-            audio: true
-        });
-
-        document.getElementById("video").srcObject = stream;
-
-    } catch(error) {
-
-        console.log(error);
-
-    }
-
-}
-
-
-/* ================= MICROPHONE ================= */
-
-function toggleMic() {
-
-    if (!stream) return;
-
-    const audioTracks = stream.getAudioTracks();
-
-    audioTracks.forEach(track => {
-        track.enabled = !track.enabled;
-        micEnabled = track.enabled;
-    });
-
-    alert(
-        micEnabled
-        ? "Microphone ON 🎙️"
-        : "Microphone OFF 🔇"
-    );
-
-}
-
-
-/* ================= COUNTDOWN ================= */
-
-function startCountdown(callback) {
-
-    const countdown = document.getElementById("countdown");
-
-    let number = 3;
-
-    countdown.style.display = "flex";
-    countdown.textContent = number;
-
-    const timer = setInterval(() => {
-
-        number--;
-
-        if(number <= 0) {
-
-            clearInterval(timer);
-
-            countdown.style.display = "none";
-
-            callback();
-
-        } else {
-
-            countdown.textContent = number;
-
-        }
-
-    }, 1000);
-
-}
-
-
-/* ================= TAKE PHOTO ================= */
-
-function takePhoto() {
-
-    if(!stream) {
-        alert("Please allow camera access first.");
-        return;
-    }
-
-    startCountdown(capturePhoto);
-
-}
-
-
-function capturePhoto() {
-
-    const video = document.getElementById("video");
-    const canvas = document.getElementById("canvas");
-
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-
-    const ctx = canvas.getContext("2d");
-
-    /* Mirror the captured image */
-    ctx.translate(canvas.width, 0);
-    ctx.scale(-1, 1);
-
-    ctx.filter = getFilter(currentFilter);
-
-    ctx.drawImage(
-        video,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-    latestPhoto = canvas.toDataURL("image/png");
-
-    addPhotoToGallery(latestPhoto);
-
-}
-
-
-/* ================= FILTER ================= */
-
-function applyFilter(filter, element) {
-
-    currentFilter = filter;
-
-    document.querySelectorAll(".filter")
-        .forEach(item => item.classList.remove("selected"));
-
-    element.classList.add("selected");
-
-    document.getElementById("video").style.filter =
-        getFilter(filter);
-
-}
-
-
-function getFilter(filter) {
-
-    switch(filter) {
-
-        case "bw":
-            return "grayscale(1)";
-
-        case "vintage":
-            return "sepia(.65)";
-
-        case "warm":
-            return "saturate(1.3) sepia(.25)";
-
-        case "cool":
-            return "hue-rotate(15deg) saturate(.8)";
-
-        case "pixel":
-            return "contrast(1.4) saturate(1.5)";
-
-        case "cartoon":
-            return "saturate(1.7) contrast(1.15)";
-
-        case "dreamy":
-            return "brightness(1.12) saturate(.8)";
-
-        case "retro":
-            return "sepia(.45) contrast(1.1)";
-
-        case "ghibli":
-            return "saturate(.7) brightness(1.08)";
-
-        default:
-            return "none";
-    }
-
-}
-
-
-/* ================= GALLERY ================= */
-
-function addPhotoToGallery(photo) {
-
-    const gallery = document.getElementById("photos");
-
-    const item = document.createElement("div");
-
-    item.className = "photo-item";
-
-    const image = document.createElement("img");
-
-    image.src = photo;
-
-    item.appendChild(image);
-
-    gallery.prepend(item);
-
-}
-
-
-function downloadLatest() {
-
-    if(!latestPhoto) {
-
-        alert("Take a photo first 📸");
-
-        return;
-    }
-
-    const link = document.createElement("a");
-
-    link.download = "snap-bridge-photo.png";
-
-    link.href = latestPhoto;
-
-    link.click();
-
-}
-
-
-function clearGallery() {
-
-    document.getElementById("photos").innerHTML = "";
-
-    latestPhoto = null;
-
-}
-
-
-/* ================= TEMPLATES ================= */
-
-function selectTemplate(element) {
-
-    document.querySelectorAll(".template")
-        .forEach(item => item.classList.remove("selected"));
-
-    element.classList.add("selected");
-
-}
-
-
-/* ================= STICKERS ================= */
-
-function addSticker(sticker) {
-
-    const layer = document.getElementById("stickerLayer");
-
-    const item = document.createElement("div");
-
-    item.className = "floating-sticker";
-
-    item.textContent = sticker;
-
-    item.style.left =
-        Math.random() * 80 + 10 + "%";
-
-    item.style.top =
-        Math.random() * 70 + 10 + "%";
-
-    layer.appendChild(item);
-
-}
-
-
-/* ================= NAVIGATION ================= */
-
-function scrollToPanel(id) {
-
-    document.getElementById(id)
-        .scrollIntoView({
-            behavior: "smooth"
-        });
-
-}
-
-
-function goTo(page) {
-
-    window.location.href = page;
-
-}
-
-
-/* ================= ROOM CODE ================= */
-
-function generateRoomCode() {
-
-    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-    let code = "SB";
-
-    for(let i = 0; i < 4; i++) {
-
-        code += chars[
-            Math.floor(Math.random() * chars.length)
-        ];
-
-    }
-
-    document.getElementById("roomCode").textContent = code;
-
-}
-
-
-/* ================= START ================= */
-
-window.addEventListener("load", () => {
-
-    startCamera();
-
-    generateRoomCode();
-
-});
-
-</script>
+<script src="booth.js"></script>
 
 </body>
 </html>

@@ -2015,16 +2015,23 @@ function togglePassword(){
     const password =
         document.getElementById("password");
 
+    const eye =
+        document.querySelector(".eye");
+
 
     if(password.type === "password"){
 
         password.type = "text";
+
+        if(eye) eye.textContent = "◎";
 
     }
 
     else{
 
         password.type = "password";
+
+        if(eye) eye.textContent = "◉";
 
     }
 

@@ -125,52 +125,6 @@ body{
 }
 
 
-/* NAV BUTTONS */
-
-.nav-buttons{
-
-    display:flex;
-
-    gap:9px;
-}
-
-.login-btn{
-
-    text-decoration:none;
-
-    padding:9px 21px;
-
-    border:1px solid #5068a5;
-
-    border-radius:20px;
-
-    color:#405b94;
-
-    font-size:12px;
-
-    font-weight:700;
-
-}
-
-.signup-btn{
-
-    text-decoration:none;
-
-    padding:10px 22px;
-
-    border-radius:20px;
-
-    background:#5065a2;
-
-    color:white;
-
-    font-size:12px;
-
-    font-weight:700;
-
-}
-
-
 /* =========================================
    HERO
 ========================================= */
@@ -976,6 +930,132 @@ footer p{
 
 }
 
+
+/* BOOTH CHOICE MODAL */
+.booth-choice-overlay {
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+    background:rgba(20,30,65,.48);
+    backdrop-filter:blur(8px);
+    z-index:3000;
+    overflow:auto;
+}
+.booth-choice-overlay.show { display:flex; }
+.booth-choice-modal {
+    width:min(1100px,96vw);
+    max-height:92vh;
+    overflow:auto;
+    border-radius:30px;
+    padding:34px;
+    position:relative;
+    background:
+        radial-gradient(circle at 5% 10%,#d6e7ff 0,transparent 25%),
+        radial-gradient(circle at 95% 20%,#eadcff 0,transparent 27%),
+        radial-gradient(circle at 50% 100%,#dff6ed 0,transparent 30%),
+        #f8fbff;
+    box-shadow:0 30px 90px rgba(20,30,70,.30);
+}
+.booth-modal-close {
+    position:absolute;
+    right:22px;
+    top:18px;
+    width:42px;
+    height:42px;
+    border:1px solid #cbd4e9;
+    border-radius:50%;
+    background:white;
+    color:#18245c;
+    font-size:22px;
+    cursor:pointer;
+}
+.booth-modal-title {
+    text-align:center;
+    font-size:42px;
+    line-height:1.1;
+    letter-spacing:-1px;
+    color:#18245c;
+    margin:8px 40px 10px;
+}
+.booth-modal-title span { color:#6670dc; }
+.booth-modal-subtitle {
+    text-align:center;
+    color:#6d7692;
+    margin:0 auto 30px;
+    font-size:16px;
+    max-width:650px;
+    line-height:1.6;
+}
+.booth-choice-modal .cards {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    text-align:left;
+}
+.booth-choice-modal .card {
+    min-height:350px;
+    background:rgba(255,255,255,.92);
+    border:2px solid #d8deee;
+    border-radius:26px;
+    padding:25px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 18px 45px rgba(48,60,120,.10);
+    transition:.25s;
+}
+.booth-choice-modal .card:hover { transform:translateY(-6px); }
+.booth-choice-modal .card::after {
+    content:"";
+    position:absolute;
+    width:140px;height:140px;border-radius:50%;
+    right:-60px;top:-60px;opacity:.6;pointer-events:none;
+}
+.booth-choice-modal .solo::after { background:#fff0a5; }
+.booth-choice-modal .shared::after { background:#f5c5ec; }
+.booth-choice-modal .code::after { background:#c4e0ff; }
+.booth-choice-modal .icon {
+    width:64px;height:64px;display:flex;align-items:center;justify-content:center;
+    border:2px solid #18245c;border-radius:19px;font-size:30px;margin-bottom:20px;
+    position:relative;z-index:1;
+}
+.booth-choice-modal .solo .icon { background:#ffe32f; }
+.booth-choice-modal .shared .icon { background:#f17bd9; }
+.booth-choice-modal .code .icon { background:#66aef3; }
+.booth-choice-modal .card h3 { font-size:25px;margin-bottom:9px;color:#18245c; }
+.booth-choice-modal .card p { color:#68718d;line-height:1.6;font-size:14px;min-height:70px; }
+.booth-choice-modal .features {
+    display:flex;flex-wrap:wrap;gap:6px;margin:15px 0;
+}
+.booth-choice-modal .feature {
+    background:#f3f5fc;border:1px solid #dfe3ef;border-radius:20px;
+    padding:6px 9px;font-size:10px;font-weight:700;
+}
+.booth-choice-modal .card-btn {
+    width:100%;border:0;
+    background:linear-gradient(135deg,#5962cc,#7475df);
+    color:white;padding:13px;border-radius:16px;font-size:13px;font-weight:800;
+    cursor:pointer;transition:.2s;
+}
+.booth-choice-modal .card-btn:hover { transform:scale(1.02); }
+.booth-choice-modal .code-box { margin:15px 0; }
+.booth-choice-modal .code-box input {
+    width:100%;padding:13px;border:2px solid #dde2ed;border-radius:15px;
+    outline:none;font-size:14px;text-transform:uppercase;letter-spacing:1px;
+}
+.booth-choice-modal .code-box input:focus { border-color:#6872dc; }
+.booth-choice-modal .bottom-note {
+    margin-top:25px;text-align:center;color:#747c94;font-size:12px;
+}
+.booth-choice-modal .bottom-note strong { color:#5963ce; }
+@media(max-width:850px) {
+    .booth-choice-modal .cards { grid-template-columns:1fr; }
+    .booth-choice-modal .card { min-height:auto; }
+    .booth-modal-title { font-size:34px; }
+}
+
 </style>
 
 </head>
@@ -1014,6 +1094,14 @@ footer p{
             Home
         </a>
 
+        <a href="templates.html">
+            Templates
+        </a>
+
+        <a href="frames.html">
+            Frames
+        </a>
+
         <a href="#features">
             Features
         </a>
@@ -1027,29 +1115,6 @@ footer p{
         </a>
 
     </nav>
-
-
-    <div class="nav-buttons">
-
-        <a
-            href="index.html"
-            class="login-btn">
-
-            Login
-
-        </a>
-
-
-        <a
-            href="signup.html"
-            class="signup-btn">
-
-            Sign Up
-
-        </a>
-
-    </div>
-
 </header>
 
 
@@ -1092,8 +1157,9 @@ footer p{
             and save memories together. 📸
 
         </p>
-        <a
-            href="booth.html"
+        <button
+            type="button"
+            onclick="openBoothChoice()"
             class="start-btn">
 
             Start Booth
@@ -1102,7 +1168,7 @@ footer p{
                 →
             </span>
 
-        </a>
+        </button>
 
     </div>
 
@@ -1326,8 +1392,8 @@ footer p{
             </h3>
 
             <p>
-                Login or create your
-                Snap Bridge account.
+                Start directly with
+                Snap Bridge.
             </p>
 
         </div>
@@ -1477,5 +1543,136 @@ footer p{
 
     </p>
 </footer>
+
+<!-- BOOTH CHOICE: appears before entering booth -->
+<div class="booth-choice-overlay" id="boothChoiceOverlay">
+    <div class="booth-choice-modal" role="dialog" aria-modal="true" aria-labelledby="boothChoiceTitle">
+        <button class="booth-modal-close" type="button" onclick="closeBoothChoice()" aria-label="Close">×</button>
+
+        <h2 id="boothChoiceTitle" class="booth-modal-title">
+            Choose Your <span>Photo Booth</span>
+        </h2>
+
+        <p class="booth-modal-subtitle">
+            Capture beautiful memories alone or bring your friends into the same frame.
+        </p>
+
+        <div class="cards">
+
+            <div class="card solo">
+                <div class="icon">👤</div>
+                <h3>Solo Booth</h3>
+                <p>
+                    Just you and your camera. Create beautiful photos with
+                    filters, stickers and templates.
+                </p>
+                <div class="features">
+                    <span class="feature">📸 Camera</span>
+                    <span class="feature">✨ Filters</span>
+                    <span class="feature">🎀 Stickers</span>
+                </div>
+                <button class="card-btn" type="button" onclick="startSolo()">
+                    Enter Solo Booth →
+                </button>
+            </div>
+
+            <div class="card shared">
+                <div class="icon">👯</div>
+                <h3>Shared Booth</h3>
+                <p>
+                    Create a room and invite up to 2 friends. Everyone
+                    appears in the same photo.
+                </p>
+                <div class="features">
+                    <span class="feature">👥 Up to 3</span>
+                    <span class="feature">🔗 Share Link</span>
+                    <span class="feature">💕 Together</span>
+                </div>
+                <button class="card-btn" type="button" onclick="createSharedRoom()">
+                    Create Shared Booth →
+                </button>
+            </div>
+
+            <div class="card code">
+                <div class="icon">🎟️</div>
+                <h3>Got a Code?</h3>
+                <p>
+                    Your friend already created a Snap Bridge booth?
+                    Enter their room code to join.
+                </p>
+                <div class="code-box">
+                    <input id="joinCode" type="text" maxlength="9" placeholder="SB-ABC123">
+                </div>
+                <button class="card-btn" type="button" onclick="joinRoom()">
+                    Join Booth →
+                </button>
+            </div>
+
+        </div>
+
+        <div class="bottom-note">
+            🔒 Camera access starts only after you enter the booth.
+            <strong>Your privacy matters.</strong>
+        </div>
+    </div>
+</div>
+
+<script>
+
+function openBoothChoice(){
+    document.getElementById("boothChoiceOverlay").classList.add("show");
+    document.body.style.overflow = "hidden";
+}
+function closeBoothChoice(){
+    document.getElementById("boothChoiceOverlay").classList.remove("show");
+    document.body.style.overflow = "";
+}
+function startSolo(){
+    window.location.href = "booth.html?mode=solo";
+}
+function createSharedRoom(){
+    const letters = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+    const digits = "23456789";
+    let code = "SB-";
+    for(let i=0;i<3;i++){
+        code += letters[Math.floor(Math.random()*letters.length)];
+    }
+    for(let i=0;i<3;i++){
+        code += digits[Math.floor(Math.random()*digits.length)];
+    }
+    window.location.href =
+        "booth.html?mode=shared&room=" + encodeURIComponent(code);
+}
+function joinRoom(){
+    const input = document.getElementById("joinCode");
+    const code = input.value.trim().toUpperCase();
+
+    if(!code){
+        alert("Please enter a Snap Bridge room code.");
+        input.focus();
+        return;
+    }
+    if(!code.startsWith("SB-")){
+        alert("Please enter a valid Snap Bridge code such as SB-ABC123.");
+        input.focus();
+        return;
+    }
+    window.location.href =
+        "booth.html?mode=shared&room=" + encodeURIComponent(code);
+}
+document.addEventListener("keydown", function(event){
+    if(event.key === "Escape"){
+        closeBoothChoice();
+    }
+    if(event.key === "Enter" &&
+       document.getElementById("boothChoiceOverlay")?.classList.contains("show") &&
+       document.activeElement?.id === "joinCode"){
+        joinRoom();
+    }
+});
+document.getElementById("boothChoiceOverlay")?.addEventListener("click", function(event){
+    if(event.target === this) closeBoothChoice();
+});
+</script>
 </body>
 </html>

@@ -2,10 +2,11 @@
   "name": "plan-c",
   "version": "1.0.0",
   "description": "",
-  "main": "booth.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "tunnel": ".\\cloudflared-windows-amd64.exe tunnel --url http://localhost:3000"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,6 @@
   "type": "commonjs",
   "dependencies": {
     "express": "^5.2.1",
-    "socket.io": "^4.8.3"
+    "socket.io": "^4.8.4"
   }
 }
