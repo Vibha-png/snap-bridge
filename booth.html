@@ -448,7 +448,7 @@
                     <button class="studio-btn save-btn" type="button" onclick="downloadCompositeFrame()">
                         💾 Download
                     </button>
-                    <button class="studio-btn clear-btn" type="button" onclick="clearStudioFrame()">
+                    <button class="studio-btn clear-btn" type="button" onclick="clearStudioFrame(event)" title="Clear one photo at a time (Shift+Click to clear all)">
                         🗑️ Clear
                     </button>
                 </div>
@@ -480,7 +480,7 @@
             </div>
 
             <p class="frame-hint">
-                💡 <b>Tip:</b> Click any photo slot above to select it, or click <b>Snap</b> / <b>Upload</b> to fill the next slot.
+                💡 <b>Tip:</b> Click any photo slot to select it. Click <b>Clear</b> to remove photos one by one (or click ✕ on any photo).
             </p>
 
         </div>

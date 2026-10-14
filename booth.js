@@ -646,6 +646,7 @@ function createPhotoSlots(count) {
 
         slot.innerHTML = `
             <img id="slot-img-${i}" alt="Photo ${i + 1}">
+            <button class="slot-remove-btn" type="button" title="Clear photo from Slot ${i + 1}" onclick="event.stopPropagation(); clearSlotPhoto(${i});" aria-label="Clear photo">✕</button>
             <div class="placeholder">
                 <span>＋</span>
                 Slot ${i + 1}
@@ -702,7 +703,59 @@ function updateSlotsStatus() {
     slotsStatus.textContent = `${filled} / ${total} photos snapped`;
 }
 
-function clearStudioFrame() {
+function clearSlotPhoto(index) {
+    if (index < 0 || index >= photos.length) return;
+
+    const hadPhoto = !!photos[index];
+    photos[index] = null;
+
+    const slot = photoGrid.querySelector(`.photo-slot[data-index="${index}"]`);
+    if (slot) {
+        slot.classList.remove("has-image");
+        const img = slot.querySelector("img");
+        if (img) img.src = "";
+    }
+
+    selectSlot(index);
+    updateSlotsStatus();
+
+    if (hadPhoto) {
+        statusText.textContent = `Slot ${index + 1} photo cleared. Ready to retake! 📸`;
+    }
+}
+
+function clearStudioFrame(event) {
+    event = event || window.event;
+
+    // Optional Shift+Click shortcut to clear all photos at once
+    if (event && event.shiftKey) {
+        clearAllStudioPhotos();
+        return;
+    }
+
+    // Collect all slots that currently have a photo
+    const filledIndices = [];
+    photos.forEach((photo, idx) => {
+        if (photo) filledIndices.push(idx);
+    });
+
+    if (filledIndices.length === 0) {
+        statusText.textContent = "Frame is empty — no photos to clear.";
+        return;
+    }
+
+    // 1. If currently selected slot has a photo, clear that one
+    if (photos[selectedSlot]) {
+        clearSlotPhoto(selectedSlot);
+        return;
+    }
+
+    // 2. Otherwise (e.g. on empty slot), clear the last filled photo (one at a time)
+    const lastFilledIndex = filledIndices[filledIndices.length - 1];
+    clearSlotPhoto(lastFilledIndex);
+}
+
+function clearAllStudioPhotos() {
     if (photos.filter(Boolean).length === 0) return;
     if (!confirm("Clear all photos from this frame?")) return;
 
@@ -715,7 +768,7 @@ function clearStudioFrame() {
     selectedSlot = 0;
     selectSlot(0);
     updateSlotsStatus();
-    statusText.textContent = "Frame cleared. Ready for new memories! ✨";
+    statusText.textContent = "All photos cleared. Ready for new memories! ✨";
 }
 
 /* =========================================================

@@ -49,6 +49,7 @@ function createPhotoSlots(total) {
 
         slot.innerHTML = `
             <img id="photo-${i}" alt="Photo">
+            <button class="slot-remove-btn" type="button" title="Clear photo" onclick="event.stopPropagation(); clearSinglePhoto(${i});" aria-label="Clear photo">✕</button>
 
             <div class="placeholder">
                 <span>＋</span>
@@ -547,30 +548,52 @@ function updateStatus() {
    CLEAR
 ========================================= */
 
-function clearFrame() {
+function clearSinglePhoto(index) {
+    const slots = document.querySelectorAll(".photo-slot");
+    const slot = slots[index];
+    if (slot) {
+        const img = slot.querySelector("img");
+        if (img) img.src = "";
+        slot.classList.remove("has-image");
+    }
+    selectedSlot = index;
+    updateStatus();
+}
 
-    document.querySelectorAll(
-        ".photo-slot"
-    ).forEach(slot => {
+function clearFrame(event) {
+    event = event || window.event;
 
-        const img =
-            slot.querySelector("img");
+    // Shift + click on the Clear button clears all photos
+    if (event && event.shiftKey) {
+        document.querySelectorAll(".photo-slot").forEach(slot => {
+            const img = slot.querySelector("img");
+            if (img) img.src = "";
+            slot.classList.remove("has-image");
+        });
+        selectedSlot = 0;
+        updateStatus();
+        return;
+    }
 
-
-        img.src = "";
-
-
-        slot.classList.remove(
-            "has-image"
-        );
-
+    const slots = Array.from(document.querySelectorAll(".photo-slot"));
+    const filledIndices = [];
+    slots.forEach((s, idx) => {
+        if (s.classList.contains("has-image")) {
+            filledIndices.push(idx);
+        }
     });
 
+    if (filledIndices.length === 0) return;
 
-    selectedSlot = 0;
+    // If currently selected slot has a photo, clear that one
+    if (slots[selectedSlot] && slots[selectedSlot].classList.contains("has-image")) {
+        clearSinglePhoto(selectedSlot);
+        return;
+    }
 
-    updateStatus();
-
+    // Otherwise clear the last filled photo
+    const lastFilled = filledIndices[filledIndices.length - 1];
+    clearSinglePhoto(lastFilled);
 }
 
 

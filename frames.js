@@ -95,6 +95,7 @@ function createPhotoSlots(number) {
                 id="photo-${i}"
                 alt="Photo"
             >
+            <button class="slot-remove-btn" type="button" title="Clear photo" onclick="event.stopPropagation(); clearSinglePhoto(${i});" aria-label="Clear photo">✕</button>
 
             <div class="placeholder">
 
@@ -420,32 +421,50 @@ function closeCamera() {
    CLEAR FRAME
 ========================================== */
 
-function clearFrame() {
+function clearSinglePhoto(index) {
+    const slots = document.querySelectorAll(".photo-slot");
+    const slot = slots[index];
+    if (slot) {
+        const image = slot.querySelector("img");
+        if (image) image.src = "";
+        slot.classList.remove("has-image");
+    }
+    selectedSlot = index;
+    updateStatus();
+}
 
-    const slots =
-        document.querySelectorAll(
-            ".photo-slot"
-        );
+function clearFrame(event) {
+    event = event || window.event;
 
+    if (event && event.shiftKey) {
+        const slots = document.querySelectorAll(".photo-slot");
+        slots.forEach(slot => {
+            const image = slot.querySelector("img");
+            if (image) image.src = "";
+            slot.classList.remove("has-image");
+        });
+        selectedSlot = 0;
+        updateStatus();
+        return;
+    }
 
-    slots.forEach(slot => {
-
-        const image =
-            slot.querySelector("img");
-
-
-        image.src = "";
-
-
-        slot.classList.remove(
-            "has-image"
-        );
-
+    const slots = Array.from(document.querySelectorAll(".photo-slot"));
+    const filledIndices = [];
+    slots.forEach((s, idx) => {
+        if (s.classList.contains("has-image")) {
+            filledIndices.push(idx);
+        }
     });
 
+    if (filledIndices.length === 0) return;
 
-    updateStatus();
+    if (slots[selectedSlot] && slots[selectedSlot].classList.contains("has-image")) {
+        clearSinglePhoto(selectedSlot);
+        return;
+    }
 
+    const lastFilled = filledIndices[filledIndices.length - 1];
+    clearSinglePhoto(lastFilled);
 }
 
 
