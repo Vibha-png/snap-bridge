@@ -1430,7 +1430,7 @@ body{
                 <input
                     type="email"
                     id="email"
-                    placeholder="Email or Username"
+                    placeholder="Email ID"
                     autocomplete="email"
                     required>
 
@@ -1625,6 +1625,17 @@ document
         }
 
 
+        /* VALIDATE EMAIL */
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailRegex.test(email)){
+            alert(
+                "Please enter a valid email ID (e.g. name@example.com)."
+            );
+            return;
+        }
+
+
         /* PASSWORD LENGTH */
 
         if(password.length < 6){
@@ -1649,10 +1660,32 @@ document
         }
 
 
+        /* SAVE ACCOUNT */
+
+        try {
+            let users = [];
+            const savedUsers = localStorage.getItem("snapBridgeUsers");
+            if (savedUsers) {
+                users = JSON.parse(savedUsers);
+            }
+            const existingIndex = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+            const newUser = { name: name, email: email, password: password };
+            if (existingIndex >= 0) {
+                users[existingIndex] = newUser;
+            } else {
+                users.push(newUser);
+            }
+            localStorage.setItem("snapBridgeUsers", JSON.stringify(users));
+            localStorage.setItem("snapBridgeUser", JSON.stringify(newUser));
+        } catch(e) {
+            console.error("Storage error:", e);
+        }
+
+
         /* SUCCESS */
 
         alert(
-            "Account created successfully! 📸✨"
+            "Account created successfully for " + email + "! 📸✨"
         );
 
 

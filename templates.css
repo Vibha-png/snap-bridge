@@ -440,6 +440,84 @@ nav a.active {
         );
 }
 
+/* Lavender Cloud */
+.template-preview.lavender {
+    background: linear-gradient(160deg, #e9efff, #c6d2ff, #ded2f8);
+    border: 1px solid #abb9ed;
+}
+
+/* Dreamy Purple */
+.template-preview.dreamy {
+    background: linear-gradient(180deg, #d9d2ff, #b7afe8, #9e91ca);
+    border: 1px solid #c9c0ee;
+}
+
+/* Floral Pastel */
+.template-preview.floral {
+    background: linear-gradient(145deg, #fffdf7, #f8f0db);
+    border: 1px solid #d8c59f;
+}
+
+/* Cute Pink */
+.template-preview.cutepink {
+    background: repeating-linear-gradient(45deg, #fff5fb 0 8px, #f9e5f1 8px 16px);
+    border: 1px solid #e0b1d1;
+}
+
+/* Mint Fresh */
+.template-preview.mint {
+    background: linear-gradient(145deg, #eaf9f3, #cdeedf, #bce4d1);
+    border: 1px solid #a3d9bf;
+}
+
+/* Butterfly Blue */
+.template-preview.butterfly {
+    background: linear-gradient(135deg, #e1eeff, #bbd7fc, #e5f1ff);
+    border: 1px solid #a6cbf8;
+}
+
+/* Scrapbook */
+.template-preview.scrapbook {
+    background: linear-gradient(120deg, #f5ecd8, #e5d6be, #efe4cb);
+    border: 1px solid #cfbba0;
+}
+
+/* Ocean Wave */
+.template-preview.ocean {
+    background: linear-gradient(160deg, #dcf0fb, #a8dcf8, #71bde8);
+    border: 1px solid #8ec5eb;
+}
+
+/* Cotton Candy */
+.template-preview.candy {
+    background: repeating-linear-gradient(45deg, #ffebf3 0 8px, #e7f0ff 8px 16px, #fff5d6 16px 24px);
+    border: 1px solid #f6c0d8;
+}
+
+/* Royal Velvet */
+.template-preview.royal {
+    background: linear-gradient(145deg, #2b1f48, #422d6e, #1c1533);
+    border: 1px solid #e2be6d;
+}
+
+/* Cute Kitty */
+.template-preview.kitty {
+    background: linear-gradient(135deg, #fff7fa, #ffe8f0, #ffd8e7);
+    border: 1px solid #f5b3ce;
+}
+
+/* Classic Polaroid */
+.template-preview.polaroid {
+    background: #fbfbf6;
+    border: 1px solid #e3e2d6;
+}
+
+/* Pastel Night */
+.template-preview.night {
+    background: radial-gradient(circle at 80% 20%, #464b85 0, #141733 60%);
+    border: 1px solid #8c90cf;
+}
+
 
 .decor {
     position: absolute;
@@ -628,6 +706,88 @@ nav a.active {
         );
 
     border: 9px solid white;
+}
+
+.photo-frame.lavender {
+    background:
+        radial-gradient(circle at 20% 10%, #fff 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 20%, #fff 0 2px, transparent 3px),
+        linear-gradient(160deg, #e9efff, #c6d2ff, #ded2f8);
+    border: 9px solid #abb9ed;
+}
+
+.photo-frame.dreamy {
+    background:
+        radial-gradient(circle at 10% 10%, #fff8 0 3px, transparent 4px),
+        linear-gradient(180deg, #d9d2ff, #b7afe8, #9e91ca);
+    border: 9px solid #c9c0ee;
+}
+
+.photo-frame.floral {
+    background:
+        linear-gradient(145deg, #fffdf7, #f8f0db);
+    border: 9px solid #d8c59f;
+}
+
+.photo-frame.cutepink {
+    background:
+        repeating-linear-gradient(45deg, #fff5fb 0 14px, #f9e5f1 14px 28px);
+    border: 9px solid #e0b1d1;
+}
+
+.photo-frame.mint {
+    background:
+        linear-gradient(145deg, #eaf9f3, #cdeedf, #bce4d1);
+    border: 9px solid #a3d9bf;
+}
+
+.photo-frame.butterfly {
+    background:
+        linear-gradient(135deg, #e1eeff, #bbd7fc, #e5f1ff);
+    border: 9px solid #a6cbf8;
+}
+
+.photo-frame.scrapbook {
+    background:
+        linear-gradient(120deg, #f5ecd8, #e5d6be, #efe4cb);
+    border: 9px solid #cfbba0;
+}
+
+.photo-frame.ocean {
+    background:
+        linear-gradient(160deg, #dcf0fb, #a8dcf8, #71bde8);
+    border: 9px solid #8ec5eb;
+}
+
+.photo-frame.candy {
+    background:
+        repeating-linear-gradient(45deg, #ffebf3 0 14px, #e7f0ff 14px 28px, #fff5d6 28px 42px);
+    border: 9px solid #f6c0d8;
+}
+
+.photo-frame.royal {
+    background:
+        linear-gradient(145deg, #2b1f48, #422d6e, #1c1533);
+    border: 9px solid #e2be6d;
+    box-shadow: 0 0 25px rgba(226, 190, 109, 0.4);
+}
+
+.photo-frame.kitty {
+    background:
+        linear-gradient(135deg, #fff7fa, #ffe8f0, #ffd8e7);
+    border: 9px solid #f5b3ce;
+}
+
+.photo-frame.polaroid {
+    background: #fffdf5;
+    border: 12px solid #f2ede0;
+}
+
+.photo-frame.night {
+    background:
+        radial-gradient(circle at 80% 20%, #464b85 0, #141733 60%);
+    border: 9px solid #8c90cf;
+    box-shadow: 0 0 25px rgba(140, 144, 207, 0.4);
 }
 
 
@@ -939,8 +1099,137 @@ nav a.active {
     color: #5d4ac2;
 }
 
-.print {
-    background: #6854d3;
+.use-booth-btn {
+    background: linear-gradient(135deg, #5b64d1, #7f66dc);
+    color: white;
+    box-shadow: 0 4px 12px rgba(95, 100, 215, 0.25);
+    transition: 0.2s;
+}
+
+.use-booth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(95, 100, 215, 0.35);
+}
+
+/* ================= SHOWCASE GALLERY ================= */
+.gallery-section {
+    width: min(1500px, 94%);
+    margin: 60px auto 40px;
+    padding-top: 40px;
+    border-top: 2px dashed #d5dcf4;
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.gallery-header .eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #6858cd;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.gallery-header h2 {
+    font-family: "Pacifico", cursive;
+    font-size: 32px;
+    color: #17275f;
+    margin-bottom: 8px;
+}
+
+.gallery-header p {
+    color: #6d7ba2;
+    font-size: 14px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 24px;
+}
+
+.gallery-card {
+    background: #ffffffba;
+    backdrop-filter: blur(8px);
+    border: 1px solid #dbe2f5;
+    border-radius: 16px;
+    padding: 16px 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 8px 20px rgba(45, 60, 110, 0.08);
+}
+
+.gallery-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 16px 32px rgba(45, 60, 110, 0.16);
+    border-color: #7b6be0;
+}
+
+.gallery-strip {
+    width: 100%;
+    aspect-ratio: 0.44 / 1;
+    min-height: 280px;
+    border-radius: 9px;
+    padding: 12px 10px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 6px 16px rgba(30, 45, 90, 0.12);
+}
+
+.gallery-strip .photo-mock {
+    flex: 1;
+    background: #ffffff;
+    border: 2px solid white;
+    border-radius: 4px;
+    opacity: 0.85;
+}
+
+.gallery-strip .strip-name {
+    text-align: center;
+    font-family: "Pacifico", cursive;
+    font-size: 11px;
+    padding: 4px 6px;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+.gallery-card h4 {
+    font-size: 13px;
+    color: #1c2b5d;
+    margin-bottom: 3px;
+    font-weight: 700;
+}
+
+.gallery-card span {
+    font-size: 10px;
+    color: #7885a7;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.gallery-card .pick-btn {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #eeeaff;
+    color: #5b4ac0;
+    border-radius: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.gallery-card:hover .pick-btn {
+    background: #5b4ac0;
     color: white;
 }
 

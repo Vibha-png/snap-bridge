@@ -1542,6 +1542,134 @@ body{
 
 }
 
+/* =====================================================
+   FORGOT / RESET PASSWORD MODAL
+===================================================== */
+.reset-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(18, 32, 60, 0.58);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.reset-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.reset-modal-card {
+    position: relative;
+    width: 440px;
+    max-width: 90vw;
+    background: #fffdf8;
+    border-radius: 12px;
+    padding: 34px 38px 28px;
+    box-shadow: 0 25px 60px rgba(25, 45, 75, 0.3);
+    border: 1px solid rgba(217, 211, 197, 0.7);
+    transform: translateY(20px) scale(0.96);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #173e5c;
+}
+
+.reset-modal-overlay.show .reset-modal-card {
+    transform: translateY(0) scale(1);
+}
+
+.reset-modal-card::before {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 24px;
+    background: rgba(87, 136, 128, 0.6);
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(2deg);
+    z-index: 2;
+}
+
+.reset-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: #eef3f7;
+    color: #4b6682;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.reset-close-btn:hover {
+    background: #e0e9f1;
+    color: #183c64;
+}
+
+.reset-title {
+    font-family: "Pacifico", cursive;
+    font-size: 26px;
+    color: #173e5c;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.reset-subtitle {
+    font-size: 12px;
+    color: #60758a;
+    text-align: center;
+    margin-bottom: 22px;
+    line-height: 1.4;
+}
+
+.reset-submit-btn {
+    width: 100%;
+    height: 46px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #526aa5, #687bb5);
+    color: white;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(67, 85, 145, 0.25);
+    transition: 0.25s;
+    margin-top: 8px;
+}
+
+.reset-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(67, 85, 145, 0.32);
+}
+
+.reset-back-btn {
+    display: block;
+    text-align: center;
+    margin-top: 14px;
+    font-size: 11px;
+    color: #50699a;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.reset-back-btn:hover {
+    text-decoration: underline;
+}
+
 </style>
 
 </head>
@@ -1896,9 +2024,9 @@ body{
                 </span>
 
                 <input
-                type="text"
+                type="email"
                 id="email"
-                placeholder="Email or Username"
+                placeholder="Email ID"
                 required>
 
             </div>
@@ -2002,7 +2130,42 @@ body{
 
 </div>
 
+<!-- ================= RESET PASSWORD MODAL ================= -->
+<div id="resetModalOverlay" class="reset-modal-overlay" onclick="handleResetOverlayClick(event)">
+    <div class="reset-modal-card">
+        <button class="reset-close-btn" type="button" onclick="closeResetModal()" aria-label="Close">×</button>
 
+        <h2 class="reset-title">Reset Password 🔒✨</h2>
+        <p class="reset-subtitle">Enter your registered Email ID and choose a new password.</p>
+
+        <form id="resetForm" onsubmit="handleResetPassword(event)">
+            <div class="input-box">
+                <span class="input-icon">✉</span>
+                <input type="email" id="resetEmail" placeholder="Enter your Email ID" required>
+            </div>
+
+            <div class="input-box">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="newPassword" placeholder="New Password (min 6 characters)" required>
+                <span class="eye" onclick="toggleResetPassword('newPassword', this)">◉</span>
+            </div>
+
+            <div class="input-box">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="confirmNewPassword" placeholder="Confirm New Password" required>
+                <span class="eye" onclick="toggleResetPassword('confirmNewPassword', this)">◉</span>
+            </div>
+
+            <button type="submit" class="reset-submit-btn">
+                ✦ Reset Password
+            </button>
+
+            <a href="javascript:void(0)" class="reset-back-btn" onclick="closeResetModal()">
+                ← Back to Log In
+            </a>
+        </form>
+    </div>
+</div>
 
 <script>
 
@@ -2037,17 +2200,109 @@ function togglePassword(){
 
 }
 
+function toggleResetPassword(inputId, el){
+    const input = document.getElementById(inputId);
+    if(!input) return;
+
+    if(input.type === "password"){
+        input.type = "text";
+        if(el) el.textContent = "◎";
+    } else {
+        input.type = "password";
+        if(el) el.textContent = "◉";
+    }
+}
+
 
 /* =====================================================
-   FORGOT PASSWORD
+   FORGOT / RESET PASSWORD
 ===================================================== */
 
 function forgotPassword(){
+    const loginEmail = document.getElementById("email").value.trim();
+    if(loginEmail){
+        document.getElementById("resetEmail").value = loginEmail;
+    }
+    document.getElementById("resetModalOverlay").classList.add("show");
+}
 
-    alert(
-        "Password reset feature coming soon! 📸✨"
-    );
+function closeResetModal(){
+    document.getElementById("resetModalOverlay").classList.remove("show");
+}
 
+function handleResetOverlayClick(event){
+    if(event.target.id === "resetModalOverlay"){
+        closeResetModal();
+    }
+}
+
+function handleResetPassword(event){
+    event.preventDefault();
+
+    const resetEmail = document.getElementById("resetEmail").value.trim();
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+
+    if(!resetEmail){
+        alert("Please enter your Email ID.");
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(resetEmail)){
+        alert("Please enter a valid email address (e.g. name@example.com).");
+        return;
+    }
+
+    if(newPassword.length < 6){
+        alert("New password must be at least 6 characters.");
+        return;
+    }
+
+    if(newPassword !== confirmNewPassword){
+        alert("New passwords do not match. Please re-enter.");
+        return;
+    }
+
+    try {
+        let users = [];
+        const storedUsers = localStorage.getItem("snapBridgeUsers");
+        if(storedUsers){
+            users = JSON.parse(storedUsers);
+        }
+
+        const userIndex = users.findIndex(u => u.email.toLowerCase() === resetEmail.toLowerCase());
+        let userName = "Friend";
+        if(userIndex >= 0){
+            userName = users[userIndex].name || "Friend";
+            users[userIndex].password = newPassword;
+        } else {
+            users.push({ name: "User", email: resetEmail, password: newPassword });
+        }
+        localStorage.setItem("snapBridgeUsers", JSON.stringify(users));
+
+        const activeStored = localStorage.getItem("snapBridgeUser");
+        if(activeStored){
+            const activeUser = JSON.parse(activeStored);
+            if(activeUser.email && activeUser.email.toLowerCase() === resetEmail.toLowerCase()){
+                activeUser.password = newPassword;
+                localStorage.setItem("snapBridgeUser", JSON.stringify(activeUser));
+            }
+        } else {
+            localStorage.setItem("snapBridgeUser", JSON.stringify({ name: userName, email: resetEmail, password: newPassword }));
+        }
+
+        alert("Password reset successfully! 🔑✨\nYou can now log in with your new password.");
+        closeResetModal();
+
+        document.getElementById("email").value = resetEmail;
+        document.getElementById("password").value = "";
+        document.getElementById("password").focus();
+
+    } catch(err) {
+        console.error("Reset error:", err);
+        alert("An error occurred while resetting password. Please try again.");
+    }
 }
 
 
@@ -2080,7 +2335,7 @@ function(event){
     if(email === ""){
 
         alert(
-            "Please enter your email or username."
+            "Please enter your Email ID."
         );
 
         return;
@@ -2107,6 +2362,34 @@ function(event){
 
         return;
 
+    }
+
+    // Verify against localStorage
+    let users = [];
+    try {
+        const storedUsers = localStorage.getItem("snapBridgeUsers");
+        if(storedUsers) users = JSON.parse(storedUsers);
+    } catch(e) {}
+
+    let singleObj = null;
+    try {
+        const singleUser = localStorage.getItem("snapBridgeUser");
+        if(singleUser) singleObj = JSON.parse(singleUser);
+    } catch(e) {}
+
+    const matchedUser = users.find(u => u.email.toLowerCase() === email.toLowerCase()) || 
+        (singleObj && singleObj.email && singleObj.email.toLowerCase() === email.toLowerCase() ? singleObj : null);
+
+    if (matchedUser) {
+        if (matchedUser.password !== password) {
+            alert("Incorrect password! If you forgot your password, please click 'Forgot password?' to reset it.");
+            return;
+        }
+        localStorage.setItem("snapBridgeLoggedIn", "true");
+        localStorage.setItem("snapBridgeUser", JSON.stringify(matchedUser));
+    } else {
+        localStorage.setItem("snapBridgeLoggedIn", "true");
+        localStorage.setItem("snapBridgeUser", JSON.stringify({ name: email.split("@")[0], email: email, password: password }));
     }
 
 

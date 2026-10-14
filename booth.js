@@ -91,6 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initStudioFrame() {
     createPhotoSlots(currentSize * currentSize);
+    const savedTpl = localStorage.getItem("snapBridgeTemplate");
+    if (savedTpl && templateThemeData[savedTpl]) {
+        selectTemplateTheme(savedTpl);
+    }
 }
 
 /* =========================================================
@@ -688,7 +692,7 @@ function advanceToNextEmptySlot() {
     if (nextEmpty !== -1) {
         selectSlot(nextEmpty);
     } else {
-        statusText.textContent = "🎉 Frame is complete! Click 'Download' or 'Print' to save.";
+        statusText.textContent = "🎉 Frame is complete! Click 'Download' to save.";
     }
 }
 
@@ -744,7 +748,20 @@ const templateThemeData = {
     botanical: { name: "Botanical Template", title: "Nature Moments 🌿", decor1: "🌿", decor2: "🍃", decor3: "✿" },
     rainbow: { name: "Rainbow Template", title: "Happy Days 🌈", decor1: "🌈", decor2: "☁️", decor3: "✨" },
     neon: { name: "Neon Night Template", title: "Glow Together ✦", decor1: "✦", decor2: "⚡", decor3: "💜" },
-    rose: { name: "Rose Garden Template", title: "Forever Romance 🌹", decor1: "🌹", decor2: "♡", decor3: "🌸" }
+    rose: { name: "Rose Garden Template", title: "Forever Romance 🌹", decor1: "🌹", decor2: "♡", decor3: "🌸" },
+    lavender: { name: "Lavender Cloud", title: "Soft Lavender ☁️", decor1: "☁️", decor2: "💜", decor3: "✨" },
+    dreamy: { name: "Dreamy Purple", title: "Dream Together 🌙", decor1: "🌙", decor2: "⭐", decor3: "💫" },
+    floral: { name: "Floral Garden", title: "Pastel Blooms 🌼", decor1: "🌼", decor2: "🌸", decor3: "🌿" },
+    cutepink: { name: "Cute Pink", title: "Sweet & Pink 🎀", decor1: "🎀", decor2: "💖", decor3: "🌸" },
+    mint: { name: "Mint Fresh", title: "Fresh Vibe 🍃", decor1: "🍃", decor2: "🌿", decor3: "✨" },
+    butterfly: { name: "Butterfly Blue", title: "Flutter Moments 🦋", decor1: "🦋", decor2: "💙", decor3: "✦" },
+    scrapbook: { name: "Vintage Scrapbook", title: "Our Story 📜", decor1: "📜", decor2: "🏷️", decor3: "♡" },
+    ocean: { name: "Ocean Wave", title: "Ocean Breeze 🌊", decor1: "🌊", decor2: "🫧", decor3: "🐬" },
+    candy: { name: "Cotton Candy", title: "Sweet Treats 🍬", decor1: "🍬", decor2: "🍭", decor3: "💖" },
+    royal: { name: "Royal Velvet", title: "Royal Golden 👑", decor1: "👑", decor2: "⭐", decor3: "✦" },
+    kitty: { name: "Cute Kitty", title: "Meow Moments 🐾", decor1: "🐾", decor2: "🐱", decor3: "♡" },
+    polaroid: { name: "Classic Polaroid", title: "Instant Photo 📷", decor1: "📷", decor2: "🎞️", decor3: "✨" },
+    night: { name: "Pastel Night", title: "Midnight Magic 🌙", decor1: "🌙", decor2: "⭐", decor3: "💜" }
 };
 
 function selectTemplateTheme(theme, button) {
