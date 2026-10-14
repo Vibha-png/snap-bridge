@@ -916,21 +916,75 @@ async function downloadCompositeFrame() {
         }
     }
 
-    // 4. Draw Title & Text
+    // 4. Draw Title Banner & Text
     const titleText = frameTitle.textContent.trim() || "Snap Bridge ✨";
+    const bannerX = 70;
+    const bannerY = 1245;
+    const bannerW = outW - 140;
+    const bannerH = 92;
+    const bannerRadius = 16;
+
     ctx.save();
-    ctx.font = "bold 44px 'Pacifico', 'DM Sans', cursive, sans-serif";
+    const isDarkTheme = (selectedTemplate === "film" || selectedTemplate === "neon" || selectedTemplate === "royal" || selectedTemplate === "night");
+    ctx.fillStyle = isDarkTheme ? "rgba(0, 0, 0, 0.55)" : "rgba(255, 255, 255, 0.88)";
+    roundRect(ctx, bannerX, bannerY, bannerW, bannerH, bannerRadius);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    ctx.font = "bold 44px 'Pacifico', 'DM Sans', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', cursive, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    if (selectedTemplate === "film" || selectedTemplate === "neon" || selectedTemplate === "royal" || selectedTemplate === "night") {
-        ctx.fillStyle = selectedTemplate === "neon" ? "#e99eff" : (selectedTemplate === "royal" ? "#f7d27e" : (selectedTemplate === "night" ? "#b7b9f5" : "#ffffff"));
-        ctx.shadowColor = selectedTemplate === "neon" ? "#c660ff" : "#000000";
+    if (selectedTemplate === "neon") {
+        ctx.fillStyle = "#e99eff";
+        ctx.shadowColor = "#c660ff";
         ctx.shadowBlur = 10;
+    } else if (selectedTemplate === "royal") {
+        ctx.fillStyle = "#f7d27e";
+    } else if (selectedTemplate === "night") {
+        ctx.fillStyle = "#b7b9f5";
+    } else if (selectedTemplate === "film") {
+        ctx.fillStyle = "#ffffff";
     } else {
         ctx.fillStyle = "#17255f";
     }
-    ctx.fillText(titleText, outW / 2, outH - 75);
+    ctx.fillText(titleText, outW / 2, bannerY + bannerH / 2);
+    ctx.restore();
+
+    // 5. Draw Corner Emojis & Decorations
+    const decorTL = document.getElementById("decorTopLeft")?.textContent.trim() || "";
+    const decorTR = document.getElementById("decorTopRight")?.textContent.trim() || "";
+    const decorBR = document.getElementById("decorBottomRight")?.textContent.trim() || "";
+    const decorBL = document.getElementById("decorBottomLeft")?.textContent.trim() || "";
+
+    ctx.save();
+    ctx.font = '72px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
+    ctx.shadowColor = "rgba(0, 0, 0, 0.28)";
+    ctx.shadowBlur = 8;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 4;
+
+    if (decorTL) {
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+        ctx.fillText(decorTL, 36, 30);
+    }
+    if (decorTR) {
+        ctx.textAlign = "right";
+        ctx.textBaseline = "top";
+        ctx.fillText(decorTR, outW - 36, 30);
+    }
+    if (decorBR) {
+        ctx.textAlign = "right";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(decorBR, outW - 36, outH - 30);
+    }
+    if (decorBL) {
+        ctx.textAlign = "left";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(decorBL, 36, outH - 30);
+    }
     ctx.restore();
 
     // 5. Download image

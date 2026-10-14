@@ -683,13 +683,55 @@ function downloadFrame() {
         }
     });
 
-    // Draw Title
+    // Draw Title Banner & Text
     const isDark = ["neon", "night", "film", "royal"].includes(selectedTemplate);
+    const bannerX = 50;
+    const bannerW = width - 100;
+    const bannerH = 64;
+    const bannerY = height - 102;
+    ctx.save();
+    ctx.fillStyle = isDark ? "rgba(0,0,0,0.55)" : "rgba(255,255,255,0.85)";
+    if (ctx.roundRect) {
+        ctx.beginPath();
+        ctx.roundRect(bannerX, bannerY, bannerW, bannerH, 12);
+        ctx.fill();
+    } else {
+        ctx.fillRect(bannerX, bannerY, bannerW, bannerH);
+    }
+    ctx.restore();
+
+    ctx.save();
     ctx.fillStyle = isDark ? "#ffffff" : "#17275f";
-    ctx.font = "bold 32px 'Pacifico', cursive, sans-serif";
+    ctx.font = "bold 32px 'Pacifico', 'DM Sans', 'Segoe UI Emoji', 'Apple Color Emoji', cursive, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(title || "Snap Bridge ✨", width / 2, height - 70);
+    ctx.fillText(title || "Snap Bridge ✨", width / 2, bannerY + bannerH / 2);
+    ctx.restore();
+
+    // Draw Corner Decorations (Emojis)
+    const d1 = document.querySelector(".decoration.d1")?.textContent.trim() || "";
+    const d2 = document.querySelector(".decoration.d2")?.textContent.trim() || "";
+    const d3 = document.querySelector(".decoration.d3")?.textContent.trim() || "";
+    ctx.save();
+    ctx.font = '48px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
+    ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
+    ctx.shadowBlur = 6;
+    if (d1) {
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+        ctx.fillText(d1, 24, 20);
+    }
+    if (d2) {
+        ctx.textAlign = "right";
+        ctx.textBaseline = "top";
+        ctx.fillText(d2, width - 24, 20);
+    }
+    if (d3) {
+        ctx.textAlign = "right";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(d3, width - 24, height - 20);
+    }
+    ctx.restore();
 
     const link = document.createElement("a");
     link.download = `SnapBridge-${selectedTemplate}-frame.png`;

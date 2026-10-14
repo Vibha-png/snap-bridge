@@ -1169,14 +1169,23 @@ body {
 .decor {
     position: absolute;
     z-index: 6;
-    pointer-events: none;
+    pointer-events: auto;
     font-size: 22px;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+    outline: none;
+    cursor: text;
+    border-radius: 4px;
+    transition: transform .15s ease;
+}
+
+.decor:hover {
+    transform: scale(1.15);
 }
 
 .d-tl { top: 6px; left: 8px; }
 .d-tr { top: 6px; right: 8px; }
 .d-br { bottom: 6px; right: 8px; }
+.d-bl { bottom: 6px; left: 8px; }
 
 /* Frame Title */
 .frame-title {
