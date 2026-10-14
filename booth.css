@@ -643,6 +643,23 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+    max-height: 440px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.templates-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.templates-grid::-webkit-scrollbar-track {
+    background: #f1f3fa;
+    border-radius: 10px;
+}
+
+.templates-grid::-webkit-scrollbar-thumb {
+    background: #c9d1ea;
+    border-radius: 10px;
 }
 
 .template-btn {
@@ -688,6 +705,19 @@ body {
 .rainbow-thumb { background: linear-gradient(135deg, #d3f3ff, #ffe3ef); }
 .neon-thumb { background: #251b47; color: #e59aff; }
 .rose-thumb { background: #fde2e8; }
+.lavender-thumb { background: #ebe7ff; }
+.dreamy-thumb { background: #dfd7fc; }
+.floral-thumb { background: #fbf5df; }
+.cutepink-thumb { background: #fde2f1; }
+.mint-thumb { background: #dcf5eb; }
+.butterfly-thumb { background: #ddecfe; }
+.scrapbook-thumb { background: #f5edd8; }
+.ocean-thumb { background: #d8f1fc; }
+.candy-thumb { background: linear-gradient(135deg, #ffe5f1, #e3efff); }
+.royal-thumb { background: #281d45; color: #f5d070; }
+.kitty-thumb { background: #fde4ef; }
+.polaroid-thumb { background: #f5f0e6; }
+.night-thumb { background: #1c1d3b; color: #b7b9f5; }
 
 .template-btn strong {
     font-size: 11px;
@@ -970,6 +1000,78 @@ body {
     border: 9px solid white;
 }
 
+.photo-frame.lavender {
+    background:
+        radial-gradient(circle at 20% 10%, #fff 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 20%, #fff 0 2px, transparent 3px),
+        linear-gradient(160deg, #e9efff, #c6d2ff, #ded2f8);
+    border: 9px solid #abb9ed;
+}
+
+.photo-frame.dreamy {
+    background:
+        radial-gradient(circle at 10% 10%, #fff8 0 3px, transparent 4px),
+        linear-gradient(180deg, #d9d2ff, #b7afe8, #9e91ca);
+    border: 9px solid #c9c0ee;
+}
+
+.photo-frame.floral {
+    background: linear-gradient(145deg, #fffdf7, #f8f0db);
+    border: 9px solid #d8c59f;
+}
+
+.photo-frame.cutepink {
+    background: repeating-linear-gradient(45deg, #fff5fb 0 14px, #f9e5f1 14px 28px);
+    border: 9px solid #e0b1d1;
+}
+
+.photo-frame.mint {
+    background: linear-gradient(145deg, #eaf9f3, #cdeedf, #bce4d1);
+    border: 9px solid #a3d9bf;
+}
+
+.photo-frame.butterfly {
+    background: linear-gradient(135deg, #e1eeff, #bbd7fc, #e5f1ff);
+    border: 9px solid #a6cbf8;
+}
+
+.photo-frame.scrapbook {
+    background: linear-gradient(120deg, #f5ecd8, #e5d6be, #efe4cb);
+    border: 9px solid #cfbba0;
+}
+
+.photo-frame.ocean {
+    background: linear-gradient(160deg, #dcf0fb, #a8dcf8, #71bde8);
+    border: 9px solid #8ec5eb;
+}
+
+.photo-frame.candy {
+    background: repeating-linear-gradient(45deg, #ffebf3 0 14px, #e7f0ff 14px 28px, #fff5d6 28px 42px);
+    border: 9px solid #f6c0d8;
+}
+
+.photo-frame.royal {
+    background: linear-gradient(145deg, #2b1f48, #422d6e, #1c1533);
+    border: 9px solid #e2be6d;
+    box-shadow: 0 0 25px rgba(226, 190, 109, 0.4);
+}
+
+.photo-frame.kitty {
+    background: linear-gradient(135deg, #fff7fa, #ffe8f0, #ffd8e7);
+    border: 9px solid #f5b3ce;
+}
+
+.photo-frame.polaroid {
+    background: #fffdf5;
+    border: 12px solid #f2ede0;
+}
+
+.photo-frame.night {
+    background: radial-gradient(circle at 80% 20%, #464b85 0, #141733 60%);
+    border: 9px solid #8c90cf;
+    box-shadow: 0 0 25px rgba(140, 144, 207, 0.4);
+}
+
 /* Frame Border Styles */
 .photo-frame.classic {
     border-radius: 12px;
@@ -980,12 +1082,14 @@ body {
     box-shadow: 0 20px 50px rgba(230, 110, 150, 0.22);
 }
 
-.photo-frame.lavender {
+.photo-frame.lavender.border-lavender,
+.photo-frame.border-lavender {
     border-radius: 22px;
     border-color: #ebe7ff;
 }
 
-.photo-frame.mint {
+.photo-frame.mint.border-mint,
+.photo-frame.border-mint {
     border-radius: 22px;
     border-color: #e3f8ef;
 }
@@ -1104,6 +1208,12 @@ body {
     color: #f5baff;
     background: rgba(0, 0, 0, 0.5);
     text-shadow: 0 0 10px #e696ff;
+}
+
+.photo-frame.royal .frame-title,
+.photo-frame.night .frame-title {
+    color: #f7d27e;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .frame-hint {

@@ -923,8 +923,8 @@ async function downloadCompositeFrame() {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    if (selectedTemplate === "film" || selectedTemplate === "neon") {
-        ctx.fillStyle = selectedTemplate === "neon" ? "#e99eff" : "#ffffff";
+    if (selectedTemplate === "film" || selectedTemplate === "neon" || selectedTemplate === "royal" || selectedTemplate === "night") {
+        ctx.fillStyle = selectedTemplate === "neon" ? "#e99eff" : (selectedTemplate === "royal" ? "#f7d27e" : (selectedTemplate === "night" ? "#b7b9f5" : "#ffffff"));
         ctx.shadowColor = selectedTemplate === "neon" ? "#c660ff" : "#000000";
         ctx.shadowBlur = 10;
     } else {
@@ -1029,6 +1029,91 @@ function drawTemplateBackground(ctx, w, h, template, style) {
         rad.addColorStop(1, "#0b0e26");
         ctx.fillStyle = rad;
         ctx.fillRect(0, 0, w, h);
+    } else if (template === "lavender") {
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, "#e9efff");
+        grad.addColorStop(0.5, "#c6d2ff");
+        grad.addColorStop(1, "#ded2f8");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "dreamy") {
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, "#d9d2ff");
+        grad.addColorStop(0.5, "#b7afe8");
+        grad.addColorStop(1, "#9e91ca");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "floral") {
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, "#fffdf7");
+        grad.addColorStop(1, "#f8f0db");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "cutepink") {
+        ctx.fillStyle = "#fff5fb";
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "#f9e5f1";
+        for (let x = -h; x < w + h; x += 40) {
+            ctx.fillRect(x, 0, 20, h);
+        }
+    } else if (template === "mint") {
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, "#eaf9f3");
+        grad.addColorStop(0.5, "#cdeedf");
+        grad.addColorStop(1, "#bce4d1");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "butterfly") {
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, "#e1eeff");
+        grad.addColorStop(0.5, "#bbd7fc");
+        grad.addColorStop(1, "#e5f1ff");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "scrapbook") {
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, "#f5ecd8");
+        grad.addColorStop(0.5, "#e5d6be");
+        grad.addColorStop(1, "#efe4cb");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "ocean") {
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, "#dcf0fb");
+        grad.addColorStop(0.5, "#a8dcf8");
+        grad.addColorStop(1, "#71bde8");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "candy") {
+        ctx.fillStyle = "#ffebf3";
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "#e7f0ff";
+        for (let y = 0; y < h; y += 50) {
+            ctx.fillRect(0, y, w, 25);
+        }
+    } else if (template === "royal") {
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, "#2b1f48");
+        grad.addColorStop(0.5, "#422d6e");
+        grad.addColorStop(1, "#1c1533");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "kitty") {
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, "#fff7fa");
+        grad.addColorStop(0.5, "#ffe8f0");
+        grad.addColorStop(1, "#ffd8e7");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "polaroid") {
+        ctx.fillStyle = "#fffdf5";
+        ctx.fillRect(0, 0, w, h);
+    } else if (template === "night") {
+        const rad = ctx.createRadialGradient(w * 0.8, h * 0.2, 50, w/2, h/2, w);
+        rad.addColorStop(0, "#464b85");
+        rad.addColorStop(1, "#141733");
+        ctx.fillStyle = rad;
+        ctx.fillRect(0, 0, w, h);
     } else {
         // Rose / Default
         const grad = ctx.createLinearGradient(0, 0, w, h);
@@ -1049,7 +1134,20 @@ function drawFrameBorders(ctx, w, h, template, style) {
     else if (style === "soft") borderColor = "#fff4f8";
 
     if (template === "film") borderColor = "#141517";
-    if (template === "neon") borderColor = "#d88aff";
+    else if (template === "neon") borderColor = "#d88aff";
+    else if (template === "royal") borderColor = "#e2be6d";
+    else if (template === "night") borderColor = "#8c90cf";
+    else if (template === "lavender") borderColor = "#abb9ed";
+    else if (template === "dreamy") borderColor = "#c9c0ee";
+    else if (template === "floral") borderColor = "#d8c59f";
+    else if (template === "cutepink") borderColor = "#e0b1d1";
+    else if (template === "mint") borderColor = "#a3d9bf";
+    else if (template === "butterfly") borderColor = "#a6cbf8";
+    else if (template === "scrapbook") borderColor = "#cfbba0";
+    else if (template === "ocean") borderColor = "#8ec5eb";
+    else if (template === "candy") borderColor = "#f6c0d8";
+    else if (template === "kitty") borderColor = "#f5b3ce";
+    else if (template === "polaroid") borderColor = "#f2ede0";
 
     ctx.strokeStyle = borderColor;
     ctx.lineWidth = borderThickness;
