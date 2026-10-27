@@ -1,3 +1,24 @@
+// VIP Templates Subscription check
+const PAID_TEMPLATE_KEYS = ['bow', 'rainbow', 'neon', 'dreamy', 'cutepink', 'scrapbook', 'ocean', 'candy', 'kitty', 'polaroid'];
+
+function isSubscribed() {
+    return localStorage.getItem('snapbridge_vip_subscribed') === 'true';
+}
+
+function updateTemplatesSubscriptionUI() {
+    const sub = isSubscribed();
+    document.querySelectorAll('.template-card.is-paid').forEach(c => {
+        const b = c.querySelector('.sub-badge');
+        if (sub) {
+            c.classList.add('unlocked');
+            if (b) b.textContent = '✓ VIP';
+        } else {
+            c.classList.remove('unlocked');
+            if (b) b.textContent = '👑 PRO';
+        }
+    });
+}
+
 /* =========================================
    SNAP BRIDGE
    TEMPLATES + PHOTO FRAMES
@@ -16,6 +37,7 @@ let cameraStream = null;
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    updateTemplatesSubscriptionUI();
     createPhotoSlots(1);
 
     const saved = localStorage.getItem("snapBridgeTemplate");
@@ -140,6 +162,12 @@ function openPhotoChoice() {
 ========================================= */
 
 function selectTemplate(template, card) {
+    if (PAID_TEMPLATE_KEYS.includes(template) && !isSubscribed()) {
+        if (confirm('👑 ' + (template ? template.toUpperCase() : '') + ' is a VIP Premium Template!\n\nUnlock all 10 aesthetic templates using UPI (PhonePe, Google Pay, Paytm) or Cards in the Booth Studio.\n\nOpen Booth Studio now to unlock?')) {
+            window.location.href = 'booth.html?template=' + encodeURIComponent(template) + '&subscribe=1';
+        }
+        return;
+    }
 
     selectedTemplate = template;
 

@@ -32,6 +32,9 @@
     </nav>
 
     <div class="topbar-right">
+        <button id="vipSubscriptionTopbarBtn" class="vip-topbar-btn" type="button" onclick="openSubscriptionModal()">
+            👑 <span>VIP Pass</span>
+        </button>
         <button id="shareLinkTopbarBtn" class="share-header-btn" type="button" onclick="openShareModal()">
             🔗 Share Link
         </button>
@@ -85,9 +88,10 @@
                 <!-- VIDEO GRID (Supports Local + Remote WebRTC Peers) -->
                 <div id="videoGrid" class="video-grid">
 
-                    <div class="video-card" id="localCard">
+                    <div class="video-card" id="localCard" data-mirrored="true">
                         <video id="localVideo" autoplay playsinline muted></video>
                         <div class="video-name">You (Host)</div>
+                        <button class="video-mirror-btn active-mirrored" type="button" title="Toggle Mirror (Selfie / Normal)" onclick="toggleCardMirror('localCard')">🪞</button>
                     </div>
 
                 </div>
@@ -103,6 +107,10 @@
 
                 <button id="micBtn" class="tool-btn" type="button" onclick="toggleMic()" title="Toggle Microphone">
                     🎙️
+                </button>
+
+                <button id="mirrorBtn" class="tool-btn active-tool" type="button" onclick="toggleCardMirror('localCard')" title="Toggle Camera Mirror (Selfie / Normal)">
+                    🪞
                 </button>
 
                 <button id="countdownBtn" class="action-btn timer-btn" type="button" onclick="startCountdownSnap()" title="3-Second Timer Snap">
@@ -183,7 +191,8 @@
                         <small>Blue Diary</small>
                     </button>
 
-                    <button class="template-btn" data-cat="cute" data-template="bow" type="button" onclick="selectTemplateTheme('bow', this)">
+                    <button class="template-btn is-paid" data-cat="cute" data-template="bow" type="button" onclick="selectTemplateTheme('bow', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb bow-thumb">🎀</div>
                         <strong>Pink Bow</strong>
                         <small>Sweet Vibes</small>
@@ -201,13 +210,15 @@
                         <small>Nature Dream</small>
                     </button>
 
-                    <button class="template-btn" data-cat="cute" data-template="rainbow" type="button" onclick="selectTemplateTheme('rainbow', this)">
+                    <button class="template-btn is-paid" data-cat="cute" data-template="rainbow" type="button" onclick="selectTemplateTheme('rainbow', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb rainbow-thumb">🌈</div>
                         <strong>Rainbow</strong>
                         <small>Happy Days</small>
                     </button>
 
-                    <button class="template-btn" data-cat="aesthetic" data-template="neon" type="button" onclick="selectTemplateTheme('neon', this)">
+                    <button class="template-btn is-paid" data-cat="aesthetic" data-template="neon" type="button" onclick="selectTemplateTheme('neon', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb neon-thumb">✦</div>
                         <strong>Neon Night</strong>
                         <small>Glow Vibe</small>
@@ -225,7 +236,8 @@
                         <small>Pastel Dream</small>
                     </button>
 
-                    <button class="template-btn" data-cat="aesthetic" data-template="dreamy" type="button" onclick="selectTemplateTheme('dreamy', this)">
+                    <button class="template-btn is-paid" data-cat="aesthetic" data-template="dreamy" type="button" onclick="selectTemplateTheme('dreamy', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb dreamy-thumb">🌙</div>
                         <strong>Dreamy Purple</strong>
                         <small>Moon & Stars</small>
@@ -237,7 +249,8 @@
                         <small>Pastel Blooms</small>
                     </button>
 
-                    <button class="template-btn" data-cat="cute" data-template="cutepink" type="button" onclick="selectTemplateTheme('cutepink', this)">
+                    <button class="template-btn is-paid" data-cat="cute" data-template="cutepink" type="button" onclick="selectTemplateTheme('cutepink', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb cutepink-thumb">💕</div>
                         <strong>Cute Pink</strong>
                         <small>Sweet Stripes</small>
@@ -255,19 +268,22 @@
                         <small>Wings of Joy</small>
                     </button>
 
-                    <button class="template-btn" data-cat="classic" data-template="scrapbook" type="button" onclick="selectTemplateTheme('scrapbook', this)">
+                    <button class="template-btn is-paid" data-cat="classic" data-template="scrapbook" type="button" onclick="selectTemplateTheme('scrapbook', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb scrapbook-thumb">📜</div>
                         <strong>Scrapbook</strong>
                         <small>Journal Notes</small>
                     </button>
 
-                    <button class="template-btn" data-cat="aesthetic" data-template="ocean" type="button" onclick="selectTemplateTheme('ocean', this)">
+                    <button class="template-btn is-paid" data-cat="aesthetic" data-template="ocean" type="button" onclick="selectTemplateTheme('ocean', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb ocean-thumb">🌊</div>
                         <strong>Ocean Wave</strong>
                         <small>Deep Blue</small>
                     </button>
 
-                    <button class="template-btn" data-cat="cute" data-template="candy" type="button" onclick="selectTemplateTheme('candy', this)">
+                    <button class="template-btn is-paid" data-cat="cute" data-template="candy" type="button" onclick="selectTemplateTheme('candy', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb candy-thumb">🍬</div>
                         <strong>Cotton Candy</strong>
                         <small>Sweet Treats</small>
@@ -279,13 +295,15 @@
                         <small>Royal Golden</small>
                     </button>
 
-                    <button class="template-btn" data-cat="cute" data-template="kitty" type="button" onclick="selectTemplateTheme('kitty', this)">
+                    <button class="template-btn is-paid" data-cat="cute" data-template="kitty" type="button" onclick="selectTemplateTheme('kitty', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb kitty-thumb">🐾</div>
                         <strong>Cute Kitty</strong>
                         <small>Whiskers & Paws</small>
                     </button>
 
-                    <button class="template-btn" data-cat="classic" data-template="polaroid" type="button" onclick="selectTemplateTheme('polaroid', this)">
+                    <button class="template-btn is-paid" data-cat="classic" data-template="polaroid" type="button" onclick="selectTemplateTheme('polaroid', this)">
+                        <span class="sub-badge" title="VIP Subscription Required">👑 PRO</span>
                         <div class="thumb polaroid-thumb">📷</div>
                         <strong>Classic Polaroid</strong>
                         <small>Instant Borders</small>
@@ -534,6 +552,310 @@
             <span>🌐 <b>Different Networks:</b></span>
             <p>To invite friends across different Wi-Fi or cellular networks, run <code>npm run tunnel</code> to get an <b>https://</b> link. Modern browsers require HTTPS for camera permissions across different networks.</p>
         </div>
+    </div>
+</div>
+
+<!-- ================= VIP SUBSCRIPTION & PAYMENT MODAL ================= -->
+<div id="subscriptionModalOverlay" class="sub-modal-overlay" onclick="handleSubOverlayClick(event)">
+    <div class="sub-modal">
+        <button class="sub-modal-close" type="button" onclick="closeSubscriptionModal()" aria-label="Close">×</button>
+        
+        <!-- ACTIVE SUBSCRIPTION VIEW (Shown if already VIP) -->
+        <div id="subActiveView" style="display:none;">
+            <div class="sub-active-header">
+                <div class="sub-crown-large">👑</div>
+                <span class="sub-active-pill">ACTIVE MEMBERSHIP</span>
+                <h3>You are a SnapBridge VIP!</h3>
+                <p>You have full access to all 10 exclusive premium templates and features.</p>
+            </div>
+            
+            <div class="sub-active-card">
+                <div class="sub-active-row">
+                    <span>Current Plan</span>
+                    <strong id="activePlanNameDisplay">Monthly VIP Pass (₹149/mo)</strong>
+                </div>
+                <div class="sub-active-row">
+                    <span>Unlocked Templates</span>
+                    <strong>10 / 10 Premium Themes</strong>
+                </div>
+                <div class="sub-active-row">
+                    <span>Status</span>
+                    <span class="status-badge-active">● Active & Auto-renewing</span>
+                </div>
+            </div>
+
+            <div class="sub-unlocked-grid">
+                <span class="unlocked-chip">✓ 🎀 Pink Bow</span>
+                <span class="unlocked-chip">✓ 🌈 Rainbow</span>
+                <span class="unlocked-chip">✓ ✦ Neon Night</span>
+                <span class="unlocked-chip">✓ 🌙 Dreamy Purple</span>
+                <span class="unlocked-chip">✓ 💕 Cute Pink</span>
+                <span class="unlocked-chip">✓ 📜 Scrapbook</span>
+                <span class="unlocked-chip">✓ 🌊 Ocean Wave</span>
+                <span class="unlocked-chip">✓ 🍬 Cotton Candy</span>
+                <span class="unlocked-chip">✓ 🐾 Cute Kitty</span>
+                <span class="unlocked-chip">✓ 📷 Classic Polaroid</span>
+            </div>
+
+            <div class="sub-active-actions">
+                <button class="sub-btn-primary" type="button" onclick="closeSubscriptionModal()">Continue Using VIP</button>
+                <button class="sub-btn-danger" type="button" onclick="resetSubscriptionForTesting()">Reset Subscription (Test Mode)</button>
+            </div>
+        </div>
+
+        <!-- CHECKOUT VIEW (Shown when subscribing) -->
+        <div id="subCheckoutView">
+
+            <!-- HEADER -->
+            <div class="sub-modal-header">
+                <div class="sub-crown-badge">👑</div>
+                <div class="sub-header-texts">
+                    <span class="sub-eyebrow">PREMIUM ACCESS</span>
+                    <h3 id="subModalTitle">Unlock 10 VIP Templates</h3>
+                    <p id="subModalDesc">Get unlimited access to exclusive aesthetic templates, premium stickers and HD photo strip exports.</p>
+                </div>
+            </div>
+
+            <!-- TARGET TEMPLATE HIGHLIGHT (Shows what was clicked) -->
+            <div class="sub-target-highlight" id="subTargetBox">
+                <div class="sub-target-left">
+                    <div id="subTargetThumb" class="sub-target-thumb">🎀</div>
+                    <div>
+                        <strong id="subTargetName">Pink Bow</strong>
+                        <small>Premium VIP Template • Subscription Required</small>
+                    </div>
+                </div>
+                <div class="sub-lock-tag">
+                    <span>🔒 VIP Locked</span>
+                </div>
+            </div>
+
+            <!-- 10 TEMPLATES INCLUDED -->
+            <div class="sub-included-wrap">
+                <div class="sub-included-title">✨ All 10 Templates Included in this VIP Pass:</div>
+                <div class="sub-included-chips">
+                    <span class="inc-chip">🎀 Pink Bow</span>
+                    <span class="inc-chip">🌈 Rainbow</span>
+                    <span class="inc-chip">✦ Neon Night</span>
+                    <span class="inc-chip">🌙 Dreamy Purple</span>
+                    <span class="inc-chip">💕 Cute Pink</span>
+                    <span class="inc-chip">📜 Scrapbook</span>
+                    <span class="inc-chip">🌊 Ocean Wave</span>
+                    <span class="inc-chip">🍬 Cotton Candy</span>
+                    <span class="inc-chip">🐾 Cute Kitty</span>
+                    <span class="inc-chip">📷 Polaroid</span>
+                </div>
+            </div>
+
+            <!-- SUBSCRIPTION PLANS SELECTOR -->
+            <div class="sub-plans-container">
+                <div class="sub-plan-card active" data-amount="149" data-name="Monthly VIP Pass" onclick="selectSubPlan(this, 149, 'Monthly VIP Pass')">
+                    <div class="plan-popular-ribbon">POPULAR</div>
+                    <div class="plan-radio-dot"></div>
+                    <div class="plan-info">
+                        <strong>Monthly Pass</strong>
+                        <small>Full access • Cancel anytime</small>
+                    </div>
+                    <div class="plan-cost">
+                        <span class="plan-curr">₹</span><span class="plan-val">149</span>
+                        <span class="plan-period">/mo</span>
+                    </div>
+                </div>
+
+                <div class="sub-plan-card" data-amount="499" data-name="Annual VIP Pass" onclick="selectSubPlan(this, 499, 'Annual VIP Pass')">
+                    <div class="plan-save-ribbon">SAVE 70%</div>
+                    <div class="plan-radio-dot"></div>
+                    <div class="plan-info">
+                        <strong>Annual VIP Pass</strong>
+                        <small>12 months unlimited access</small>
+                    </div>
+                    <div class="plan-cost">
+                        <span class="plan-curr">₹</span><span class="plan-val">499</span>
+                        <span class="plan-period">/yr</span>
+                    </div>
+                </div>
+
+                <div class="sub-plan-card" data-amount="49" data-name="Day Pass" onclick="selectSubPlan(this, 49, 'Day Pass')">
+                    <div class="plan-radio-dot"></div>
+                    <div class="plan-info">
+                        <strong>Single Day Pass</strong>
+                        <small>24 hours unlimited access</small>
+                    </div>
+                    <div class="plan-cost">
+                        <span class="plan-curr">₹</span><span class="plan-val">49</span>
+                        <span class="plan-period">/day</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAYMENT METHODS TABS -->
+            <div class="sub-pay-tabs">
+                <button type="button" class="pay-tab-btn active" id="tabPayUpi" onclick="switchPayMethod('upi')">
+                    <span class="pay-tab-icon">⚡</span>
+                    <span>UPI Pay</span>
+                    <small>PhonePe, GPay, Paytm</small>
+                </button>
+                <button type="button" class="pay-tab-btn" id="tabPayCard" onclick="switchPayMethod('card')">
+                    <span class="pay-tab-icon">💳</span>
+                    <span>Cards</span>
+                    <small>Credit & Debit Card</small>
+                </button>
+            </div>
+
+            <!-- PAYMENT FORM: UPI (phonepay, googlepay, paytam) -->
+            <div id="payPanelUpi" class="pay-panel active">
+                <div class="upi-method-subhead">Choose UPI payment app:</div>
+                <div class="upi-apps-row">
+                    <button type="button" class="upi-app-card active" data-app="phonepe" onclick="selectUpiApp('phonepe', this)">
+                        <div class="app-icon-circle phonepe-icon">पे</div>
+                        <span class="app-name">PhonePe</span>
+                    </button>
+                    <button type="button" class="upi-app-card" data-app="googlepay" onclick="selectUpiApp('googlepay', this)">
+                        <div class="app-icon-circle gpay-icon">G</div>
+                        <span class="app-name">Google Pay</span>
+                    </button>
+                    <button type="button" class="upi-app-card" data-app="paytm" onclick="selectUpiApp('paytm', this)">
+                        <div class="app-icon-circle paytm-icon">Pay</div>
+                        <span class="app-name">Paytm</span>
+                    </button>
+                    <button type="button" class="upi-app-card" data-app="qr" onclick="selectUpiApp('qr', this)">
+                        <div class="app-icon-circle qr-icon">▦</div>
+                        <span class="app-name">Scan QR</span>
+                    </button>
+                </div>
+
+                <!-- UPI ID INPUT VIEW -->
+                <div id="upiIdForm" class="upi-input-group">
+                    <label id="upiLabelText" for="upiIdField">Enter PhonePe UPI ID / Mobile Number:</label>
+                    <div class="upi-field-box">
+                        <input type="text" id="upiIdField" placeholder="mobile@ybl or username@upi" value="9876543210@ybl">
+                        <span class="upi-verify-tag">Verified ✓</span>
+                    </div>
+                    <div class="upi-fast-chips">
+                        <span class="fast-chip" onclick="applyUpiSuffix('@ybl')">@ybl (PhonePe)</span>
+                        <span class="fast-chip" onclick="applyUpiSuffix('@oksbi')">@oksbi (GPay)</span>
+                        <span class="fast-chip" onclick="applyUpiSuffix('@paytm')">@paytm (Paytm)</span>
+                        <span class="fast-chip" onclick="applyUpiSuffix('@okhdfcbank')">@okhdfc</span>
+                    </div>
+                </div>
+
+                <!-- UPI QR CODE SCAN VIEW -->
+                <div id="upiQrForm" class="upi-qr-group" style="display:none;">
+                    <div class="upi-qr-card">
+                        <div class="sim-qr-canvas">
+                            <div class="qr-mock-grid"></div>
+                            <div class="qr-mock-center">👑</div>
+                        </div>
+                        <div class="qr-desc">
+                            <strong>Scan & Pay with Any UPI App</strong>
+                            <small>Open PhonePe, Google Pay, or Paytm and scan to subscribe instantly.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAYMENT FORM: CREDIT / DEBIT CARDS -->
+            <div id="payPanelCard" class="pay-panel" style="display:none;">
+                <!-- CREDIT / DEBIT TOGGLE -->
+                <div class="card-type-bar">
+                    <button type="button" class="card-type-toggle active" id="btnCreditCard" onclick="switchCardType('Credit Card', this)">
+                        💳 Credit Card
+                    </button>
+                    <button type="button" class="card-type-toggle" id="btnDebitCard" onclick="switchCardType('Debit Card', this)">
+                        💳 Debit Card
+                    </button>
+                </div>
+
+                <!-- LIVE INTERACTIVE CARD VISUAL -->
+                <div class="live-card-container">
+                    <div class="live-card-front" id="liveCardPreview">
+                        <div class="card-top-row">
+                            <div class="chip-graphic"></div>
+                            <span class="card-type-pill" id="cardTypeLabel">CREDIT CARD</span>
+                            <span class="card-network-logo" id="cardNetworkLogo">VISA</span>
+                        </div>
+                        <div class="card-number-mock" id="cardNumberMock">•••• •••• •••• ••••</div>
+                        <div class="card-bottom-row">
+                            <div>
+                                <small>CARDHOLDER</small>
+                                <div class="card-name-mock" id="cardNameMock">YOUR NAME</div>
+                            </div>
+                            <div>
+                                <small>EXPIRES</small>
+                                <div class="card-exp-mock" id="cardExpMock">MM/YY</div>
+                            </div>
+                            <div class="card-lock-badge">🔒 256-BIT</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD INPUT FIELDS -->
+                <div class="card-fields-grid">
+                    <div class="form-col full">
+                        <label for="cardNumberInput">Card Number</label>
+                        <div class="input-with-icon">
+                            <input type="text" id="cardNumberInput" placeholder="4532 1234 5678 9010" maxlength="19" oninput="handleCardNumberInput(this)">
+                            <span class="input-card-brand" id="inputBrandBadge">💳</span>
+                        </div>
+                    </div>
+                    <div class="form-col full">
+                        <label for="cardHolderInput">Cardholder Name</label>
+                        <input type="text" id="cardHolderInput" placeholder="Name on card" oninput="handleCardHolderInput(this)">
+                    </div>
+                    <div class="form-col half">
+                        <label for="cardExpiryInput">Expiry Date</label>
+                        <input type="text" id="cardExpiryInput" placeholder="MM/YY" maxlength="5" oninput="handleCardExpiryInput(this)">
+                    </div>
+                    <div class="form-col half">
+                        <label for="cardCvvInput">CVV / CVC</label>
+                        <input type="password" id="cardCvvInput" placeholder="•••" maxlength="4" oninput="handleCardCvvInput(this)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOOTER & SUBMIT BUTTON -->
+            <div class="sub-modal-footer">
+                <div class="sub-trust-row">
+                    <span>🔒 Secured by 256-bit SSL</span>
+                    <span>⚡ Instant Auto-Unlock</span>
+                    <span>✓ 100% Moneyback Guarantee</span>
+                </div>
+                <button type="button" id="subPaySubmitBtn" class="sub-pay-now-btn" onclick="executeSubscriptionPayment()">
+                    <span class="btn-lock-ico">👑</span>
+                    <span id="subPayBtnText">Pay ₹149 & Unlock 10 Templates</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- PROCESSING OVERLAY -->
+        <div id="subProcessingOverlay" class="sub-state-overlay" style="display:none;">
+            <div class="sub-state-box">
+                <div class="sub-spinner"></div>
+                <h4 id="subProcessTitle">Connecting to Gateway...</h4>
+                <p id="subProcessSubtitle">Verifying payment request...</p>
+                <div class="process-progress-track">
+                    <div class="process-progress-bar" id="subProcessBar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUCCESS OVERLAY -->
+        <div id="subSuccessOverlay" class="sub-state-overlay" style="display:none;">
+            <div class="sub-state-box">
+                <div class="sub-success-icon">🎉</div>
+                <h3>Subscription Successful!</h3>
+                <p>Welcome to <b>SnapBridge VIP</b>! All 10 aesthetic templates are now completely unlocked.</p>
+                <div class="sub-success-summary">
+                    <span>Active Plan: <b id="subSuccessPlan">Monthly VIP Pass</b></span>
+                    <span>Unlocked: <b>10 Premium Templates</b></span>
+                </div>
+                <button type="button" class="sub-success-btn" onclick="completeSubscriptionAndClose()">
+                    ✨ Start Using Template
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 

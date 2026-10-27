@@ -91,9 +91,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initStudioFrame() {
     createPhotoSlots(currentSize * currentSize);
-    const savedTpl = localStorage.getItem("snapBridgeTemplate");
-    if (savedTpl && templateThemeData[savedTpl]) {
-        selectTemplateTheme(savedTpl);
+    updateSubscriptionUI();
+
+    const urlTpl = params.get("template");
+    const shouldSubscribe = params.get("subscribe");
+
+    if (urlTpl && templateThemeData[urlTpl]) {
+        if (PAID_TEMPLATE_KEYS.includes(urlTpl) && !isSubscribed()) {
+            selectTemplateTheme("spider");
+            openSubscriptionModal(urlTpl);
+            return;
+        } else {
+            selectTemplateTheme(urlTpl);
+        }
+    } else if (shouldSubscribe && !isSubscribed()) {
+        openSubscriptionModal();
+    } else {
+        const savedTpl = localStorage.getItem("snapBridgeTemplate");
+        if (savedTpl && templateThemeData[savedTpl]) {
+            if (PAID_TEMPLATE_KEYS.includes(savedTpl) && !isSubscribed()) {
+                selectTemplateTheme("spider");
+            } else {
+                selectTemplateTheme(savedTpl);
+            }
+        } else {
+            selectTemplateTheme("spider");
+        }
     }
 }
 
@@ -356,6 +379,7 @@ function addRemoteVideo(userId, stream) {
     card = document.createElement("div");
     card.className = "video-card";
     card.id = "remote-" + userId;
+    card.dataset.mirrored = "false"; // Shared booth: friend camera is unmirrored (normal) by default!
 
     // Loading overlay until video starts playing
     const loader = document.createElement("div");
@@ -382,6 +406,17 @@ function addRemoteVideo(userId, stream) {
     label.className = "video-name";
     label.textContent = "Friend ✦";
 
+    // Mirror toggle button for friend's camera
+    const mirrorBtn = document.createElement("button");
+    mirrorBtn.className = "video-mirror-btn";
+    mirrorBtn.type = "button";
+    mirrorBtn.title = "Toggle Mirror (Flip view)";
+    mirrorBtn.innerHTML = "🪞";
+    mirrorBtn.onclick = (e) => {
+        e.stopPropagation();
+        toggleCardMirror(card.id);
+    };
+
     // Audio unmute toggle button on the video card
     const audioBtn = document.createElement("button");
     audioBtn.className = "video-audio-toggle";
@@ -400,6 +435,7 @@ function addRemoteVideo(userId, stream) {
 
     card.appendChild(video);
     card.appendChild(label);
+    card.appendChild(mirrorBtn);
     card.appendChild(audioBtn);
     videoGrid.appendChild(card);
 
@@ -498,6 +534,36 @@ function toggleMic() {
     }
 }
 
+function toggleCardMirror(cardId) {
+    const targetId = cardId || "localCard";
+    const card = document.getElementById(targetId);
+    if (!card) return;
+
+    const isMirrored = card.dataset.mirrored === "true";
+    const nextMirrored = !isMirrored;
+    card.dataset.mirrored = nextMirrored ? "true" : "false";
+
+    const video = card.querySelector("video");
+    if (video) {
+        video.style.transform = nextMirrored ? "scaleX(-1)" : "scaleX(1)";
+    }
+
+    const cardMirrorBtn = card.querySelector(".video-mirror-btn");
+    if (cardMirrorBtn) {
+        cardMirrorBtn.classList.toggle("active-mirrored", nextMirrored);
+        cardMirrorBtn.title = nextMirrored ? "Camera Mirrored 🪞 (Click to unmirror)" : "Camera Normal 👁️ (Click to mirror)";
+    }
+
+    if (targetId === "localCard") {
+        const toolbarMirrorBtn = document.getElementById("mirrorBtn");
+        if (toolbarMirrorBtn) {
+            toolbarMirrorBtn.classList.toggle("active-tool", nextMirrored);
+        }
+    }
+
+    showShareToast(nextMirrored ? "Camera mirrored 🪞" : "Camera normal (unmirrored) 👁️");
+}
+
 function triggerFlash() {
     flashOverlay.classList.remove("active");
     void flashOverlay.offsetWidth;
@@ -547,9 +613,17 @@ function snapCurrentPhoto() {
             ctx.filter = "none";
         }
 
-        // Mirror image for selfie feel within the column
-        ctx.translate(idx * colWidth + colWidth, 0);
-        ctx.scale(-1, 1);
+        // Check per-camera mirror state (one camera mirrored, one normal in shared booth)
+        const parentCard = vid.closest(".video-card");
+        const isMirrored = parentCard ? (parentCard.dataset.mirrored === "true") : (idx === 0);
+
+        if (isMirrored) {
+            ctx.translate(idx * colWidth + colWidth, 0);
+            ctx.scale(-1, 1);
+        } else {
+            ctx.translate(idx * colWidth, 0);
+            ctx.scale(1, 1);
+        }
 
         // Aspect ratio center crop
         const targetRatio = colWidth / canvas.height;
@@ -817,10 +891,85 @@ const templateThemeData = {
     night: { name: "Pastel Night", title: "Midnight Magic 🌙", decor1: "🌙", decor2: "⭐", decor3: "💜" }
 };
 
+/* =========================================================
+   VIP TEMPLATES SUBSCRIPTION SYSTEM (10 PAID TEMPLATES)
+   ========================================================= */
+const PAID_TEMPLATE_KEYS = [
+    "bow",       // Pink Bow
+    "rainbow",   // Rainbow
+    "neon",      // Neon Night
+    "dreamy",    // Dreamy Purple
+    "cutepink",  // Cute Pink
+    "scrapbook", // Scrapbook
+    "ocean",     // Ocean Wave
+    "candy",     // Cotton Candy
+    "kitty",     // Cute Kitty
+    "polaroid"   // Classic Polaroid
+];
+
+let pendingTemplateToUnlock = null;
+let currentSelectedPlan = { amount: 149, name: "Monthly VIP Pass" };
+let currentPaymentMethod = "upi"; // "upi" or "card"
+let currentUpiApp = "phonepe";    // "phonepe", "googlepay", "paytm", "qr"
+let currentCardType = "Credit Card";
+
+function isSubscribed() {
+    return localStorage.getItem("snapbridge_vip_subscribed") === "true";
+}
+
+function updateSubscriptionUI() {
+    const subscribed = isSubscribed();
+    const topbarBtn = document.getElementById("vipSubscriptionTopbarBtn");
+    if (topbarBtn) {
+        if (subscribed) {
+            topbarBtn.classList.add("active-vip");
+            topbarBtn.innerHTML = '👑 <span>VIP Active</span>';
+            topbarBtn.title = "VIP Subscription Active (Click to manage)";
+        } else {
+            topbarBtn.classList.remove("active-vip");
+            topbarBtn.innerHTML = '👑 <span>VIP Pass</span>';
+            topbarBtn.title = "Unlock 10 Premium Templates";
+        }
+    }
+
+    document.querySelectorAll(".template-btn.is-paid").forEach(btn => {
+        const badge = btn.querySelector(".sub-badge");
+        if (subscribed) {
+            btn.classList.add("unlocked");
+            if (badge) {
+                badge.innerHTML = "✓ VIP";
+                badge.title = "Unlocked VIP Template";
+            }
+        } else {
+            btn.classList.remove("unlocked");
+            if (badge) {
+                badge.innerHTML = "👑 PRO";
+                badge.title = "VIP Subscription Required";
+            }
+        }
+    });
+}
+
 function selectTemplateTheme(theme, button) {
+    // Check if this is one of the 10 paid templates and user is not subscribed
+    if (PAID_TEMPLATE_KEYS.includes(theme) && !isSubscribed()) {
+        pendingTemplateToUnlock = theme;
+        openSubscriptionModal(theme);
+        return;
+    }
+
     selectedTemplate = theme;
+    try {
+        localStorage.setItem("snapBridgeTemplate", theme);
+    } catch(e) {}
+
     document.querySelectorAll(".template-btn").forEach(btn => btn.classList.remove("selected"));
-    if (button) button.classList.add("selected");
+    if (button) {
+        button.classList.add("selected");
+    } else {
+        const matchingBtn = document.querySelector(`.template-btn[data-template="${theme}"]`);
+        if (matchingBtn) matchingBtn.classList.add("selected");
+    }
 
     const data = templateThemeData[theme] || templateThemeData.spider;
     templateDisplayName.textContent = data.name;
@@ -831,6 +980,316 @@ function selectTemplateTheme(theme, button) {
     document.getElementById("decorBottomRight").textContent = data.decor3;
 
     updateFrameClasses();
+}
+
+function openSubscriptionModal(targetTheme) {
+    const overlay = document.getElementById("subscriptionModalOverlay");
+    if (!overlay) return;
+
+    const isUserSubscribed = isSubscribed();
+    const activeView = document.getElementById("subActiveView");
+    const checkoutView = document.getElementById("subCheckoutView");
+    const processingOverlay = document.getElementById("subProcessingOverlay");
+    const successOverlay = document.getElementById("subSuccessOverlay");
+
+    if (processingOverlay) processingOverlay.style.display = "none";
+    if (successOverlay) successOverlay.style.display = "none";
+
+    if (isUserSubscribed) {
+        if (activeView) activeView.style.display = "block";
+        if (checkoutView) checkoutView.style.display = "none";
+        const planDisplay = document.getElementById("activePlanNameDisplay");
+        if (planDisplay) {
+            const savedPlan = localStorage.getItem("snapbridge_vip_plan") || "Monthly VIP Pass";
+            planDisplay.textContent = `${savedPlan} (Active)`;
+        }
+    } else {
+        if (activeView) activeView.style.display = "none";
+        if (checkoutView) checkoutView.style.display = "block";
+
+        const targetData = targetTheme && templateThemeData[targetTheme] ? templateThemeData[targetTheme] : null;
+        const targetBox = document.getElementById("subTargetBox");
+        const targetThumb = document.getElementById("subTargetThumb");
+        const targetName = document.getElementById("subTargetName");
+
+        if (targetData && targetBox && targetThumb && targetName) {
+            targetBox.style.display = "flex";
+            targetThumb.textContent = targetData.decor1 || "👑";
+            targetName.textContent = targetData.name.replace(" Template", "");
+        } else if (targetBox) {
+            targetBox.style.display = "none";
+        }
+
+        // Reset to UPI default
+        switchPayMethod("upi");
+        selectUpiApp("phonepe");
+    }
+
+    overlay.classList.add("show");
+}
+
+function closeSubscriptionModal() {
+    const overlay = document.getElementById("subscriptionModalOverlay");
+    if (overlay) overlay.classList.remove("show");
+}
+
+function handleSubOverlayClick(event) {
+    if (event.target && event.target.id === "subscriptionModalOverlay") {
+        closeSubscriptionModal();
+    }
+}
+
+function selectSubPlan(card, amount, name) {
+    document.querySelectorAll(".sub-plan-card").forEach(c => c.classList.remove("active"));
+    if (card) card.classList.add("active");
+    currentSelectedPlan = { amount, name };
+
+    const payBtnText = document.getElementById("subPayBtnText");
+    if (payBtnText) {
+        payBtnText.textContent = `Pay ₹${amount} & Unlock 10 Templates`;
+    }
+}
+
+function switchPayMethod(method) {
+    currentPaymentMethod = method;
+    const tabUpi = document.getElementById("tabPayUpi");
+    const tabCard = document.getElementById("tabPayCard");
+    const panelUpi = document.getElementById("payPanelUpi");
+    const panelCard = document.getElementById("payPanelCard");
+
+    if (method === "upi") {
+        if (tabUpi) tabUpi.classList.add("active");
+        if (tabCard) tabCard.classList.remove("active");
+        if (panelUpi) panelUpi.style.display = "block";
+        if (panelCard) panelCard.style.display = "none";
+    } else {
+        if (tabUpi) tabUpi.classList.remove("active");
+        if (tabCard) tabCard.classList.add("active");
+        if (panelUpi) panelUpi.style.display = "none";
+        if (panelCard) panelCard.style.display = "block";
+    }
+}
+
+function selectUpiApp(app, btn) {
+    currentUpiApp = app;
+    document.querySelectorAll(".upi-app-card").forEach(c => c.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+
+    const upiIdForm = document.getElementById("upiIdForm");
+    const upiQrForm = document.getElementById("upiQrForm");
+    const label = document.getElementById("upiLabelText");
+    const input = document.getElementById("upiIdField");
+
+    if (app === "qr") {
+        if (upiIdForm) upiIdForm.style.display = "none";
+        if (upiQrForm) upiQrForm.style.display = "block";
+    } else {
+        if (upiIdForm) upiIdForm.style.display = "block";
+        if (upiQrForm) upiQrForm.style.display = "none";
+
+        if (app === "phonepe") {
+            if (label) label.textContent = "Enter PhonePe UPI ID / Mobile Number:";
+            if (input) {
+                input.placeholder = "mobile@ybl or username@upi";
+                input.value = "9876543210@ybl";
+            }
+        } else if (app === "googlepay") {
+            if (label) label.textContent = "Enter Google Pay UPI ID / Mobile Number:";
+            if (input) {
+                input.placeholder = "mobile@oksbi or username@okhdfcbank";
+                input.value = "user@oksbi";
+            }
+        } else if (app === "paytm") {
+            if (label) label.textContent = "Enter Paytm UPI ID / Mobile Number:";
+            if (input) {
+                input.placeholder = "mobile@paytm or username@paytm";
+                input.value = "9876543210@paytm";
+            }
+        }
+    }
+}
+
+function applyUpiSuffix(suffix) {
+    const input = document.getElementById("upiIdField");
+    if (!input) return;
+    const base = input.value.split("@")[0] || "user";
+    input.value = base + suffix;
+}
+
+function switchCardType(type, btn) {
+    currentCardType = type;
+    document.querySelectorAll(".card-type-toggle").forEach(b => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+    const label = document.getElementById("cardTypeLabel");
+    if (label) label.textContent = type.toUpperCase();
+}
+
+function handleCardNumberInput(input) {
+    let val = input.value.replace(/\D/g, "").slice(0, 16);
+    let formatted = val.match(/.{1,4}/g)?.join(" ") || val;
+    input.value = formatted;
+
+    const mock = document.getElementById("cardNumberMock");
+    if (mock) {
+        mock.textContent = formatted || "•••• •••• •••• ••••";
+    }
+
+    // Card network logo
+    const netLogo = document.getElementById("cardNetworkLogo");
+    const brandBadge = document.getElementById("inputBrandBadge");
+    if (val.startsWith("4")) {
+        if (netLogo) netLogo.textContent = "VISA";
+        if (brandBadge) brandBadge.textContent = "💳 Visa";
+    } else if (val.startsWith("5")) {
+        if (netLogo) netLogo.textContent = "MC";
+        if (brandBadge) brandBadge.textContent = "💳 Mastercard";
+    } else if (val.startsWith("6")) {
+        if (netLogo) netLogo.textContent = "RuPay";
+        if (brandBadge) brandBadge.textContent = "💳 RuPay";
+    } else {
+        if (netLogo) netLogo.textContent = "CARD";
+        if (brandBadge) brandBadge.textContent = "💳";
+    }
+}
+
+function handleCardHolderInput(input) {
+    const mock = document.getElementById("cardNameMock");
+    if (mock) {
+        mock.textContent = input.value.toUpperCase() || "YOUR NAME";
+    }
+}
+
+function handleCardExpiryInput(input) {
+    let val = input.value.replace(/\D/g, "").slice(0, 4);
+    if (val.length >= 3) {
+        val = val.slice(0, 2) + "/" + val.slice(2);
+    }
+    input.value = val;
+    const mock = document.getElementById("cardExpMock");
+    if (mock) {
+        mock.textContent = val || "MM/YY";
+    }
+}
+
+function handleCardCvvInput(input) {
+    input.value = input.value.replace(/\D/g, "").slice(0, 4);
+}
+
+function executeSubscriptionPayment() {
+    // Basic verification
+    if (currentPaymentMethod === "upi" && currentUpiApp !== "qr") {
+        const upiField = document.getElementById("upiIdField");
+        if (!upiField || !upiField.value.trim()) {
+            alert("Please enter a valid UPI ID (e.g., yourname@ybl or mobile@oksbi).");
+            if (upiField) upiField.focus();
+            return;
+        }
+    } else if (currentPaymentMethod === "card") {
+        const cardNum = document.getElementById("cardNumberInput");
+        if (!cardNum || cardNum.value.replace(/\s/g, "").length < 12) {
+            alert("Please enter a valid 16-digit card number.");
+            if (cardNum) cardNum.focus();
+            return;
+        }
+    }
+
+    const processingOverlay = document.getElementById("subProcessingOverlay");
+    const progressTitle = document.getElementById("subProcessTitle");
+    const progressSub = document.getElementById("subProcessSubtitle");
+    const progressBar = document.getElementById("subProcessBar");
+
+    if (processingOverlay) processingOverlay.style.display = "flex";
+    if (progressBar) progressBar.style.width = "25%";
+
+    if (currentPaymentMethod === "upi") {
+        const appNames = { phonepe: "PhonePe", googlepay: "Google Pay", paytm: "Paytm", qr: "UPI Gateway" };
+        const app = appNames[currentUpiApp] || "UPI";
+        if (progressTitle) progressTitle.textContent = `Connecting to ${app}...`;
+        if (progressSub) progressSub.textContent = `Sending payment request of ₹${currentSelectedPlan.amount}...`;
+
+        setTimeout(() => {
+            if (progressBar) progressBar.style.width = "65%";
+            if (progressTitle) progressTitle.textContent = "Authorizing Transaction...";
+            if (progressSub) progressSub.textContent = `Waiting for confirmation from ${app}...`;
+        }, 1100);
+
+        setTimeout(() => {
+            if (progressBar) progressBar.style.width = "100%";
+            if (progressTitle) progressTitle.textContent = "Payment Verified! 🎉";
+            if (progressSub) progressSub.textContent = "Activating SnapBridge VIP membership...";
+        }, 2200);
+
+        setTimeout(() => {
+            finalizeSubscriptionSuccess();
+        }, 2900);
+    } else {
+        if (progressTitle) progressTitle.textContent = "Connecting to Card Network...";
+        if (progressSub) progressSub.textContent = "Securing 256-bit 3D-Secure channel...";
+
+        setTimeout(() => {
+            if (progressBar) progressBar.style.width = "65%";
+            if (progressTitle) progressTitle.textContent = "Processing Bank Authorization...";
+            if (progressSub) progressSub.textContent = `Authorizing ₹${currentSelectedPlan.amount} charge on ${currentCardType}...`;
+        }, 1100);
+
+        setTimeout(() => {
+            if (progressBar) progressBar.style.width = "100%";
+            if (progressTitle) progressTitle.textContent = "Approved! 🎉";
+            if (progressSub) progressSub.textContent = "Activating SnapBridge VIP membership...";
+        }, 2200);
+
+        setTimeout(() => {
+            finalizeSubscriptionSuccess();
+        }, 2900);
+    }
+}
+
+function finalizeSubscriptionSuccess() {
+    try {
+        localStorage.setItem("snapbridge_vip_subscribed", "true");
+        localStorage.setItem("snapbridge_vip_plan", currentSelectedPlan.name);
+        localStorage.setItem("snapbridge_vip_date", new Date().toISOString());
+    } catch(e) {}
+
+    updateSubscriptionUI();
+
+    const processingOverlay = document.getElementById("subProcessingOverlay");
+    const successOverlay = document.getElementById("subSuccessOverlay");
+    const successPlan = document.getElementById("subSuccessPlan");
+
+    if (processingOverlay) processingOverlay.style.display = "none";
+    if (successOverlay) successOverlay.style.display = "flex";
+    if (successPlan) successPlan.textContent = currentSelectedPlan.name;
+}
+
+function completeSubscriptionAndClose() {
+    closeSubscriptionModal();
+
+    if (pendingTemplateToUnlock) {
+        const themeToSelect = pendingTemplateToUnlock;
+        pendingTemplateToUnlock = null;
+        selectTemplateTheme(themeToSelect);
+        showShareToast(`👑 ${templateThemeData[themeToSelect]?.name || "Template"} unlocked & applied!`);
+    } else {
+        showShareToast("👑 Welcome to VIP! All 10 templates are now unlocked.");
+    }
+}
+
+function resetSubscriptionForTesting() {
+    try {
+        localStorage.removeItem("snapbridge_vip_subscribed");
+        localStorage.removeItem("snapbridge_vip_plan");
+        localStorage.removeItem("snapbridge_vip_date");
+    } catch(e) {}
+
+    updateSubscriptionUI();
+
+    if (PAID_TEMPLATE_KEYS.includes(selectedTemplate)) {
+        selectTemplateTheme("spider");
+    }
+
+    closeSubscriptionModal();
+    showShareToast("Subscription reset to free tier for testing.");
 }
 
 function filterTemplateCategory(cat, button) {
