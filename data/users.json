@@ -1,0 +1,24 @@
+[
+  {
+    "id": "usr_admin_1",
+    "name": "Vibha (Admin)",
+    "email": "vvibha935@gmail.com",
+    "password": "admin",
+    "role": "admin",
+    "isVip": true,
+    "createdAt": "2026-10-28T10:00:00.000Z",
+    "lastLogin": "2026-10-28T13:30:00.000Z",
+    "loginCount": 1
+  },
+  {
+    "id": "usr_admin_2",
+    "name": "Vandana (Admin)",
+    "email": "svandana6361@gmail.com",
+    "password": "admin",
+    "role": "admin",
+    "isVip": true,
+    "createdAt": "2026-10-28T10:00:00.000Z",
+    "lastLogin": "2026-10-28T13:30:00.000Z",
+    "loginCount": 1
+  }
+]

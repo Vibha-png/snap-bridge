@@ -1106,6 +1106,10 @@ footer p{
             About
         </a>
 
+        <a href="admin.html" id="adminNavHome" style="display:none; color:#d97706; font-weight:800;">
+            👑 Admin Portal
+        </a>
+
     </nav>
 </header>
 
@@ -1665,6 +1669,19 @@ document.addEventListener("keydown", function(event){
 document.getElementById("boothChoiceOverlay")?.addEventListener("click", function(event){
     if(event.target === this) closeBoothChoice();
 });
+
+// Check Admin status
+const ADMIN_EMAILS = ["vvibha935@gmail.com", "svandana6361@gmail.com"];
+try {
+    const rawUser = localStorage.getItem("snapBridgeUser");
+    if (rawUser) {
+        const u = JSON.parse(rawUser);
+        if (u && u.email && (ADMIN_EMAILS.includes(u.email.toLowerCase()) || u.role === "admin")) {
+            const btn = document.getElementById("adminNavHome");
+            if (btn) btn.style.display = "inline-block";
+        }
+    }
+} catch(e) {}
 </script>
 </body>
 </html>

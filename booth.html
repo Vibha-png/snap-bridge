@@ -29,6 +29,7 @@
     <nav class="top-nav">
         <a href="home.html">Home</a>
         <a href="booth.html" class="active">Booth Studio</a>
+        <a href="admin.html" id="adminPortalNavBtn" class="admin-topbar-link" style="display:none; color:#f59e0b; font-weight:800;">👑 Admin Portal</a>
     </nav>
 
     <div class="topbar-right">
@@ -702,9 +703,15 @@
                 </button>
             </div>
 
-            <!-- PAYMENT FORM: UPI (phonepay, googlepay, paytam) -->
+            <!-- PAYMENT FORM: UPI (phonepay, googlepay, paytam, qr) -->
             <div id="payPanelUpi" class="pay-panel active">
-                <div class="upi-method-subhead">Choose UPI payment app:</div>
+                <!-- BENEFICIARY ACCOUNT NOTICE -->
+                <div class="upi-beneficiary-tag">
+                    <span class="bene-dot">●</span>
+                    <span>Transfer destination: <b>State Bank of India - 9560</b> (<code>9844811256@ibl</code>)</span>
+                </div>
+
+                <div class="upi-method-subhead">Choose UPI payment option:</div>
                 <div class="upi-apps-row">
                     <button type="button" class="upi-app-card active" data-app="phonepe" onclick="selectUpiApp('phonepe', this)">
                         <div class="app-icon-circle phonepe-icon">पे</div>
@@ -728,7 +735,7 @@
                 <div id="upiIdForm" class="upi-input-group">
                     <label id="upiLabelText" for="upiIdField">Enter PhonePe UPI ID / Mobile Number:</label>
                     <div class="upi-field-box">
-                        <input type="text" id="upiIdField" placeholder="mobile@ybl or username@upi" value="9876543210@ybl">
+                        <input type="text" id="upiIdField" placeholder="mobile@ybl or username@upi" value="9844811256@ybl">
                         <span class="upi-verify-tag">Verified ✓</span>
                     </div>
                     <div class="upi-fast-chips">
@@ -737,18 +744,81 @@
                         <span class="fast-chip" onclick="applyUpiSuffix('@paytm')">@paytm (Paytm)</span>
                         <span class="fast-chip" onclick="applyUpiSuffix('@okhdfcbank')">@okhdfc</span>
                     </div>
+
+                    <div class="direct-app-launch-row">
+                        <a id="directUpiAppBtn" href="upi://pay?pa=9844811256@ibl&pn=SnapBridge%20VIP&am=149&cu=INR&tn=VIP%20Templates%20Pass" class="direct-app-link">
+                            📱 Open App to Pay ₹<span class="dyn-pay-amount">149</span> Directly
+                        </a>
+                    </div>
                 </div>
 
-                <!-- UPI QR CODE SCAN VIEW -->
+                <!-- UPI QR CODE SCAN VIEW (Only for VIP Templates) -->
                 <div id="upiQrForm" class="upi-qr-group" style="display:none;">
-                    <div class="upi-qr-card">
-                        <div class="sim-qr-canvas">
-                            <div class="qr-mock-grid"></div>
-                            <div class="qr-mock-center">👑</div>
+                    <div class="phonepe-scanner-card">
+                        <!-- Header with SBI logo & account -->
+                        <div class="phonepe-scanner-header">
+                            <div class="sbi-round-logo" title="State Bank of India">
+                                <svg viewBox="0 0 100 100" class="sbi-svg" width="34" height="34">
+                                    <circle cx="50" cy="50" r="48" fill="#0091d0"/>
+                                    <circle cx="50" cy="50" r="18" fill="#ffffff"/>
+                                    <rect x="46" y="50" width="8" height="42" fill="#ffffff"/>
+                                </svg>
+                            </div>
+                            <div class="sbi-account-details">
+                                <h4 class="sbi-title">State Bank of India - 9560</h4>
+                                <span class="sbi-subtitle"><span class="green-indicator">●</span> Primary account for receiving money</span>
+                            </div>
                         </div>
-                        <div class="qr-desc">
-                            <strong>Scan & Pay with Any UPI App</strong>
-                            <small>Open PhonePe, Google Pay, or Paytm and scan to subscribe instantly.</small>
+
+                        <!-- Authentic PhonePe SBI QR Code -->
+                        <div class="phonepe-qr-box">
+                            <div class="phonepe-qr-img-wrapper">
+                                <img src="upi-qr-clean.png" alt="PhonePe State Bank of India QR Code" class="phonepe-qr-img" id="phonepeQrImg">
+                            </div>
+                            <div class="qr-pay-amount-pill" id="qrAmountBadge">
+                                <span>Payable:</span> <strong>₹149</strong>
+                            </div>
+                        </div>
+
+                        <!-- UPI ID & Copy -->
+                        <div class="phonepe-upi-id-row">
+                            <div class="upi-id-text-group">
+                                <span class="upi-id-label">UPI ID:</span>
+                                <span class="upi-id-value" id="scannerUpiId">9844811256@ibl</span>
+                            </div>
+                            <button type="button" class="copy-upi-btn" onclick="copyUpiId('9844811256@ibl', this)" title="Copy UPI ID to clipboard">
+                                <span>📋</span>
+                                <span>Copy</span>
+                            </button>
+                        </div>
+
+                        <!-- Instant Actions -->
+                        <div class="phonepe-action-buttons">
+                            <a id="scannerDirectPayLink" href="upi://pay?pa=9844811256@ibl&pn=SnapBridge%20VIP&am=149&cu=INR&tn=VIP%20Templates%20Pass" class="scanner-btn-primary">
+                                <span>⚡ Pay in PhonePe / UPI App</span>
+                            </a>
+                            <a href="upi-qr.png" download="SnapBridge-SBI-QR.png" class="scanner-btn-secondary" title="Download QR scanner image">
+                                <span>⬇️ Save QR</span>
+                            </a>
+                        </div>
+
+                        <!-- Supported Apps Bar -->
+                        <div class="phonepe-supported-strip">
+                            <span>Supported on all UPI apps:</span>
+                            <div class="supported-icons">
+                                <span class="brand-tag">पे PhonePe</span>
+                                <span class="brand-tag">BHIM</span>
+                                <span class="brand-tag">GPay</span>
+                                <span class="brand-tag">Paytm</span>
+                            </div>
+                        </div>
+
+                        <!-- Verify Payment CTA -->
+                        <div class="qr-verify-box">
+                            <button type="button" class="verify-transfer-btn" onclick="verifyQrPayment()">
+                                <span>✓ I Have Paid ₹<span class="dyn-qr-verify-amt">149</span> — Verify & Unlock VIP</span>
+                            </button>
+                            <small class="qr-verify-subnote">⚡ Scanned the QR? Tap above to confirm transfer and unlock all VIP templates immediately.</small>
                         </div>
                     </div>
                 </div>
@@ -856,6 +926,67 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<!-- ================= 3D-SECURE BANK OTP MODAL ================= -->
+<div id="cardOtpModalOverlay" class="card-otp-modal-overlay" style="display:none;" onclick="handleCardOtpOverlayClick(event)">
+    <div class="card-otp-card">
+        <div class="otp-header">
+            <div class="otp-bank-brand">
+                <div class="otp-shield-icon">🛡️</div>
+                <div>
+                    <h4>Bank 3D-Secure 2.0</h4>
+                    <small>Verified by Visa • Mastercard Identity Check • RuPay</small>
+                </div>
+            </div>
+            <button type="button" class="otp-close-x" onclick="closeCardOtpModal()" aria-label="Cancel">✕</button>
+        </div>
+
+        <div class="otp-body">
+            <div class="otp-summary-card">
+                <div class="otp-info-row">
+                    <span>Beneficiary:</span>
+                    <strong>SnapBridge VIP Studio</strong>
+                </div>
+                <div class="otp-info-row">
+                    <span>Receiving Bank:</span>
+                    <strong>State Bank of India (9560)</strong>
+                </div>
+                <div class="otp-info-row">
+                    <span>Amount:</span>
+                    <strong class="otp-highlight-amt">₹<span id="otpAmountText">149.00</span></strong>
+                </div>
+                <div class="otp-info-row">
+                    <span>Card:</span>
+                    <strong id="otpCardNumberText">•••• •••• •••• 9010</strong>
+                </div>
+                <div class="otp-info-row">
+                    <span>Cardholder:</span>
+                    <strong id="otpCardHolderText">USER</strong>
+                </div>
+            </div>
+
+            <div class="otp-input-section">
+                <p class="otp-help-msg">
+                    A 6-digit One-Time Password (OTP) has been sent to your registered mobile ending in <b>•••• 482</b>.
+                </p>
+                <div class="otp-field-container">
+                    <input type="text" id="otpInputField" placeholder="• • • • • •" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+                    <button type="button" class="otp-autofill-action" onclick="autofillDemoOtp()">⚡ Auto-Fill Demo OTP (849201)</button>
+                </div>
+                <small class="otp-timer-note">Code valid for <span id="otpTimerDisplay">04:59</span></small>
+            </div>
+
+            <div class="otp-button-row">
+                <button type="button" class="otp-submit-btn" onclick="submitCardOtp()">
+                    Authorize & Complete Payment
+                </button>
+                <button type="button" class="otp-cancel-btn" onclick="closeCardOtpModal()">
+                    Cancel Transaction
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

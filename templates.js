@@ -1,17 +1,36 @@
 // VIP Templates Subscription check
 const PAID_TEMPLATE_KEYS = ['bow', 'rainbow', 'neon', 'dreamy', 'cutepink', 'scrapbook', 'ocean', 'candy', 'kitty', 'polaroid'];
+const ADMIN_EMAILS = ["vvibha935@gmail.com", "svandana6361@gmail.com"];
+
+function isCurrentUserAdmin() {
+    try {
+        const raw = localStorage.getItem("snapBridgeUser");
+        if (!raw) return false;
+        const u = JSON.parse(raw);
+        return u && u.email && (ADMIN_EMAILS.includes(u.email.toLowerCase()) || u.role === "admin");
+    } catch(e) {
+        return false;
+    }
+}
 
 function isSubscribed() {
+    if (isCurrentUserAdmin()) return true;
     return localStorage.getItem('snapbridge_vip_subscribed') === 'true';
 }
 
 function updateTemplatesSubscriptionUI() {
     const sub = isSubscribed();
+    const isAdmin = isCurrentUserAdmin();
+    const adminNav = document.getElementById("adminNavTemplates");
+    if (adminNav) {
+        adminNav.style.display = isAdmin ? "inline-block" : "none";
+    }
+
     document.querySelectorAll('.template-card.is-paid').forEach(c => {
         const b = c.querySelector('.sub-badge');
         if (sub) {
             c.classList.add('unlocked');
-            if (b) b.textContent = '✓ VIP';
+            if (b) b.textContent = isAdmin ? '👑 ADMIN' : '✓ VIP';
         } else {
             c.classList.remove('unlocked');
             if (b) b.textContent = '👑 PRO';

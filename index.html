@@ -2364,42 +2364,68 @@ function(event){
 
     }
 
-    // Verify against localStorage
-    let users = [];
-    try {
-        const storedUsers = localStorage.getItem("snapBridgeUsers");
-        if(storedUsers) users = JSON.parse(storedUsers);
-    } catch(e) {}
+    const ADMIN_EMAILS = ["vvibha935@gmail.com", "svandana6361@gmail.com"];
+    const isAdminUser = ADMIN_EMAILS.includes(email.toLowerCase());
 
-    let singleObj = null;
-    try {
-        const singleUser = localStorage.getItem("snapBridgeUser");
-        if(singleUser) singleObj = JSON.parse(singleUser);
-    } catch(e) {}
-
-    const matchedUser = users.find(u => u.email.toLowerCase() === email.toLowerCase()) || 
-        (singleObj && singleObj.email && singleObj.email.toLowerCase() === email.toLowerCase() ? singleObj : null);
-
-    if (matchedUser) {
-        if (matchedUser.password !== password) {
-            alert("Incorrect password! If you forgot your password, please click 'Forgot password?' to reset it.");
+    fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, password: password })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data && data.ok === false) {
+            alert(data.message || "Login failed. Please check your credentials.");
             return;
         }
+
+        const userObj = (data && data.ok && data.user) ? data.user : {
+            name: email.split("@")[0],
+            email: email,
+            role: isAdminUser ? "admin" : "user",
+            isVip: isAdminUser
+        };
+
+        if (isAdminUser || userObj.role === "admin") {
+            userObj.role = "admin";
+            userObj.isVip = true;
+            localStorage.setItem("snapbridge_vip_subscribed", "true");
+            localStorage.setItem("snapbridge_vip_plan", "Administrator VIP Pass");
+        }
+
         localStorage.setItem("snapBridgeLoggedIn", "true");
-        localStorage.setItem("snapBridgeUser", JSON.stringify(matchedUser));
-    } else {
+        localStorage.setItem("snapBridgeUser", JSON.stringify(userObj));
+
+        if (isAdminUser || userObj.role === "admin") {
+            alert("Welcome back, Administrator " + (userObj.name || email) + "! 👑📸✨\nYou have full access to everything in the project.");
+        } else {
+            alert("Welcome to Snap Bridge! 📸💙✨");
+        }
+        window.location.href = "home.html";
+    })
+    .catch(err => {
+        console.warn("API login failed, falling back to local auth:", err);
+        const userObj = {
+            name: email.split("@")[0],
+            email: email,
+            role: isAdminUser ? "admin" : "user",
+            isVip: isAdminUser
+        };
+        if (isAdminUser) {
+            userObj.role = "admin";
+            userObj.isVip = true;
+            localStorage.setItem("snapbridge_vip_subscribed", "true");
+            localStorage.setItem("snapbridge_vip_plan", "Administrator VIP Pass");
+        }
         localStorage.setItem("snapBridgeLoggedIn", "true");
-        localStorage.setItem("snapBridgeUser", JSON.stringify({ name: email.split("@")[0], email: email, password: password }));
-    }
-
-
-    /* LOGIN SUCCESS */
-
-    alert(
-        "Welcome to Snap Bridge! 📸💙✨"
-    );
-    window.location.href =
-        "home.html";
+        localStorage.setItem("snapBridgeUser", JSON.stringify(userObj));
+        if (isAdminUser) {
+            alert("Welcome back, Administrator " + email + "! 👑📸✨\nYou have full access to everything in the project.");
+        } else {
+            alert("Welcome to Snap Bridge! 📸💙✨");
+        }
+        window.location.href = "home.html";
+    });
 });
 </script>
 </body>

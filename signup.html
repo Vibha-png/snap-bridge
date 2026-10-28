@@ -1660,7 +1660,16 @@ document
         }
 
 
-        /* SAVE ACCOUNT */
+        /* SAVE ACCOUNT ON SERVER & LOCALSTORAGE */
+        const ADMIN_EMAILS = ["vvibha935@gmail.com", "svandana6361@gmail.com"];
+        const isAdmin = ADMIN_EMAILS.includes(email.toLowerCase());
+
+        fetch("/api/auth/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name, email: email, password: password })
+        })
+        .catch(err => console.warn("API signup error:", err));
 
         try {
             let users = [];
@@ -1669,7 +1678,7 @@ document
                 users = JSON.parse(savedUsers);
             }
             const existingIndex = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
-            const newUser = { name: name, email: email, password: password };
+            const newUser = { name: name, email: email, password: password, role: isAdmin ? "admin" : "user", isVip: isAdmin };
             if (existingIndex >= 0) {
                 users[existingIndex] = newUser;
             } else {
@@ -1677,22 +1686,23 @@ document
             }
             localStorage.setItem("snapBridgeUsers", JSON.stringify(users));
             localStorage.setItem("snapBridgeUser", JSON.stringify(newUser));
+            if (isAdmin) {
+                localStorage.setItem("snapbridge_vip_subscribed", "true");
+                localStorage.setItem("snapbridge_vip_plan", "Administrator VIP Pass");
+            }
         } catch(e) {
             console.error("Storage error:", e);
         }
 
-
         /* SUCCESS */
-
-        alert(
-            "Account created successfully for " + email + "! 📸✨"
-        );
-
+        if (isAdmin) {
+            alert("Administrator Account created for " + email + "! 👑📸✨\nYou have full access to everything in the project.");
+        } else {
+            alert("Account created successfully for " + email + "! 📸✨");
+        }
 
         /* GO TO LOGIN */
-
-        window.location.href =
-            "index.html";
+        window.location.href = "index.html";
 
     }
 );
