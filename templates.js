@@ -26,6 +26,19 @@ function updateTemplatesSubscriptionUI() {
         adminNav.style.display = isAdmin ? "inline-block" : "none";
     }
 
+    const topbarBtn = document.getElementById("vipSubscriptionTopbarBtn");
+    if (topbarBtn) {
+        if (sub) {
+            topbarBtn.classList.add("active-vip");
+            topbarBtn.innerHTML = isAdmin ? '👑 <span>Admin VIP</span>' : '👑 <span>VIP Active</span>';
+            topbarBtn.title = "VIP Subscription Active (Click to manage)";
+        } else {
+            topbarBtn.classList.remove("active-vip");
+            topbarBtn.innerHTML = '👑 <span>VIP Pass</span>';
+            topbarBtn.title = "Unlock 10 Premium Templates";
+        }
+    }
+
     document.querySelectorAll('.template-card.is-paid').forEach(c => {
         const b = c.querySelector('.sub-badge');
         if (sub) {
@@ -182,9 +195,8 @@ function openPhotoChoice() {
 
 function selectTemplate(template, card) {
     if (PAID_TEMPLATE_KEYS.includes(template) && !isSubscribed()) {
-        if (confirm('👑 ' + (template ? template.toUpperCase() : '') + ' is a VIP Premium Template!\n\nUnlock all 10 aesthetic templates using UPI (PhonePe, Google Pay, Paytm) or Cards in the Booth Studio.\n\nOpen Booth Studio now to unlock?')) {
-            window.location.href = 'booth.html?template=' + encodeURIComponent(template) + '&subscribe=1';
-        }
+        pendingTemplateToUnlock = template;
+        openSubscriptionModal(template);
         return;
     }
 
@@ -835,3 +847,595 @@ document.addEventListener("keydown", function(event) {
     }
 
 });
+
+
+/* =========================================================
+   VIP SUBSCRIPTION & PAYMENT FLOW (UPI + CARDS + QR SCANNER)
+   ========================================================= */
+
+let pendingTemplateToUnlock = null;
+let currentSelectedPlan = { amount: 149, name: "Monthly VIP Pass" };
+let currentPaymentMethod = "upi";
+let currentUpiApp = "phonepe";
+let currentCardType = "Credit Card";
+let otpTimerInterval = null;
+
+const templateDisplayNames = {
+    bow: "Pink Bow",
+    rainbow: "Rainbow",
+    neon: "Neon Night",
+    dreamy: "Dreamy Purple",
+    cutepink: "Cute Pink",
+    scrapbook: "Scrapbook",
+    ocean: "Ocean Wave",
+    candy: "Cotton Candy",
+    kitty: "Cute Kitty",
+    polaroid: "Classic Polaroid"
+};
+
+const templateDecorEmojis = {
+    bow: "🎀",
+    rainbow: "🌈",
+    neon: "✦",
+    dreamy: "🌙",
+    cutepink: "💕",
+    scrapbook: "📜",
+    ocean: "🌊",
+    candy: "🍬",
+    kitty: "🐾",
+    polaroid: "📷"
+};
+
+function openSubscriptionModal(targetTheme) {
+    const overlay = document.getElementById("subscriptionModalOverlay");
+    if (!overlay) return;
+
+    const isUserSubscribed = isSubscribed();
+    const activeView = document.getElementById("subActiveView");
+    const checkoutView = document.getElementById("subCheckoutView");
+    const processingOverlay = document.getElementById("subProcessingOverlay");
+    const successOverlay = document.getElementById("subSuccessOverlay");
+
+    if (processingOverlay) processingOverlay.style.display = "none";
+    if (successOverlay) successOverlay.style.display = "none";
+
+    if (isUserSubscribed) {
+        if (activeView) activeView.style.display = "block";
+        if (checkoutView) checkoutView.style.display = "none";
+        const planDisplay = document.getElementById("activePlanNameDisplay");
+        if (planDisplay) {
+            const savedPlan = localStorage.getItem("snapbridge_vip_plan") || "Monthly VIP Pass";
+            planDisplay.textContent = `${savedPlan} (Active)`;
+        }
+    } else {
+        if (activeView) activeView.style.display = "none";
+        if (checkoutView) checkoutView.style.display = "block";
+
+        const targetBox = document.getElementById("subTargetBox");
+        const targetThumb = document.getElementById("subTargetThumb");
+        const targetName = document.getElementById("subTargetName");
+
+        if (targetTheme && targetBox && targetThumb && targetName) {
+            targetBox.style.display = "flex";
+            targetThumb.textContent = templateDecorEmojis[targetTheme] || "👑";
+            targetName.textContent = templateDisplayNames[targetTheme] || targetTheme.toUpperCase();
+        } else if (targetBox) {
+            targetBox.style.display = "none";
+        }
+
+        switchPayMethod("upi");
+        selectUpiApp("phonepe");
+    }
+
+    overlay.classList.add("show");
+}
+
+function closeSubscriptionModal() {
+    const overlay = document.getElementById("subscriptionModalOverlay");
+    if (overlay) overlay.classList.remove("show");
+}
+
+function handleSubOverlayClick(event) {
+    if (event.target && event.target.id === "subscriptionModalOverlay") {
+        closeSubscriptionModal();
+    }
+}
+
+function copyUpiId(id, btn) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(id).then(() => {
+            showCopySuccess(btn);
+        }).catch(() => {
+            fallbackCopy(id, btn);
+        });
+    } else {
+        fallbackCopy(id, btn);
+    }
+}
+
+function fallbackCopy(id, btn) {
+    const temp = document.createElement("textarea");
+    temp.value = id;
+    document.body.appendChild(temp);
+    temp.select();
+    try {
+        document.execCommand("copy");
+        showCopySuccess(btn);
+    } catch(e) {}
+    document.body.removeChild(temp);
+}
+
+function showCopySuccess(btn) {
+    if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<span>✓ Copied!</span>';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.classList.remove('copied');
+        }, 2200);
+    }
+    showShareToast("UPI ID 9844811256@ibl copied to clipboard!");
+}
+
+function selectSubPlan(card, amount, name) {
+    document.querySelectorAll(".sub-plan-card").forEach(c => c.classList.remove("active"));
+    if (card) card.classList.add("active");
+    currentSelectedPlan = { amount, name };
+
+    const payBtnText = document.getElementById("subPayBtnText");
+    if (payBtnText) {
+        if (currentPaymentMethod === "card") {
+            payBtnText.textContent = `Pay ₹${amount} via ${currentCardType}`;
+        } else if (currentUpiApp === "qr") {
+            payBtnText.textContent = `✓ Verify UPI Payment & Unlock VIP`;
+        } else {
+            payBtnText.textContent = `Pay ₹${amount} & Unlock 10 Templates`;
+        }
+    }
+
+    const qrAmt = document.getElementById("qrAmountBadge");
+    if (qrAmt) qrAmt.innerHTML = `<span>Payable:</span> <strong>₹${amount}</strong>`;
+
+    document.querySelectorAll(".dyn-pay-amount").forEach(el => el.textContent = amount);
+    document.querySelectorAll(".dyn-qr-verify-amt").forEach(el => el.textContent = amount);
+
+    const directLink = document.getElementById("directUpiAppBtn");
+    if (directLink) {
+        directLink.href = `upi://pay?pa=9844811256@ibl&pn=SnapBridge%20VIP&am=${amount}&cu=INR&tn=VIP%20Templates%20Pass`;
+    }
+
+    const scannerLink = document.getElementById("scannerDirectPayLink");
+    if (scannerLink) {
+        scannerLink.href = `upi://pay?pa=9844811256@ibl&pn=SnapBridge%20VIP&am=${amount}&cu=INR&tn=VIP%20Templates%20Pass`;
+    }
+
+    const otpAmt = document.getElementById("otpAmountText");
+    if (otpAmt) otpAmt.textContent = `${amount}.00`;
+}
+
+function switchPayMethod(method) {
+    currentPaymentMethod = method;
+    const tabUpi = document.getElementById("tabPayUpi");
+    const tabCard = document.getElementById("tabPayCard");
+    const panelUpi = document.getElementById("payPanelUpi");
+    const panelCard = document.getElementById("payPanelCard");
+    const payBtnText = document.getElementById("subPayBtnText");
+
+    if (method === "upi") {
+        if (tabUpi) tabUpi.classList.add("active");
+        if (tabCard) tabCard.classList.remove("active");
+        if (panelUpi) panelUpi.style.display = "block";
+        if (panelCard) panelCard.style.display = "none";
+
+        if (payBtnText) {
+            if (currentUpiApp === "qr") {
+                payBtnText.textContent = `✓ Verify UPI Payment & Unlock VIP`;
+            } else {
+                payBtnText.textContent = `Pay ₹${currentSelectedPlan.amount} & Unlock 10 Templates`;
+            }
+        }
+    } else {
+        if (tabUpi) tabUpi.classList.remove("active");
+        if (tabCard) tabCard.classList.add("active");
+        if (panelUpi) panelUpi.style.display = "none";
+        if (panelCard) panelCard.style.display = "block";
+
+        if (payBtnText) {
+            payBtnText.textContent = `Pay ₹${currentSelectedPlan.amount} via ${currentCardType}`;
+        }
+    }
+}
+
+function selectUpiApp(app, btn) {
+    currentUpiApp = app;
+    document.querySelectorAll(".upi-app-card").forEach(c => c.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+
+    const upiIdForm = document.getElementById("upiIdForm");
+    const upiQrForm = document.getElementById("upiQrForm");
+    const label = document.getElementById("upiLabelText");
+    const input = document.getElementById("upiIdField");
+    const payBtnText = document.getElementById("subPayBtnText");
+
+    if (app === "qr") {
+        if (upiIdForm) upiIdForm.style.display = "none";
+        if (upiQrForm) upiQrForm.style.display = "block";
+        if (payBtnText) payBtnText.textContent = "✓ Verify UPI Payment & Unlock VIP";
+    } else {
+        if (upiIdForm) upiIdForm.style.display = "block";
+        if (upiQrForm) upiQrForm.style.display = "none";
+        if (payBtnText) payBtnText.textContent = `Pay ₹${currentSelectedPlan.amount} & Unlock 10 Templates`;
+
+        if (app === "phonepe") {
+            if (label) label.textContent = "Enter PhonePe UPI ID / Mobile Number:";
+            if (input) {
+                input.placeholder = "mobile@ybl or username@upi";
+                input.value = "9844811256@ybl";
+            }
+        } else if (app === "googlepay") {
+            if (label) label.textContent = "Enter Google Pay UPI ID / Mobile Number:";
+            if (input) {
+                input.placeholder = "mobile@oksbi or username@okhdfcbank";
+                input.value = "user@oksbi";
+            }
+        } else if (app === "paytm") {
+            if (label) label.textContent = "Enter Paytm UPI ID / Mobile Number:";
+            if (input) {
+                input.placeholder = "mobile@paytm or username@paytm";
+                input.value = "9844811256@paytm";
+            }
+        }
+    }
+}
+
+function applyUpiSuffix(suffix) {
+    const input = document.getElementById("upiIdField");
+    if (!input) return;
+    const base = input.value.split("@")[0] || "9844811256";
+    input.value = base + suffix;
+}
+
+function switchCardType(type, btn) {
+    currentCardType = type;
+    document.querySelectorAll(".card-type-toggle").forEach(b => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+    const label = document.getElementById("cardTypeLabel");
+    if (label) label.textContent = type.toUpperCase();
+
+    const payBtnText = document.getElementById("subPayBtnText");
+    if (payBtnText && currentPaymentMethod === "card") {
+        payBtnText.textContent = `Pay ₹${currentSelectedPlan.amount} via ${type}`;
+    }
+}
+
+function handleCardNumberInput(input) {
+    let val = input.value.replace(/\D/g, "").slice(0, 16);
+    let formatted = val.match(/.{1,4}/g)?.join(" ") || val;
+    input.value = formatted;
+
+    const mock = document.getElementById("cardNumberMock");
+    if (mock) {
+        mock.textContent = formatted || "•••• •••• •••• ••••";
+    }
+
+    const netLogo = document.getElementById("cardNetworkLogo");
+    const brandBadge = document.getElementById("inputBrandBadge");
+    if (val.startsWith("4")) {
+        if (netLogo) netLogo.textContent = "VISA";
+        if (brandBadge) brandBadge.textContent = "💳 Visa";
+    } else if (val.startsWith("5")) {
+        if (netLogo) netLogo.textContent = "MC";
+        if (brandBadge) brandBadge.textContent = "💳 Mastercard";
+    } else if (val.startsWith("6")) {
+        if (netLogo) netLogo.textContent = "RuPay";
+        if (brandBadge) brandBadge.textContent = "💳 RuPay";
+    } else if (val.startsWith("3")) {
+        if (netLogo) netLogo.textContent = "AMEX";
+        if (brandBadge) brandBadge.textContent = "💳 Amex";
+    } else {
+        if (netLogo) netLogo.textContent = "CARD";
+        if (brandBadge) brandBadge.textContent = "💳";
+    }
+}
+
+function handleCardHolderInput(input) {
+    const mock = document.getElementById("cardNameMock");
+    if (mock) {
+        mock.textContent = input.value.toUpperCase() || "YOUR NAME";
+    }
+}
+
+function handleCardExpiryInput(input) {
+    let val = input.value.replace(/\D/g, "").slice(0, 4);
+    if (val.length >= 3) {
+        val = val.slice(0, 2) + "/" + val.slice(2);
+    }
+    input.value = val;
+    const mock = document.getElementById("cardExpMock");
+    if (mock) {
+        mock.textContent = val || "MM/YY";
+    }
+}
+
+function handleCardCvvInput(input) {
+    input.value = input.value.replace(/\D/g, "").slice(0, 4);
+}
+
+function executeSubscriptionPayment() {
+    if (currentPaymentMethod === "upi") {
+        if (currentUpiApp === "qr") {
+            verifyQrPayment();
+            return;
+        }
+
+        const upiField = document.getElementById("upiIdField");
+        if (!upiField || !upiField.value.trim() || !upiField.value.includes("@")) {
+            alert("Please enter a valid UPI ID (e.g., yourname@ybl or mobile@oksbi).");
+            if (upiField) upiField.focus();
+            return;
+        }
+
+        const processingOverlay = document.getElementById("subProcessingOverlay");
+        const progressTitle = document.getElementById("subProcessTitle");
+        const progressSub = document.getElementById("subProcessSubtitle");
+        const progressBar = document.getElementById("subProcessBar");
+
+        if (processingOverlay) processingOverlay.style.display = "flex";
+        if (progressBar) progressBar.style.width = "25%";
+
+        const appNames = { phonepe: "PhonePe", googlepay: "Google Pay", paytm: "Paytm", qr: "UPI Gateway" };
+        const app = appNames[currentUpiApp] || "UPI";
+        if (progressTitle) progressTitle.textContent = `Connecting to ${app}...`;
+        if (progressSub) progressSub.textContent = `Sending collection request of ₹${currentSelectedPlan.amount} for State Bank of India (9844811256@ibl)...`;
+
+        setTimeout(() => {
+            if (progressBar) progressBar.style.width = "65%";
+            if (progressTitle) progressTitle.textContent = "Authorizing Transaction...";
+            if (progressSub) progressSub.textContent = `Awaiting confirmation from ${app} for receiver 9844811256@ibl...`;
+        }, 1100);
+
+        setTimeout(() => {
+            if (progressBar) progressBar.style.width = "100%";
+            if (progressTitle) progressTitle.textContent = "Payment Verified & Transferred! 🎉";
+            if (progressSub) progressSub.textContent = "Credit confirmed to State Bank of India (9560)...";
+        }, 2200);
+
+        setTimeout(() => {
+            finalizeSubscriptionSuccess();
+        }, 2900);
+    } else {
+        const cardNum = document.getElementById("cardNumberInput");
+        const cardHolder = document.getElementById("cardHolderInput");
+        const cardExp = document.getElementById("cardExpiryInput");
+        const cardCvv = document.getElementById("cardCvvInput");
+
+        const rawNum = cardNum ? cardNum.value.replace(/\s/g, "") : "";
+        if (!rawNum || rawNum.length < 15) {
+            alert("Please enter a valid 16-digit card number.");
+            if (cardNum) cardNum.focus();
+            return;
+        }
+
+        if (!cardHolder || !cardHolder.value.trim()) {
+            alert("Please enter the cardholder name as printed on your card.");
+            if (cardHolder) cardHolder.focus();
+            return;
+        }
+
+        const expVal = cardExp ? cardExp.value.trim() : "";
+        if (!expVal || !/^\d{2}\/\d{2}$/.test(expVal)) {
+            alert("Please enter a valid expiry date in MM/YY format (e.g. 12/28).");
+            if (cardExp) cardExp.focus();
+            return;
+        }
+        const [expMonth, expYear] = expVal.split("/").map(Number);
+        if (expMonth < 1 || expMonth > 12) {
+            alert("Invalid expiry month. Month must be between 01 and 12.");
+            if (cardExp) cardExp.focus();
+            return;
+        }
+
+        const rawCvv = cardCvv ? cardCvv.value.trim() : "";
+        if (!rawCvv || rawCvv.length < 3) {
+            alert("Please enter a valid 3 or 4-digit CVV / CVC.");
+            if (cardCvv) cardCvv.focus();
+            return;
+        }
+
+        openCardOtpModal(rawNum, cardHolder.value.trim());
+    }
+}
+
+function openCardOtpModal(rawCardNum, cardHolder) {
+    const overlay = document.getElementById("cardOtpModalOverlay");
+    if (!overlay) return;
+
+    const last4 = rawCardNum.slice(-4) || "9010";
+    const maskText = `•••• •••• •••• ${last4}`;
+
+    const numEl = document.getElementById("otpCardNumberText");
+    if (numEl) numEl.textContent = maskText;
+
+    const holderEl = document.getElementById("otpCardHolderText");
+    if (holderEl) holderEl.textContent = cardHolder.toUpperCase();
+
+    const amtEl = document.getElementById("otpAmountText");
+    if (amtEl) amtEl.textContent = `${currentSelectedPlan.amount}.00`;
+
+    const input = document.getElementById("otpInputField");
+    if (input) {
+        input.value = "";
+        setTimeout(() => input.focus(), 150);
+    }
+
+    startOtpCountdown();
+    overlay.style.display = "flex";
+}
+
+function closeCardOtpModal() {
+    const overlay = document.getElementById("cardOtpModalOverlay");
+    if (overlay) overlay.style.display = "none";
+    if (otpTimerInterval) {
+        clearInterval(otpTimerInterval);
+        otpTimerInterval = null;
+    }
+}
+
+function handleCardOtpOverlayClick(event) {
+    if (event.target && event.target.id === "cardOtpModalOverlay") {
+        closeCardOtpModal();
+    }
+}
+
+function startOtpCountdown() {
+    if (otpTimerInterval) clearInterval(otpTimerInterval);
+    let secondsLeft = 299;
+    const timerDisplay = document.getElementById("otpTimerDisplay");
+
+    otpTimerInterval = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft <= 0) {
+            clearInterval(otpTimerInterval);
+            if (timerDisplay) timerDisplay.textContent = "Expired";
+            return;
+        }
+        const m = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+        const s = String(secondsLeft % 60).padStart(2, "0");
+        if (timerDisplay) timerDisplay.textContent = `${m}:${s}`;
+    }, 1000);
+}
+
+function autofillDemoOtp() {
+    const input = document.getElementById("otpInputField");
+    if (input) {
+        input.value = "849201";
+        input.focus();
+    }
+}
+
+function submitCardOtp() {
+    const input = document.getElementById("otpInputField");
+    const val = input ? input.value.trim() : "";
+    if (!val || val.length < 6) {
+        alert("Please enter the 6-digit OTP (e.g. 849201).");
+        if (input) input.focus();
+        return;
+    }
+
+    closeCardOtpModal();
+
+    const processingOverlay = document.getElementById("subProcessingOverlay");
+    const progressTitle = document.getElementById("subProcessTitle");
+    const progressSub = document.getElementById("subProcessSubtitle");
+    const progressBar = document.getElementById("subProcessBar");
+
+    if (processingOverlay) processingOverlay.style.display = "flex";
+    if (progressBar) progressBar.style.width = "30%";
+    if (progressTitle) progressTitle.textContent = "Authenticating 3D-Secure 2.0...";
+    if (progressSub) progressSub.textContent = "Verifying One-Time Password with issuing bank...";
+
+    setTimeout(() => {
+        if (progressBar) progressBar.style.width = "70%";
+        if (progressTitle) progressTitle.textContent = "Transaction Authorized!";
+        if (progressSub) progressSub.textContent = `Debiting ₹${currentSelectedPlan.amount} and crediting State Bank of India (9560)...`;
+    }, 1100);
+
+    setTimeout(() => {
+        if (progressBar) progressBar.style.width = "100%";
+        if (progressTitle) progressTitle.textContent = "Card Payment Approved! 🎉";
+        if (progressSub) progressSub.textContent = "Activating SnapBridge VIP membership...";
+    }, 2200);
+
+    setTimeout(() => {
+        finalizeSubscriptionSuccess();
+    }, 2900);
+}
+
+function verifyQrPayment() {
+    const processingOverlay = document.getElementById("subProcessingOverlay");
+    const progressTitle = document.getElementById("subProcessTitle");
+    const progressSub = document.getElementById("subProcessSubtitle");
+    const progressBar = document.getElementById("subProcessBar");
+
+    if (processingOverlay) processingOverlay.style.display = "flex";
+    if (progressBar) progressBar.style.width = "30%";
+    if (progressTitle) progressTitle.textContent = "Verifying UPI Transfer...";
+    if (progressSub) progressSub.textContent = `Checking credit of ₹${currentSelectedPlan.amount} to 9844811256@ibl (State Bank of India)...`;
+
+    setTimeout(() => {
+        if (progressBar) progressBar.style.width = "75%";
+        if (progressTitle) progressTitle.textContent = "Credit Confirmed by State Bank of India!";
+        if (progressSub) progressSub.textContent = "UTR / Reference verified successfully...";
+    }, 1200);
+
+    setTimeout(() => {
+        if (progressBar) progressBar.style.width = "100%";
+        if (progressTitle) progressTitle.textContent = "VIP Membership Activated! 🎉";
+        if (progressSub) progressSub.textContent = "All 10 aesthetic templates are unlocked!";
+    }, 2300);
+
+    setTimeout(() => {
+        finalizeSubscriptionSuccess();
+    }, 3000);
+}
+
+function finalizeSubscriptionSuccess() {
+    try {
+        localStorage.setItem("snapbridge_vip_subscribed", "true");
+        localStorage.setItem("snapbridge_vip_plan", currentSelectedPlan.name);
+        localStorage.setItem("snapbridge_vip_date", new Date().toISOString());
+    } catch(e) {}
+
+    updateTemplatesSubscriptionUI();
+
+    const processingOverlay = document.getElementById("subProcessingOverlay");
+    const successOverlay = document.getElementById("subSuccessOverlay");
+    const successPlan = document.getElementById("subSuccessPlan");
+
+    if (processingOverlay) processingOverlay.style.display = "none";
+    if (successOverlay) successOverlay.style.display = "flex";
+    if (successPlan) successPlan.textContent = currentSelectedPlan.name;
+}
+
+function completeSubscriptionAndClose() {
+    closeSubscriptionModal();
+
+    if (pendingTemplateToUnlock) {
+        const themeToSelect = pendingTemplateToUnlock;
+        pendingTemplateToUnlock = null;
+        const matchingCard = document.querySelector(`.template-card[data-template="${themeToSelect}"]`);
+        selectTemplate(themeToSelect, matchingCard);
+        showShareToast(`👑 ${templateDisplayNames[themeToSelect] || themeToSelect.toUpperCase()} unlocked & applied!`);
+    } else {
+        showShareToast("👑 Welcome to VIP! All 10 templates are now unlocked.");
+    }
+}
+
+function resetSubscriptionForTesting() {
+    try {
+        localStorage.removeItem("snapbridge_vip_subscribed");
+        localStorage.removeItem("snapbridge_vip_plan");
+        localStorage.removeItem("snapbridge_vip_date");
+    } catch(e) {}
+
+    updateTemplatesSubscriptionUI();
+
+    if (PAID_TEMPLATE_KEYS.includes(selectedTemplate)) {
+        const defaultCard = document.querySelector('.template-card[data-template="spider"]');
+        selectTemplate("spider", defaultCard);
+    }
+
+    closeSubscriptionModal();
+    showShareToast("Subscription reset to free tier for testing.");
+}
+
+function showShareToast(message) {
+    const toast = document.getElementById("shareToast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
