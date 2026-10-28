@@ -1,5 +1,14 @@
 [
   {
+    "id": "act_1793181237086_v88ng",
+    "timestamp": "2026-10-28T09:53:57.086Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "vvibha212",
+    "action": "SIGNUP_AND_LOGIN",
+    "details": "New account registered and logged in (Standard)",
+    "ip": "::1"
+  },
+  {
     "id": "act_init_1",
     "timestamp": "2026-10-28T13:30:00.000Z",
     "userEmail": "vvibha935@gmail.com",

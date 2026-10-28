@@ -711,7 +711,7 @@
                     <span>Transfer destination: <b>State Bank of India - 9560</b> (<code>9844811256@ibl</code>)</span>
                 </div>
 
-                <div class="upi-method-subhead">Choose UPI payment option:</div>
+                <div class="upi-method-subhead">Choose payment method:</div>
                 <div class="upi-apps-row">
                     <button type="button" class="upi-app-card active" data-app="phonepe" onclick="selectUpiApp('phonepe', this)">
                         <div class="app-icon-circle phonepe-icon">पे</div>
@@ -731,13 +731,19 @@
                     </button>
                 </div>
 
-                <!-- UPI ID INPUT VIEW -->
+                <!-- UPI ID INPUT & VERIFICATION VIEW -->
                 <div id="upiIdForm" class="upi-input-group">
-                    <label id="upiLabelText" for="upiIdField">Enter PhonePe UPI ID / Mobile Number:</label>
+                    <label id="upiLabelText" for="upiIdField">Enter Your UPI ID:</label>
                     <div class="upi-field-box">
-                        <input type="text" id="upiIdField" placeholder="mobile@ybl or username@upi" value="9844811256@ybl">
-                        <span class="upi-verify-tag">Verified ✓</span>
+                        <input type="text" id="upiIdField" placeholder="Enter your UPI ID (e.g. mobile@ybl, name@oksbi)" oninput="handleUpiIdInput(this)">
+                        <button type="button" id="btnVerifyUpiId" class="upi-verify-action-btn" onclick="verifyEnteredUpiId()">
+                            Verify ID
+                        </button>
                     </div>
+
+                    <!-- DYNAMIC VERIFICATION BADGE (Shows only after entering valid ID) -->
+                    <div id="upiVerifyStatusBadge" class="upi-verify-status-badge" style="display:none;"></div>
+
                     <div class="upi-fast-chips">
                         <span class="fast-chip" onclick="applyUpiSuffix('@ybl')">@ybl (PhonePe)</span>
                         <span class="fast-chip" onclick="applyUpiSuffix('@oksbi')">@oksbi (GPay)</span>
@@ -745,42 +751,63 @@
                         <span class="fast-chip" onclick="applyUpiSuffix('@okhdfcbank')">@okhdfc</span>
                     </div>
 
-                    <div class="direct-app-launch-row">
-                        <a id="directUpiAppBtn" href="upi://pay?pa=9844811256@ibl&pn=SnapBridge%20VIP&am=149&cu=INR&tn=VIP%20Templates%20Pass" class="direct-app-link">
-                            📱 Open App to Pay ₹<span class="dyn-pay-amount">149</span> Directly
+                    <!-- STEP 1B: PAYMENT REQUEST & LAUNCH (Appears only after UPI ID verified) -->
+                    <div id="upiRequestBox" class="upi-request-box" style="display:none;">
+                        <div class="upi-req-header">
+                            <span class="live-dot">●</span>
+                            <strong>Payment Request Ready for <span id="verifiedUpiDisplay">your UPI ID</span></strong>
+                        </div>
+                        <p class="upi-req-text">
+                            Tap below to open your UPI app and transfer <b>₹<span class="dyn-pay-amount">149</span></b> directly to <b>State Bank of India - 9560 (9844811256@ibl)</b>:
+                        </p>
+                        <a id="directUpiAppBtn" href="upi://pay?pa=9844811256@ibl&pn=SnapBridge%20VIP&am=149&cu=INR&tn=VIP%20Templates%20Pass" class="direct-app-launch-btn">
+                            <span>📲 Open UPI App & Pay ₹<span class="dyn-pay-amount">149</span></span>
                         </a>
+
+                        <!-- STEP 2: ENTER 12-DIGIT UTR NUMBER TO UNLOCK VIP -->
+                        <div class="utr-confirmation-box">
+                            <div class="utr-header">
+                                <span class="utr-badge-num">Step 2</span>
+                                <strong>Enter 12-Digit UTR / UPI Reference No. from Receipt:</strong>
+                            </div>
+                            <p class="utr-desc">
+                                Once payment is completed in PhonePe / GPay, copy the <b>12-digit UTR (UPI Ref No.)</b> from the transaction screen and enter it below to confirm:
+                            </p>
+                            <div class="utr-input-group">
+                                <input type="text" id="upiUtrInput" placeholder="Enter 12-digit UTR (e.g. 430291827461)" maxlength="12" inputmode="numeric" oninput="handleUtrInput(this)">
+                                <button type="button" class="utr-verify-btn" onclick="submitUtrVerification('UPI')">
+                                    ✓ Confirm & Unlock VIP
+                                </button>
+                            </div>
+                            <div id="upiUtrErrorMsg" class="utr-error-box" style="display:none;"></div>
+                            <small class="utr-helper">ℹ️ In PhonePe/GPay, tap the transfer details to find "UPI Ref No" or "UTR". Money must be sent to <b>9844811256@ibl</b>.</small>
+                        </div>
                     </div>
                 </div>
 
-                <!-- UPI QR CODE SCAN VIEW (Only for VIP Templates) -->
+                <!-- UPI QR CODE SCAN VIEW (Full Authentic PhonePe Scanner) -->
                 <div id="upiQrForm" class="upi-qr-group" style="display:none;">
-                    <div class="phonepe-scanner-card">
-                        <!-- Header with SBI logo & account -->
-                        <div class="phonepe-scanner-header">
-                            <div class="sbi-round-logo" title="State Bank of India">
-                                <svg viewBox="0 0 100 100" class="sbi-svg" width="34" height="34">
-                                    <circle cx="50" cy="50" r="48" fill="#0091d0"/>
-                                    <circle cx="50" cy="50" r="18" fill="#ffffff"/>
-                                    <rect x="46" y="50" width="8" height="42" fill="#ffffff"/>
-                                </svg>
-                            </div>
-                            <div class="sbi-account-details">
-                                <h4 class="sbi-title">State Bank of India - 9560</h4>
-                                <span class="sbi-subtitle"><span class="green-indicator">●</span> Primary account for receiving money</span>
-                            </div>
+                    <div class="phonepe-full-scanner-container">
+                        <!-- HEADER NOTICE -->
+                        <div class="scanner-banner-notice">
+                            <span class="scanner-live-badge">● OFFICIAL SBI PHONEPE SCANNER</span>
+                            <p>Scan with any UPI app on your phone. Money goes directly to <b>State Bank of India - 9560</b>.</p>
                         </div>
 
-                        <!-- Authentic PhonePe SBI QR Code -->
-                        <div class="phonepe-qr-box">
-                            <div class="phonepe-qr-img-wrapper">
-                                <img src="upi-qr-clean.png" alt="PhonePe State Bank of India QR Code" class="phonepe-qr-img" id="phonepeQrImg">
-                            </div>
-                            <div class="qr-pay-amount-pill" id="qrAmountBadge">
-                                <span>Payable:</span> <strong>₹149</strong>
-                            </div>
+                        <!-- FULL SCANNER SCREENSHOT (Complete image, no cutoffs) -->
+                        <div class="phonepe-full-image-wrapper">
+                            <img src="upi-qr.png" alt="PhonePe State Bank of India Scanner - 9844811256@ibl" class="phonepe-full-img" id="phonepeFullImg">
+                            <button type="button" class="zoom-qr-btn" onclick="openQrLightbox()" title="Enlarge QR Code Fullscreen">
+                                🔍 Click to Enlarge Fullscreen
+                            </button>
                         </div>
 
-                        <!-- UPI ID & Copy -->
+                        <!-- DYNAMIC AMOUNT PILL -->
+                        <div class="qr-amount-indicator" id="qrAmountBadge">
+                            <span>Amount to Transfer:</span> <strong>₹149</strong>
+                        </div>
+
+                        <!-- UPI ID ROW & COPY -->
                         <div class="phonepe-upi-id-row">
                             <div class="upi-id-text-group">
                                 <span class="upi-id-label">UPI ID:</span>
@@ -792,7 +819,7 @@
                             </button>
                         </div>
 
-                        <!-- Instant Actions -->
+                        <!-- QUICK ACTIONS -->
                         <div class="phonepe-action-buttons">
                             <a id="scannerDirectPayLink" href="upi://pay?pa=9844811256@ibl&pn=SnapBridge%20VIP&am=149&cu=INR&tn=VIP%20Templates%20Pass" class="scanner-btn-primary">
                                 <span>⚡ Pay in PhonePe / UPI App</span>
@@ -802,23 +829,23 @@
                             </a>
                         </div>
 
-                        <!-- Supported Apps Bar -->
-                        <div class="phonepe-supported-strip">
-                            <span>Supported on all UPI apps:</span>
-                            <div class="supported-icons">
-                                <span class="brand-tag">पे PhonePe</span>
-                                <span class="brand-tag">BHIM</span>
-                                <span class="brand-tag">GPay</span>
-                                <span class="brand-tag">Paytm</span>
+                        <!-- STEP 2 FOR QR SCAN: ENTER UTR TO CONFIRM -->
+                        <div class="utr-confirmation-box qr-utr-box">
+                            <div class="utr-header">
+                                <span class="utr-badge-num">Step 2</span>
+                                <strong>Enter 12-Digit UTR / UPI Ref No. after Scanning:</strong>
                             </div>
-                        </div>
-
-                        <!-- Verify Payment CTA -->
-                        <div class="qr-verify-box">
-                            <button type="button" class="verify-transfer-btn" onclick="verifyQrPayment()">
-                                <span>✓ I Have Paid ₹<span class="dyn-qr-verify-amt">149</span> — Verify & Unlock VIP</span>
-                            </button>
-                            <small class="qr-verify-subnote">⚡ Scanned the QR? Tap above to confirm transfer and unlock all VIP templates immediately.</small>
+                            <p class="utr-desc">
+                                After scanning the QR and completing the payment to <b>9844811256@ibl</b>, enter the <b>12-digit UTR / Transaction ID</b> from your PhonePe/GPay receipt:
+                            </p>
+                            <div class="utr-input-group">
+                                <input type="text" id="qrUtrInput" placeholder="Enter 12-digit UTR (e.g. 430291827461)" maxlength="12" inputmode="numeric" oninput="handleUtrInput(this)">
+                                <button type="button" class="utr-verify-btn" onclick="submitUtrVerification('QR')">
+                                    ✓ Verify UTR & Unlock VIP
+                                </button>
+                            </div>
+                            <div id="qrUtrErrorMsg" class="utr-error-box" style="display:none;"></div>
+                            <small class="utr-helper">⚡ The VIP Pass is unlocked immediately upon verification of your transfer.</small>
                         </div>
                     </div>
                 </div>
@@ -867,10 +894,12 @@
                             <input type="text" id="cardNumberInput" placeholder="4532 1234 5678 9010" maxlength="19" oninput="handleCardNumberInput(this)">
                             <span class="input-card-brand" id="inputBrandBadge">💳</span>
                         </div>
+                        <!-- DYNAMIC CARD VERIFICATION BADGE -->
+                        <div id="cardVerifyBadge" class="card-verify-feedback" style="display:none;"></div>
                     </div>
                     <div class="form-col full">
                         <label for="cardHolderInput">Cardholder Name</label>
-                        <input type="text" id="cardHolderInput" placeholder="Name on card" oninput="handleCardHolderInput(this)">
+                        <input type="text" id="cardHolderInput" placeholder="Name as printed on card" oninput="handleCardHolderInput(this)">
                     </div>
                     <div class="form-col half">
                         <label for="cardExpiryInput">Expiry Date</label>
@@ -986,6 +1015,32 @@
                     Cancel Transaction
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= FULLSCREEN QR LIGHTBOX MODAL ================= -->
+<div id="qrLightboxModal" class="qr-lightbox-overlay" style="display:none;" onclick="handleQrLightboxOverlayClick(event)">
+    <div class="qr-lightbox-content">
+        <button type="button" class="qr-lightbox-close" onclick="closeQrLightbox()" aria-label="Close">✕</button>
+        <div class="lightbox-head">
+            <span class="lightbox-pill">📱 PHONEPE / SBI SCANNER</span>
+            <h4>Scan with PhonePe, Google Pay, or Paytm</h4>
+            <p>Direct beneficiary: <b>State Bank of India - 9560</b> (<code>9844811256@ibl</code>)</p>
+        </div>
+        <div class="lightbox-img-frame">
+            <img src="upi-qr.png" alt="State Bank of India PhonePe Scanner - 9844811256@ibl" class="lightbox-full-img">
+        </div>
+        <div class="lightbox-footer-actions">
+            <button type="button" class="copy-upi-btn" onclick="copyUpiId('9844811256@ibl', this)">
+                📋 Copy UPI ID: 9844811256@ibl
+            </button>
+            <a href="upi-qr.png" download="SnapBridge-SBI-QR.png" class="scanner-btn-secondary">
+                ⬇️ Download Scanner Image
+            </a>
+            <button type="button" class="lightbox-done-btn" onclick="closeQrLightbox()">
+                ✓ Done Scanning
+            </button>
         </div>
     </div>
 </div>

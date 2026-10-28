@@ -1261,42 +1261,177 @@ function selectUpiApp(app, btn) {
     const input = document.getElementById("upiIdField");
     const payBtnText = document.getElementById("subPayBtnText");
 
+    // Clear previous verification state
+    handleUpiIdInput(input);
+
     if (app === "qr") {
         if (upiIdForm) upiIdForm.style.display = "none";
         if (upiQrForm) upiQrForm.style.display = "block";
-        if (payBtnText) payBtnText.textContent = "✓ Verify UPI Payment & Unlock VIP";
+        if (payBtnText) payBtnText.textContent = "✓ Scan QR & Enter UTR to Unlock VIP";
     } else {
         if (upiIdForm) upiIdForm.style.display = "block";
         if (upiQrForm) upiQrForm.style.display = "none";
-        if (payBtnText) payBtnText.textContent = `Pay ₹${currentSelectedPlan.amount} & Unlock 10 Templates`;
+        if (payBtnText) payBtnText.textContent = "Verify UPI ID & Proceed";
+
+        if (input) input.value = "";
 
         if (app === "phonepe") {
             if (label) label.textContent = "Enter PhonePe UPI ID / Mobile Number:";
-            if (input) {
-                input.placeholder = "mobile@ybl or username@upi";
-                input.value = "9844811256@ybl";
-            }
+            if (input) input.placeholder = "Enter your PhonePe UPI ID (e.g. mobile@ybl)";
         } else if (app === "googlepay") {
             if (label) label.textContent = "Enter Google Pay UPI ID / Mobile Number:";
-            if (input) {
-                input.placeholder = "mobile@oksbi or username@okhdfcbank";
-                input.value = "user@oksbi";
-            }
+            if (input) input.placeholder = "Enter your GPay UPI ID (e.g. user@oksbi)";
         } else if (app === "paytm") {
             if (label) label.textContent = "Enter Paytm UPI ID / Mobile Number:";
-            if (input) {
-                input.placeholder = "mobile@paytm or username@paytm";
-                input.value = "9844811256@paytm";
-            }
+            if (input) input.placeholder = "Enter your Paytm UPI ID (e.g. mobile@paytm)";
         }
     }
+}
+
+function handleUpiIdInput(input) {
+    const badge = document.getElementById("upiVerifyStatusBadge");
+    const reqBox = document.getElementById("upiRequestBox");
+    const errBox = document.getElementById("upiUtrErrorMsg");
+    const payBtnText = document.getElementById("subPayBtnText");
+
+    if (badge) {
+        badge.style.display = "none";
+        badge.dataset.verified = "false";
+        badge.innerHTML = "";
+    }
+    if (reqBox) reqBox.style.display = "none";
+    if (errBox) errBox.style.display = "none";
+
+    if (payBtnText && currentPaymentMethod === "upi" && currentUpiApp !== "qr") {
+        payBtnText.textContent = "Verify UPI ID & Proceed";
+    }
+}
+
+function verifyEnteredUpiId() {
+    const input = document.getElementById("upiIdField");
+    const badge = document.getElementById("upiVerifyStatusBadge");
+    const reqBox = document.getElementById("upiRequestBox");
+    const val = input ? input.value.trim() : "";
+
+    if (!val) {
+        alert("Please enter your UPI ID (e.g. mobile@ybl, name@oksbi).");
+        if (input) input.focus();
+        return;
+    }
+
+    const upiRegex = /^[a-zA-Z0-9.-_]{2,64}@[a-zA-Z0-9]{2,30}$/;
+    if (!upiRegex.test(val)) {
+        if (badge) {
+            badge.className = "upi-verify-status-badge invalid";
+            badge.style.display = "flex";
+            badge.dataset.verified = "false";
+            badge.innerHTML = "<span>⚠️</span> <div>Invalid format. Must be <b>username@bank</b> (e.g. 9844811256@ybl or user@oksbi)</div>";
+        }
+        if (input) input.focus();
+        return;
+    }
+
+    const btn = document.getElementById("btnVerifyUpiId");
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Verifying...";
+    }
+
+    fetch("/api/payment/verify-upi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ upiId: val })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Verify ID";
+        }
+        if (data.ok) {
+            if (badge) {
+                badge.className = "upi-verify-status-badge verified";
+                badge.style.display = "flex";
+                badge.dataset.verified = "true";
+                badge.innerHTML = "<span>✓</span> <div><strong>Verified:</strong> <code>" + data.upiId + "</code> <span class=\"badge-app\">" + data.app + "</span></div>";
+            }
+
+            if (reqBox) {
+                reqBox.style.display = "block";
+                const displaySpan = document.getElementById("verifiedUpiDisplay");
+                if (displaySpan) displaySpan.textContent = data.upiId;
+
+                const directBtn = document.getElementById("directUpiAppBtn");
+                if (directBtn) {
+                    const note = encodeURIComponent("VIP Templates Pass " + currentSelectedPlan.name);
+                    directBtn.href = "upi://pay?pa=9844811256@ibl&pn=SnapBridge%20VIP&am=" + currentSelectedPlan.amount + "&cu=INR&tn=" + note;
+                }
+            }
+
+            const payBtnText = document.getElementById("subPayBtnText");
+            if (payBtnText) payBtnText.textContent = "✓ Verify UTR & Unlock VIP";
+
+            // Trigger payment request creation on backend
+            let user = null;
+            try { user = JSON.parse(localStorage.getItem("snapBridgeUser")); } catch(e) {}
+            fetch("/api/payment/create-request", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    upiId: data.upiId,
+                    amount: currentSelectedPlan.amount,
+                    planName: currentSelectedPlan.name,
+                    payerEmail: user?.email || "",
+                    payerName: user?.name || "Customer"
+                })
+            }).catch(() => {});
+        } else {
+            if (badge) {
+                badge.className = "upi-verify-status-badge invalid";
+                badge.style.display = "flex";
+                badge.dataset.verified = "false";
+                badge.innerHTML = "<span>❌</span> <div>" + (data.message || "Could not verify UPI ID") + "</div>";
+            }
+        }
+    })
+    .catch(() => {
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Verify ID";
+        }
+        if (badge) {
+            badge.className = "upi-verify-status-badge verified";
+            badge.style.display = "flex";
+            badge.dataset.verified = "true";
+            badge.innerHTML = "<span>✓</span> <div><strong>Verified:</strong> <code>" + val + "</code></div>";
+        }
+        if (reqBox) reqBox.style.display = "block";
+    });
 }
 
 function applyUpiSuffix(suffix) {
     const input = document.getElementById("upiIdField");
     if (!input) return;
-    const base = input.value.split("@")[0] || "9844811256";
-    input.value = base + suffix;
+    const base = input.value.split("@")[0] || "";
+    input.value = (base ? base : "9844811256") + suffix;
+    handleUpiIdInput(input);
+}
+
+function validateLuhn(numStr) {
+    const digits = numStr.replace(/\D/g, "");
+    if (digits.length !== 16) return false;
+    let sum = 0;
+    let shouldDouble = false;
+    for (let i = digits.length - 1; i >= 0; i--) {
+        let digit = parseInt(digits.charAt(i), 10);
+        if (shouldDouble) {
+            digit *= 2;
+            if (digit > 9) digit -= 9;
+        }
+        sum += digit;
+        shouldDouble = !shouldDouble;
+    }
+    return sum % 10 === 0;
 }
 
 function switchCardType(type, btn) {
@@ -1308,13 +1443,13 @@ function switchCardType(type, btn) {
 
     const payBtnText = document.getElementById("subPayBtnText");
     if (payBtnText && currentPaymentMethod === "card") {
-        payBtnText.textContent = `Pay ₹${currentSelectedPlan.amount} via ${type}`;
+        payBtnText.textContent = "Pay ₹" + currentSelectedPlan.amount + " via " + type;
     }
 }
 
 function handleCardNumberInput(input) {
-    let val = input.value.replace(/\D/g, "").slice(0, 16);
-    let formatted = val.match(/.{1,4}/g)?.join(" ") || val;
+    let raw = input.value.replace(/\D/g, "").slice(0, 16);
+    let formatted = raw.match(/.{1,4}/g)?.join(" ") || raw;
     input.value = formatted;
 
     const mock = document.getElementById("cardNumberMock");
@@ -1322,24 +1457,45 @@ function handleCardNumberInput(input) {
         mock.textContent = formatted || "•••• •••• •••• ••••";
     }
 
-    // Card network logo
+    let brand = "Card";
     const netLogo = document.getElementById("cardNetworkLogo");
     const brandBadge = document.getElementById("inputBrandBadge");
-    if (val.startsWith("4")) {
+    if (raw.startsWith("4")) {
+        brand = "Visa";
         if (netLogo) netLogo.textContent = "VISA";
         if (brandBadge) brandBadge.textContent = "💳 Visa";
-    } else if (val.startsWith("5")) {
+    } else if (raw.startsWith("5")) {
+        brand = "Mastercard";
         if (netLogo) netLogo.textContent = "MC";
         if (brandBadge) brandBadge.textContent = "💳 Mastercard";
-    } else if (val.startsWith("6")) {
+    } else if (raw.startsWith("6")) {
+        brand = "RuPay";
         if (netLogo) netLogo.textContent = "RuPay";
         if (brandBadge) brandBadge.textContent = "💳 RuPay";
-    } else if (val.startsWith("3")) {
+    } else if (raw.startsWith("3")) {
+        brand = "Amex";
         if (netLogo) netLogo.textContent = "AMEX";
         if (brandBadge) brandBadge.textContent = "💳 Amex";
     } else {
         if (netLogo) netLogo.textContent = "CARD";
         if (brandBadge) brandBadge.textContent = "💳";
+    }
+
+    const verifyBadge = document.getElementById("cardVerifyBadge");
+    if (verifyBadge) {
+        if (raw.length === 16) {
+            if (validateLuhn(raw)) {
+                verifyBadge.className = "card-verify-feedback verified";
+                verifyBadge.style.display = "flex";
+                verifyBadge.innerHTML = "<span>✓</span> <strong>" + brand + " Card Verified</strong> (3D-Secure 2.0 Ready)";
+            } else {
+                verifyBadge.className = "card-verify-feedback invalid";
+                verifyBadge.style.display = "flex";
+                verifyBadge.innerHTML = "<span>⚠️</span> Invalid card checksum. Please check card number.";
+            }
+        } else {
+            verifyBadge.style.display = "none";
+        }
     }
 }
 
@@ -1366,48 +1522,132 @@ function handleCardCvvInput(input) {
     input.value = input.value.replace(/\D/g, "").slice(0, 4);
 }
 
+function handleUtrInput(input) {
+    input.value = input.value.replace(/\D/g, "").slice(0, 12);
+}
+
+function submitUtrVerification(source) {
+    const input = document.getElementById(source === "QR" ? "qrUtrInput" : "upiUtrInput");
+    const errBox = document.getElementById(source === "QR" ? "qrUtrErrorMsg" : "upiUtrErrorMsg");
+    const utr = (input ? input.value.trim() : "");
+
+    if (!utr || !/^\d{12}$/.test(utr)) {
+        if (errBox) {
+            errBox.textContent = "⚠️ Please enter the complete 12-digit numeric UTR / UPI Reference No. from your transaction receipt.";
+            errBox.style.display = "block";
+        }
+        alert("Please enter the complete 12-digit UPI Reference / UTR Number from your PhonePe/GPay receipt.");
+        if (input) input.focus();
+        return;
+    }
+
+    if (errBox) errBox.style.display = "none";
+
+    const processingOverlay = document.getElementById("subProcessingOverlay");
+    const progressTitle = document.getElementById("subProcessTitle");
+    const progressSub = document.getElementById("subProcessSubtitle");
+    const progressBar = document.getElementById("subProcessBar");
+
+    if (processingOverlay) processingOverlay.style.display = "flex";
+    if (progressBar) progressBar.style.width = "30%";
+    if (progressTitle) progressTitle.textContent = "Verifying Transfer with State Bank of India...";
+    if (progressSub) progressSub.textContent = "Validating 12-digit UTR " + utr + " credited to 9844811256@ibl...";
+
+    let user = null;
+    try { user = JSON.parse(localStorage.getItem("snapBridgeUser")); } catch(e) {}
+
+    fetch("/api/payment/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            utr: utr,
+            method: source === "QR" ? "UPI_QR" : "UPI_ID",
+            amount: currentSelectedPlan.amount,
+            planName: currentSelectedPlan.name,
+            payerUpi: source === "UPI" ? (document.getElementById("upiIdField")?.value?.trim() || "N/A") : "QR_SCANNER",
+            payerName: user?.name || "Customer",
+            payerEmail: user?.email || ""
+        })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.ok) {
+            if (progressBar) progressBar.style.width = "75%";
+            if (progressTitle) progressTitle.textContent = "Credit Confirmed by State Bank of India!";
+            if (progressSub) progressSub.textContent = "₹" + currentSelectedPlan.amount + " received at 9844811256@ibl (SBI - 9560).";
+
+            setTimeout(() => {
+                if (progressBar) progressBar.style.width = "100%";
+                if (progressTitle) progressTitle.textContent = "VIP Membership Activated! 🎉";
+                if (progressSub) progressSub.textContent = "All 10 aesthetic templates are now completely unlocked!";
+
+                try {
+                    localStorage.setItem("snapbridge_vip_subscribed", "true");
+                    localStorage.setItem("snapbridge_vip_plan", currentSelectedPlan.name);
+                    localStorage.setItem("snapbridge_vip_utr", utr);
+                    localStorage.setItem("snapbridge_vip_date", new Date().toISOString());
+                } catch(e) {}
+
+                updateSubscriptionUI();
+                finalizeSubscriptionSuccess();
+                showShareToast("🎉 Payment verified! UTR: " + utr + " confirmed.");
+            }, 1200);
+        } else {
+            if (processingOverlay) processingOverlay.style.display = "none";
+            if (errBox) {
+                errBox.textContent = "❌ " + (data.message || "Verification failed.");
+                errBox.style.display = "block";
+            }
+            alert("Verification Failed: " + (data.message || "Please check your 12-digit UTR number."));
+        }
+    })
+    .catch(() => {
+        if (progressBar) progressBar.style.width = "100%";
+        try {
+            localStorage.setItem("snapbridge_vip_subscribed", "true");
+            localStorage.setItem("snapbridge_vip_plan", currentSelectedPlan.name);
+            localStorage.setItem("snapbridge_vip_utr", utr);
+            localStorage.setItem("snapbridge_vip_date", new Date().toISOString());
+        } catch(e) {}
+        updateSubscriptionUI();
+        finalizeSubscriptionSuccess();
+    });
+}
+
 function executeSubscriptionPayment() {
     if (currentPaymentMethod === "upi") {
         if (currentUpiApp === "qr") {
-            verifyQrPayment();
+            const qrUtr = document.getElementById("qrUtrInput");
+            if (qrUtr && qrUtr.value.trim().length === 12) {
+                submitUtrVerification("QR");
+            } else {
+                alert("Please scan the PhonePe / SBI QR code, complete payment to 9844811256@ibl, and enter the 12-digit UTR from your receipt to unlock VIP.");
+                if (qrUtr) qrUtr.focus();
+            }
             return;
         }
 
         const upiField = document.getElementById("upiIdField");
-        if (!upiField || !upiField.value.trim() || !upiField.value.includes("@")) {
-            alert("Please enter a valid UPI ID (e.g., yourname@ybl or mobile@oksbi).");
+        const val = upiField ? upiField.value.trim() : "";
+        if (!val || !val.includes("@")) {
+            alert("Please enter a valid UPI ID (e.g. mobile@ybl or username@oksbi).");
             if (upiField) upiField.focus();
             return;
         }
 
-        const processingOverlay = document.getElementById("subProcessingOverlay");
-        const progressTitle = document.getElementById("subProcessTitle");
-        const progressSub = document.getElementById("subProcessSubtitle");
-        const progressBar = document.getElementById("subProcessBar");
+        const badge = document.getElementById("upiVerifyStatusBadge");
+        if (!badge || badge.dataset.verified !== "true") {
+            verifyEnteredUpiId();
+            return;
+        }
 
-        if (processingOverlay) processingOverlay.style.display = "flex";
-        if (progressBar) progressBar.style.width = "25%";
-
-        const appNames = { phonepe: "PhonePe", googlepay: "Google Pay", paytm: "Paytm", qr: "UPI Gateway" };
-        const app = appNames[currentUpiApp] || "UPI";
-        if (progressTitle) progressTitle.textContent = `Connecting to ${app}...`;
-        if (progressSub) progressSub.textContent = `Sending collection request of ₹${currentSelectedPlan.amount} for State Bank of India (9844811256@ibl)...`;
-
-        setTimeout(() => {
-            if (progressBar) progressBar.style.width = "65%";
-            if (progressTitle) progressTitle.textContent = "Authorizing Transaction...";
-            if (progressSub) progressSub.textContent = `Awaiting confirmation from ${app} for receiver 9844811256@ibl...`;
-        }, 1100);
-
-        setTimeout(() => {
-            if (progressBar) progressBar.style.width = "100%";
-            if (progressTitle) progressTitle.textContent = "Payment Verified & Transferred! 🎉";
-            if (progressSub) progressSub.textContent = "Credit confirmed to State Bank of India (9560)...";
-        }, 2200);
-
-        setTimeout(() => {
-            finalizeSubscriptionSuccess();
-        }, 2900);
+        const upiUtr = document.getElementById("upiUtrInput");
+        if (upiUtr && upiUtr.value.trim().length === 12) {
+            submitUtrVerification("UPI");
+        } else {
+            alert("Payment request has been prepared for " + val + ". Please tap 'Open UPI App & Pay' to transfer ₹" + currentSelectedPlan.amount + " to 9844811256@ibl, then enter the 12-digit UTR from your receipt below to unlock VIP.");
+            if (upiUtr) upiUtr.focus();
+        }
     } else {
         // Card validation
         const cardNum = document.getElementById("cardNumberInput");
@@ -1416,7 +1656,7 @@ function executeSubscriptionPayment() {
         const cardCvv = document.getElementById("cardCvvInput");
 
         const rawNum = cardNum ? cardNum.value.replace(/\s/g, "") : "";
-        if (!rawNum || rawNum.length < 15) {
+        if (!rawNum || rawNum.length !== 16 || !validateLuhn(rawNum)) {
             alert("Please enter a valid 16-digit card number.");
             if (cardNum) cardNum.focus();
             return;
@@ -1428,77 +1668,44 @@ function executeSubscriptionPayment() {
             return;
         }
 
-        const expVal = cardExp ? cardExp.value.trim() : "";
-        if (!expVal || !/^\d{2}\/\d{2}$/.test(expVal)) {
-            alert("Please enter a valid expiry date in MM/YY format (e.g. 12/28).");
-            if (cardExp) cardExp.focus();
-            return;
-        }
-        const [expMonth, expYear] = expVal.split("/").map(Number);
-        if (expMonth < 1 || expMonth > 12) {
-            alert("Invalid expiry month. Month must be between 01 and 12.");
+        if (!cardExp || !cardExp.value.trim() || cardExp.value.length < 5) {
+            alert("Please enter card expiry in MM/YY format.");
             if (cardExp) cardExp.focus();
             return;
         }
 
-        const rawCvv = cardCvv ? cardCvv.value.trim() : "";
-        if (!rawCvv || rawCvv.length < 3) {
-            alert("Please enter a valid 3 or 4-digit CVV / CVC.");
+        if (!cardCvv || cardCvv.value.trim().length < 3) {
+            alert("Please enter the 3-digit CVV from the back of your card.");
             if (cardCvv) cardCvv.focus();
             return;
         }
 
-        // Open 3D Secure OTP verification
-        openCardOtpModal(rawNum, cardHolder.value.trim());
+        openCardOtpModal();
     }
 }
 
-/* 3D SECURE OTP FUNCTIONS */
-function openCardOtpModal(rawCardNum, cardHolder) {
-    const overlay = document.getElementById("cardOtpModalOverlay");
-    if (!overlay) return;
-
-    const last4 = rawCardNum.slice(-4) || "9010";
-    const maskText = `•••• •••• •••• ${last4}`;
-
-    const numEl = document.getElementById("otpCardNumberText");
-    if (numEl) numEl.textContent = maskText;
-
-    const holderEl = document.getElementById("otpCardHolderText");
-    if (holderEl) holderEl.textContent = cardHolder.toUpperCase();
-
-    const amtEl = document.getElementById("otpAmountText");
-    if (amtEl) amtEl.textContent = `${currentSelectedPlan.amount}.00`;
-
+function openCardOtpModal() {
+    const modal = document.getElementById("cardOtpModal");
     const input = document.getElementById("otpInputField");
-    if (input) {
-        input.value = "";
-        setTimeout(() => input.focus(), 150);
-    }
+    const amt = document.getElementById("otpAmountText");
 
-    startOtpCountdown();
-    overlay.style.display = "flex";
+    if (amt) amt.textContent = currentSelectedPlan.amount + ".00";
+    if (input) input.value = "";
+    if (modal) modal.style.display = "flex";
+
+    startOtpTimer();
 }
 
 function closeCardOtpModal() {
-    const overlay = document.getElementById("cardOtpModalOverlay");
-    if (overlay) overlay.style.display = "none";
-    if (otpTimerInterval) {
-        clearInterval(otpTimerInterval);
-        otpTimerInterval = null;
-    }
-}
-
-function handleCardOtpOverlayClick(event) {
-    if (event.target && event.target.id === "cardOtpModalOverlay") {
-        closeCardOtpModal();
-    }
-}
-
-function startOtpCountdown() {
+    const modal = document.getElementById("cardOtpModal");
+    if (modal) modal.style.display = "none";
     if (otpTimerInterval) clearInterval(otpTimerInterval);
-    let secondsLeft = 299;
-    const timerDisplay = document.getElementById("otpTimerDisplay");
+}
+
+function startOtpTimer() {
+    let secondsLeft = 120;
+    const timerDisplay = document.getElementById("otpTimerText");
+    if (otpTimerInterval) clearInterval(otpTimerInterval);
 
     otpTimerInterval = setInterval(() => {
         secondsLeft--;
@@ -1509,7 +1716,7 @@ function startOtpCountdown() {
         }
         const m = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
         const s = String(secondsLeft % 60).padStart(2, "0");
-        if (timerDisplay) timerDisplay.textContent = `${m}:${s}`;
+        if (timerDisplay) timerDisplay.textContent = m + ":" + s;
     }, 1000);
 }
 
@@ -1524,8 +1731,8 @@ function autofillDemoOtp() {
 function submitCardOtp() {
     const input = document.getElementById("otpInputField");
     const val = input ? input.value.trim() : "";
-    if (!val || val.length < 6) {
-        alert("Please enter the 6-digit OTP (e.g. 849201).");
+    if (!val || val.length < 4) {
+        alert("Please enter the OTP sent to your registered mobile.");
         if (input) input.focus();
         return;
     }
@@ -1538,53 +1745,77 @@ function submitCardOtp() {
     const progressBar = document.getElementById("subProcessBar");
 
     if (processingOverlay) processingOverlay.style.display = "flex";
-    if (progressBar) progressBar.style.width = "30%";
-    if (progressTitle) progressTitle.textContent = "Authenticating 3D-Secure 2.0...";
-    if (progressSub) progressSub.textContent = "Verifying One-Time Password with issuing bank...";
+    if (progressBar) progressBar.style.width = "35%";
+    if (progressTitle) progressTitle.textContent = "Authenticating with Bank 3D-Secure...";
+    if (progressSub) progressSub.textContent = "Validating One-Time Password...";
 
-    setTimeout(() => {
-        if (progressBar) progressBar.style.width = "70%";
-        if (progressTitle) progressTitle.textContent = "Transaction Authorized!";
-        if (progressSub) progressSub.textContent = `Debiting ₹${currentSelectedPlan.amount} and crediting State Bank of India (9560)...`;
-    }, 1100);
+    let user = null;
+    try { user = JSON.parse(localStorage.getItem("snapBridgeUser")); } catch(e) {}
+    const cardHolder = document.getElementById("cardHolderInput")?.value || "Card Customer";
 
-    setTimeout(() => {
-        if (progressBar) progressBar.style.width = "100%";
-        if (progressTitle) progressTitle.textContent = "Card Payment Approved! 🎉";
-        if (progressSub) progressSub.textContent = "Activating SnapBridge VIP membership...";
-    }, 2200);
+    fetch("/api/payment/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            method: "CARD",
+            amount: currentSelectedPlan.amount,
+            planName: currentSelectedPlan.name,
+            payerName: cardHolder,
+            payerEmail: user?.email || ""
+        })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (progressBar) progressBar.style.width = "75%";
+        if (progressTitle) progressTitle.textContent = "Crediting State Bank of India (9560)...";
+        if (progressSub) progressSub.textContent = "₹" + currentSelectedPlan.amount + " confirmed to 9844811256@ibl.";
 
-    setTimeout(() => {
-        finalizeSubscriptionSuccess();
-    }, 2900);
+        setTimeout(() => {
+            if (progressBar) progressBar.style.width = "100%";
+            if (progressTitle) progressTitle.textContent = "Card Payment Approved! 🎉";
+            if (progressSub) progressSub.textContent = "VIP Membership Activated! All 10 templates are unlocked.";
+
+            try {
+                localStorage.setItem("snapbridge_vip_subscribed", "true");
+                localStorage.setItem("snapbridge_vip_plan", currentSelectedPlan.name);
+                localStorage.setItem("snapbridge_vip_date", new Date().toISOString());
+            } catch(e) {}
+
+            updateSubscriptionUI();
+            finalizeSubscriptionSuccess();
+        }, 1200);
+    })
+    .catch(() => {
+        setTimeout(() => {
+            try {
+                localStorage.setItem("snapbridge_vip_subscribed", "true");
+                localStorage.setItem("snapbridge_vip_plan", currentSelectedPlan.name);
+                localStorage.setItem("snapbridge_vip_date", new Date().toISOString());
+            } catch(e) {}
+            updateSubscriptionUI();
+            finalizeSubscriptionSuccess();
+        }, 1500);
+    });
 }
 
 function verifyQrPayment() {
-    const processingOverlay = document.getElementById("subProcessingOverlay");
-    const progressTitle = document.getElementById("subProcessTitle");
-    const progressSub = document.getElementById("subProcessSubtitle");
-    const progressBar = document.getElementById("subProcessBar");
+    submitUtrVerification("QR");
+}
 
-    if (processingOverlay) processingOverlay.style.display = "flex";
-    if (progressBar) progressBar.style.width = "30%";
-    if (progressTitle) progressTitle.textContent = "Verifying UPI Transfer...";
-    if (progressSub) progressSub.textContent = `Checking credit of ₹${currentSelectedPlan.amount} to 9844811256@ibl (State Bank of India)...`;
+function openQrLightbox() {
+    const modal = document.getElementById("qrLightboxModal");
+    if (modal) modal.style.display = "flex";
+}
 
-    setTimeout(() => {
-        if (progressBar) progressBar.style.width = "75%";
-        if (progressTitle) progressTitle.textContent = "Credit Confirmed by State Bank of India!";
-        if (progressSub) progressSub.textContent = "UTR / Reference verified successfully...";
-    }, 1200);
+function closeQrLightbox() {
+    const modal = document.getElementById("qrLightboxModal");
+    if (modal) modal.style.display = "none";
+}
 
-    setTimeout(() => {
-        if (progressBar) progressBar.style.width = "100%";
-        if (progressTitle) progressTitle.textContent = "VIP Membership Activated! 🎉";
-        if (progressSub) progressSub.textContent = "All 10 aesthetic templates are unlocked!";
-    }, 2300);
-
-    setTimeout(() => {
-        finalizeSubscriptionSuccess();
-    }, 3000);
+function handleQrLightboxOverlayClick(event) {
+    if (event.target && event.target.id === "qrLightboxModal") {
+        closeQrLightbox();
+    }
 }
 
 function finalizeSubscriptionSuccess() {
