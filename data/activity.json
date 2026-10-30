@@ -1,5 +1,338 @@
 [
   {
+    "id": "act_1793380643540_vgjjg",
+    "timestamp": "2026-10-30T17:17:23.540Z",
+    "userEmail": "vibha.812006@gmail.com",
+    "userName": "vibha.812006",
+    "action": "LOGIN",
+    "details": "User logged in successfully (Standard)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793380431991_q8e7j",
+    "timestamp": "2026-10-30T17:13:51.992Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "ROOM_JOINED",
+    "details": "Joined Shared Booth room SB-QRU478 (1/3 people)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793380315906_f6nul",
+    "timestamp": "2026-10-30T17:11:55.906Z",
+    "userEmail": "vibha.812006@gmail.com",
+    "userName": "vibha.812006",
+    "action": "LOGIN",
+    "details": "User logged in successfully (Standard)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793380215923_bpasl",
+    "timestamp": "2026-10-30T17:10:15.923Z",
+    "userEmail": "vibha.812006@gmail.com",
+    "userName": "vibha.812006",
+    "action": "LOGIN",
+    "details": "User logged in successfully (Standard)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793330343014_56jlu",
+    "timestamp": "2026-10-30T03:19:03.014Z",
+    "userEmail": "vibha.812006@gmail.com",
+    "userName": "vibha.812006",
+    "action": "LOGIN",
+    "details": "User logged in successfully (Standard)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793330231439_cpnoy",
+    "timestamp": "2026-10-30T03:17:11.439Z",
+    "userEmail": "vibha.812006@gmail.com",
+    "userName": "vibha.812006",
+    "action": "LOGIN",
+    "details": "User logged in successfully (Standard)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793329160225_g8tzd",
+    "timestamp": "2026-10-30T02:59:20.225Z",
+    "userEmail": "vibha.812006@gmail.com",
+    "userName": "vibha.812006",
+    "action": "SIGNUP_AND_LOGIN",
+    "details": "New account registered and logged in (Standard)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202357847_ce5vw",
+    "timestamp": "2026-10-28T15:45:57.847Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 4 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202357828_lpt8u",
+    "timestamp": "2026-10-28T15:45:57.828Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 2-person photo into Slot 4 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202350161_clpgi",
+    "timestamp": "2026-10-28T15:45:50.161Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 4 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202350144_j7c7d",
+    "timestamp": "2026-10-28T15:45:50.144Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 2-person photo into Slot 4 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202347502_c01uc",
+    "timestamp": "2026-10-28T15:45:47.502Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 4 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202347495_xfy2m",
+    "timestamp": "2026-10-28T15:45:47.495Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 2-person photo into Slot 4 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202344699_o6m4o",
+    "timestamp": "2026-10-28T15:45:44.699Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 4 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202344662_qrtes",
+    "timestamp": "2026-10-28T15:45:44.662Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 2-person photo into Slot 4 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202338070_a43w1",
+    "timestamp": "2026-10-28T15:45:38.070Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 4 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202338049_6vdm2",
+    "timestamp": "2026-10-28T15:45:38.049Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 2-person photo into Slot 4 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202329259_gz9yl",
+    "timestamp": "2026-10-28T15:45:29.259Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 2 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202329241_3buc1",
+    "timestamp": "2026-10-28T15:45:29.241Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 2-person photo into Slot 2 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202319257_148px",
+    "timestamp": "2026-10-28T15:45:19.257Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 3 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202319248_b2nls",
+    "timestamp": "2026-10-28T15:45:19.248Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 2-person photo into Slot 3 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202309199_tq6nn",
+    "timestamp": "2026-10-28T15:45:09.199Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 1 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202309189_u7ixs",
+    "timestamp": "2026-10-28T15:45:09.189Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 2-person photo into Slot 1 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202301063_ngx6n",
+    "timestamp": "2026-10-28T15:45:01.063Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 3 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202301051_wa6dl",
+    "timestamp": "2026-10-28T15:45:01.051Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 2-person photo into Slot 3 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202266613_aeekg",
+    "timestamp": "2026-10-28T15:44:26.613Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 2 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202266577_nixsu",
+    "timestamp": "2026-10-28T15:44:26.577Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 3-person photo into Slot 2 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202258091_72du5",
+    "timestamp": "2026-10-28T15:44:18.091Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Photo snapped into Slot 1 in Room SB-RNN776",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202258068_ofmzf",
+    "timestamp": "2026-10-28T15:44:18.068Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "You",
+    "action": "PHOTO_SNAPPED",
+    "details": "Snapped 3-person photo into Slot 1 (Room: SB-RNN776)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202226474_vkchg",
+    "timestamp": "2026-10-28T15:43:46.474Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "ROOM_JOINED",
+    "details": "Joined Shared Booth room SB-RNN776 (3/3 people)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202217550_eaft9",
+    "timestamp": "2026-10-28T15:43:37.550Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "vvibha212",
+    "action": "LOGIN",
+    "details": "User logged in successfully (Standard)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202210907_lymjv",
+    "timestamp": "2026-10-28T15:43:30.908Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "ROOM_JOINED",
+    "details": "Joined Shared Booth room SB-RNN776 (2/3 people)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202192481_fxr4n",
+    "timestamp": "2026-10-28T15:43:12.481Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "vvibha212",
+    "action": "LOGIN",
+    "details": "User logged in successfully (Standard)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202185130_3o82p",
+    "timestamp": "2026-10-28T15:43:05.130Z",
+    "userEmail": "You",
+    "userName": "You",
+    "action": "ROOM_JOINED",
+    "details": "Joined Shared Booth room SB-RNN776 (1/3 people)",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793202153241_j01lp",
+    "timestamp": "2026-10-28T15:42:33.241Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "vvibha212",
+    "action": "PAYMENT_REQUEST_CREATED",
+    "details": "Generated UPI collect request of ₹49 for Day Pass to 9844811256@ibl",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793201983771_qhbs2",
+    "timestamp": "2026-10-28T15:39:43.771Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "vvibha212",
+    "action": "PAYMENT_REQUEST_CREATED",
+    "details": "Generated UPI collect request of ₹49 for Day Pass to 9844811256@ibl",
+    "ip": "::1"
+  },
+  {
+    "id": "act_1793201938264_56hlj",
+    "timestamp": "2026-10-28T15:38:58.264Z",
+    "userEmail": "vvibha212@gmail.com",
+    "userName": "vvibha212",
+    "action": "LOGIN",
+    "details": "User logged in successfully (Standard)",
+    "ip": "::1"
+  },
+  {
     "id": "act_1793181237086_v88ng",
     "timestamp": "2026-10-28T09:53:57.086Z",
     "userEmail": "vvibha212@gmail.com",

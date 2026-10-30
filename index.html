@@ -2396,11 +2396,7 @@ function(event){
         localStorage.setItem("snapBridgeLoggedIn", "true");
         localStorage.setItem("snapBridgeUser", JSON.stringify(userObj));
 
-        if (isAdminUser || userObj.role === "admin") {
-            alert("Welcome back, Administrator " + (userObj.name || email) + "! 👑📸✨\nYou have full access to everything in the project.");
-        } else {
-            alert("Welcome to Snap Bridge! 📸💙✨");
-        }
+    
         window.location.href = "home.html";
     })
     .catch(err => {

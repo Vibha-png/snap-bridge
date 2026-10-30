@@ -73,6 +73,29 @@ nav a.active {
     color: #6c58d7;
 }
 
+.logout-btn {
+    border: 1px solid #fecdd3;
+    background: #fff1f2;
+    color: #e11d48;
+    padding: 8px 18px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.logout-btn:hover {
+    background: #ffe4e6;
+    border-color: #fda4af;
+    color: #be123c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.18);
+}
+
 .profile {
     border: 1px solid #d9ddec;
     background: white;

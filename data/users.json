@@ -29,7 +29,18 @@
     "role": "user",
     "isVip": false,
     "createdAt": "2026-10-28T09:53:57.080Z",
-    "lastLogin": "2026-10-28T09:53:57.080Z",
-    "loginCount": 1
+    "lastLogin": "2026-10-28T15:43:37.544Z",
+    "loginCount": 4
+  },
+  {
+    "id": "usr_1793329160216_vpma",
+    "name": "vibha.812006",
+    "email": "vibha.812006@gmail.com",
+    "password": "Vibha@812006",
+    "role": "user",
+    "isVip": false,
+    "createdAt": "2026-10-30T02:59:20.217Z",
+    "lastLogin": "2026-10-30T17:17:23.534Z",
+    "loginCount": 6
   }
 ]
