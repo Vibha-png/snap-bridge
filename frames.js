@@ -651,10 +651,10 @@ document.addEventListener("keydown", function (event) {
 });
 
 function logout() {
-    if (confirm("Are you sure you want to log out of Snap Bridge?")) {
+
         if (typeof cameraStream !== "undefined" && cameraStream) {
-            try { cameraStream.getTracks().forEach(t => t.stop()); } catch(e){}
-        }
+            try { cameraStream.getTracks().forEach(t => t.stop()); } catch(e){
+}
         localStorage.removeItem("snapBridgeLoggedIn");
         localStorage.removeItem("snapBridgeUser");
         sessionStorage.clear();

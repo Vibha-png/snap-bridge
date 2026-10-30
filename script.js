@@ -765,12 +765,11 @@ function goToBooth() {
    ========================================================= */
 
 function logout() {
-    if (confirm("Are you sure you want to log out of Snap Bridge?")) {
+
         localStorage.removeItem("snapBridgeLoggedIn");
         localStorage.removeItem("snapBridgeUser");
         sessionStorage.clear();
         window.location.href = "index.html";
-    }
 }
 
 

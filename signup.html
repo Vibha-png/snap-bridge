@@ -1157,6 +1157,32 @@ body{
 
 }
 
+
+.signup-status-msg {
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+    transition: all 0.25s ease;
+}
+
+.signup-status-msg.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    display: block;
+}
+
+.signup-status-msg.success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+    display: block;
+}
+
 </style>
 
 </head>
@@ -1399,6 +1425,7 @@ body{
         <form
             id="signupForm"
             class="form">
+            <div id="signupStatusMsg" class="signup-status-msg" style="display:none;"></div>
 
 
             <!-- FULL NAME -->
@@ -1540,6 +1567,15 @@ body{
 
 <script>
 
+function showSignupMessage(text, type = "error") {
+    const el = document.getElementById("signupStatusMsg");
+    if (!el) return;
+    el.textContent = text;
+    el.className = "signup-status-msg " + type;
+    el.style.display = "block";
+}
+
+
 /* =====================================================
    PASSWORD SHOW / HIDE
 ===================================================== */
@@ -1617,9 +1653,7 @@ document
             confirmPassword === ""
         ){
 
-            alert(
-                "Please fill in all fields."
-            );
+            showSignupMessage("Please fill in all fields.", "error");
 
             return;
         }
@@ -1629,9 +1663,7 @@ document
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if(!emailRegex.test(email)){
-            alert(
-                "Please enter a valid email ID (e.g. name@example.com)."
-            );
+            showSignupMessage("Please enter a valid email ID (e.g. name@example.com).", "error");
             return;
         }
 
@@ -1640,9 +1672,7 @@ document
 
         if(password.length < 6){
 
-            alert(
-                "Password must contain at least 6 characters."
-            );
+            showSignupMessage("Password must contain at least 6 characters.", "error");
 
             return;
         }
@@ -1652,9 +1682,7 @@ document
 
         if(password !== confirmPassword){
 
-            alert(
-                "Passwords do not match."
-            );
+            showSignupMessage("Passwords do not match.", "error");
 
             return;
         }
@@ -1694,12 +1722,6 @@ document
             console.error("Storage error:", e);
         }
 
-        /* SUCCESS */
-        if (isAdmin) {
-            alert("Administrator Account created for " + email + "! 👑📸✨\nYou have full access to everything in the project.");
-        } else {
-            alert("Account created successfully for " + email + "! 📸✨");
-        }
 
         /* GO TO LOGIN */
         window.location.href = "index.html";

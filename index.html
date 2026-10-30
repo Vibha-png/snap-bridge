@@ -1634,6 +1634,31 @@ body{
     line-height: 1.4;
 }
 
+.reset-status-msg, .login-status-msg {
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+    transition: all 0.25s ease;
+}
+
+.reset-status-msg.error, .login-status-msg.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+    display: block;
+}
+
+.reset-status-msg.success, .login-status-msg.success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+    display: block;
+}
+
 .reset-submit-btn {
     width: 100%;
     height: 46px;
@@ -2013,6 +2038,7 @@ body{
         ====================================== -->
 
         <form id="loginForm">
+            <div id="loginStatusMsg" class="login-status-msg" style="display:none;"></div>
 
 
             <!-- EMAIL -->
@@ -2137,6 +2163,7 @@ body{
 
         <h2 class="reset-title">Reset Password 🔒✨</h2>
         <p class="reset-subtitle">Enter your registered Email ID and choose a new password.</p>
+        <div id="resetStatusMsg" class="reset-status-msg" style="display:none;"></div>
 
         <form id="resetForm" onsubmit="handleResetPassword(event)">
             <div class="input-box">
@@ -2226,8 +2253,26 @@ function forgotPassword(){
     document.getElementById("resetModalOverlay").classList.add("show");
 }
 
+function showResetMessage(text, type = "error") {
+    const el = document.getElementById("resetStatusMsg");
+    if (!el) return;
+    el.textContent = text;
+    el.className = "reset-status-msg " + type;
+    el.style.display = "block";
+}
+
+function showLoginMessage(text, type = "error") {
+    const el = document.getElementById("loginStatusMsg");
+    if (!el) return;
+    el.textContent = text;
+    el.className = "login-status-msg " + type;
+    el.style.display = "block";
+}
+
 function closeResetModal(){
     document.getElementById("resetModalOverlay").classList.remove("show");
+    const statusEl = document.getElementById("resetStatusMsg");
+    if (statusEl) statusEl.style.display = "none";
 }
 
 function handleResetOverlayClick(event){
@@ -2244,23 +2289,23 @@ function handleResetPassword(event){
     const confirmNewPassword = document.getElementById("confirmNewPassword").value;
 
     if(!resetEmail){
-        alert("Please enter your Email ID.");
+        showResetMessage("Please enter your Email ID.", "error");
         return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(!emailRegex.test(resetEmail)){
-        alert("Please enter a valid email address (e.g. name@example.com).");
+        showResetMessage("Please enter a valid email address (e.g. name@example.com).", "error");
         return;
     }
 
     if(newPassword.length < 6){
-        alert("New password must be at least 6 characters.");
+        showResetMessage("New password must be at least 6 characters.", "error");
         return;
     }
 
     if(newPassword !== confirmNewPassword){
-        alert("New passwords do not match. Please re-enter.");
+        showResetMessage("New passwords do not match. Please re-enter.", "error");
         return;
     }
 
@@ -2292,16 +2337,26 @@ function handleResetPassword(event){
             localStorage.setItem("snapBridgeUser", JSON.stringify({ name: userName, email: resetEmail, password: newPassword }));
         }
 
-        alert("Password reset successfully! 🔑✨\nYou can now log in with your new password.");
-        closeResetModal();
+        fetch("/api/auth/reset-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: resetEmail, newPassword: newPassword })
+        }).catch(() => {});
 
-        document.getElementById("email").value = resetEmail;
-        document.getElementById("password").value = "";
-        document.getElementById("password").focus();
+        showResetMessage("Password reset successfully! 🔑✨", "success");
+
+        setTimeout(() => {
+            closeResetModal();
+            document.getElementById("email").value = resetEmail;
+            document.getElementById("password").value = "";
+            document.getElementById("password").focus();
+            const statusEl = document.getElementById("resetStatusMsg");
+            if (statusEl) statusEl.style.display = "none";
+        }, 1200);
 
     } catch(err) {
         console.error("Reset error:", err);
-        alert("An error occurred while resetting password. Please try again.");
+        showResetMessage("An error occurred while resetting password. Please try again.", "error");
     }
 }
 
@@ -2318,50 +2373,30 @@ function(event){
 
     event.preventDefault();
 
-
     const email =
         document
         .getElementById("email")
         .value
         .trim();
 
-
     const password =
         document
         .getElementById("password")
         .value;
 
-
     if(email === ""){
-
-        alert(
-            "Please enter your Email ID."
-        );
-
+        showLoginMessage("Please enter your Email ID.", "error");
         return;
-
     }
-
 
     if(password === ""){
-
-        alert(
-            "Please enter your password."
-        );
-
+        showLoginMessage("Please enter your password.", "error");
         return;
-
     }
 
-
     if(password.length < 6){
-
-        alert(
-            "Password must contain at least 6 characters."
-        );
-
+        showLoginMessage("Password must contain at least 6 characters.", "error");
         return;
-
     }
 
     const ADMIN_EMAILS = ["vvibha935@gmail.com", "svandana6361@gmail.com"];
@@ -2375,7 +2410,7 @@ function(event){
     .then(r => r.json())
     .then(data => {
         if (data && data.ok === false) {
-            alert(data.message || "Login failed. Please check your credentials.");
+            showLoginMessage(data.message || "Login failed. Please check your credentials.", "error");
             return;
         }
 
@@ -2396,7 +2431,6 @@ function(event){
         localStorage.setItem("snapBridgeLoggedIn", "true");
         localStorage.setItem("snapBridgeUser", JSON.stringify(userObj));
 
-    
         window.location.href = "home.html";
     })
     .catch(err => {
@@ -2415,11 +2449,6 @@ function(event){
         }
         localStorage.setItem("snapBridgeLoggedIn", "true");
         localStorage.setItem("snapBridgeUser", JSON.stringify(userObj));
-        if (isAdminUser) {
-            alert("Welcome back, Administrator " + email + "! 👑📸✨\nYou have full access to everything in the project.");
-        } else {
-            alert("Welcome to Snap Bridge! 📸💙✨");
-        }
         window.location.href = "home.html";
     });
 });

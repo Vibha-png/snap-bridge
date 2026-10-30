@@ -1022,12 +1022,12 @@ function selectTemplateTheme(theme, button, isRemote) {
 }
 
 function logout() {
-    if (confirm("Are you sure you want to log out of Snap Bridge?")) {
+
         if (typeof localStream !== "undefined" && localStream) {
             try {
                 localStream.getTracks().forEach(track => track.stop());
-            } catch(e) {}
-        }
+            } catch(e) {
+}
         if (typeof peers !== "undefined" && peers) {
             try {
                 peers.forEach(peer => peer.close());

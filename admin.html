@@ -1044,11 +1044,10 @@ function quickLoginAdmin(email, name) {
 }
 
 function adminLogout() {
-    if (confirm("Are you sure you want to log out of the Administrator Portal?")) {
+
         localStorage.removeItem("snapBridgeLoggedIn");
         localStorage.removeItem("snapBridgeUser");
         window.location.href = "index.html";
-    }
 }
 
 // Fetch overview data from server API
